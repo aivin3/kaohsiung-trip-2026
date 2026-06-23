@@ -18,20 +18,20 @@
     color:var(--ink); min-height:100vh; position:relative;
     font-family:-apple-system,BlinkMacSystemFont,"PingFang HK","Noto Sans HK","Microsoft JhengHei",sans-serif;
     line-height:1.62; font-size:16px; padding-bottom:env(safe-area-inset-bottom);
-    background:linear-gradient(160deg,#c7f0ff 0%,#dcd6ff 24%,#ffd9f0 48%,#ffe6c9 72%,#d6fff0 100%);
-    background-size:220% 220%; background-attachment:fixed;
-    animation:dreamy 26s ease-in-out infinite;
+    background:linear-gradient(160deg,#9be8ff 0%,#bba6ff 22%,#ff9fde 46%,#ffc07a 70%,#86ffd2 100%);
+    background-size:240% 240%; background-attachment:fixed;
+    animation:dreamy 24s ease-in-out infinite;
   }
   @keyframes dreamy{0%{background-position:0% 0%}50%{background-position:100% 100%}100%{background-position:0% 0%}}
-  /* 夢幻光暈色團 */
+  /* 夢幻光暈色團（更鮮） */
   body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
     background:
-      radial-gradient(38% 32% at 16% 18%, rgba(255,138,205,.55), transparent 70%),
-      radial-gradient(36% 30% at 86% 14%, rgba(124,178,255,.52), transparent 70%),
-      radial-gradient(42% 36% at 78% 72%, rgba(176,150,255,.48), transparent 72%),
-      radial-gradient(40% 34% at 20% 84%, rgba(120,240,205,.46), transparent 72%),
-      radial-gradient(30% 26% at 50% 50%, rgba(255,225,140,.34), transparent 72%);
-    filter:blur(26px); animation:floaty 18s ease-in-out infinite alternate;}
+      radial-gradient(40% 34% at 15% 16%, rgba(255,110,200,.68), transparent 70%),
+      radial-gradient(38% 32% at 88% 12%, rgba(100,165,255,.64), transparent 70%),
+      radial-gradient(44% 38% at 80% 74%, rgba(168,120,255,.6), transparent 72%),
+      radial-gradient(42% 36% at 18% 86%, rgba(80,235,190,.58), transparent 72%),
+      radial-gradient(32% 28% at 52% 48%, rgba(255,210,90,.5), transparent 72%);
+    filter:blur(24px) saturate(1.2); animation:floaty 18s ease-in-out infinite alternate;}
   @keyframes floaty{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(0,-18px,0) scale(1.06)}}
   @media (prefers-reduced-motion:reduce){body,body::before{animation:none}}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 14px}
@@ -55,7 +55,8 @@
   .cover .kicker{font-size:13px;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.9);text-transform:uppercase}
   .cover h1{font-size:29px;font-weight:900;color:#fff;letter-spacing:.5px;margin-top:6px;text-shadow:0 2px 12px rgba(0,0,0,.18)}
   .cover .sub{margin-top:7px;color:rgba(255,255,255,.95);font-weight:600}
-  .cover .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .cover .deco{margin-top:12px;font-size:21px;letter-spacing:7px;filter:drop-shadow(0 2px 5px rgba(0,0,0,.22))}
+  .cover .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
   .chip{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(6px);
     padding:6px 12px;border-radius:999px;font-size:13px;color:#fff;font-weight:700;white-space:nowrap}
 
@@ -95,11 +96,13 @@
   .tag.cost{background:linear-gradient(135deg,rgba(245,158,11,.16),rgba(244,100,125,.16));border-color:rgba(245,158,11,.45);color:#b45309}
   .tag.free{background:linear-gradient(135deg,rgba(16,185,129,.16),rgba(14,165,183,.16));border-color:rgba(16,185,129,.45);color:#047857}
   .act img.thumb{width:100%;border-radius:14px;margin-top:10px;display:block;border:1px solid rgba(255,255,255,.6)}
-  .act-ph{margin-top:10px;height:92px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:9px;
-    color:#fff;font-weight:800;font-size:15px;text-shadow:0 1px 7px rgba(0,0,0,.28);
-    background:linear-gradient(135deg,#06b6d4,#3b82f6 55%,#f472b6);border:1px solid rgba(255,255,255,.5)}
-  .act-ph .pe{font-size:24px}
-  .act-ph span{max-width:72%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .act-ph{margin-top:10px;height:118px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+    color:#fff;font-weight:900;font-size:15.5px;text-shadow:0 2px 9px rgba(0,0,0,.32);position:relative;overflow:hidden;
+    background:linear-gradient(125deg,#22d3ee 0%,#6366f1 38%,#d946ef 68%,#fb7185 88%,#fbbf24 100%);border:1px solid rgba(255,255,255,.55)}
+  .act-ph::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 22% 24%,rgba(255,255,255,.5),transparent 42%),radial-gradient(circle at 80% 80%,rgba(255,255,255,.28),transparent 45%)}
+  .act-ph .pe{font-size:40px;line-height:1;position:relative;filter:drop-shadow(0 3px 6px rgba(0,0,0,.25))}
+  .act-ph span{position:relative;max-width:82%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .din-item img.thumb{width:100%;height:150px;object-fit:cover;border-radius:13px;margin:0 0 9px;border:1px solid rgba(255,255,255,.6);display:block}
   .mustdo{margin-top:8px;background:linear-gradient(135deg,rgba(16,185,129,.13),rgba(245,158,11,.12));
     border:1px solid rgba(16,185,129,.38);border-radius:12px;padding:8px 11px;font-size:13.5px}
   .mustdo b{color:#047857}
@@ -169,7 +172,7 @@
     .sec-title{break-after:avoid}
     .day-head .d,.act .time,.tag.cost,.tag.free,.day-theme,.mustdo{-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .btn-map,.btn-link,.btn-menu,.act-ph{display:none!important}
-    .act img.thumb,.hotel img.thumb{max-height:170px;object-fit:cover}
+    .act img.thumb,.hotel img.thumb,.din-item img.thumb{max-height:150px;object-fit:cover}
   }
 </style>
 </head>
@@ -373,7 +376,8 @@
           "transport": "步行／輕軌",
           "mustDo": "行內惟埤園區綠地避暑",
           "mapQuery": "高雄市立美術館",
-          "transfer": "輕軌 美術館C21 → 駁二大義C12 約15分・NT$20 步行5–8分（或 Uber 12分 NT$160/車）到鹽埕"
+          "transfer": "輕軌 美術館C21 → 駁二大義C12 約15分・NT$20 步行5–8分（或 Uber 12分 NT$160/車）到鹽埕",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E7%BE%8E%E8%A1%93%E9%A4%A820240704.jpg/1280px-%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E7%BE%8E%E8%A1%93%E9%A4%A820240704.jpg"
         },
         {
           "time": "13:00",
@@ -646,7 +650,8 @@
           "signature": "火爆鱔魚炒意麵 $480、芋茸酥鴨方、八珍海鮮羹",
           "mapQuery": "福園台菜海鮮餐廳 漢來大飯店",
           "link": "https://www.grand-hilai.com/restaurant-detail/chinese-restaurants/taiwanese-restaurant/",
-          "menuLink": "https://hoolee.tw/hilai-fuyun/"
+          "menuLink": "https://hoolee.tw/hilai-fuyun/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Plateau_van_zeevruchten.jpg"
         },
         {
           "name": "弘記肉燥飯舖",
@@ -657,7 +662,8 @@
           "signature": "肉燥飯（半熟蛋）、豬腿庫、骨仔肉湯",
           "mapQuery": "弘記肉燥飯舖 左營",
           "link": "https://guide.michelin.com/us/en/kaohsiung-region/kaohsiung/restaurant/hung-chi-rice-shop",
-          "menuLink": "https://hoolee.tw/hungchi-rice/"
+          "menuLink": "https://hoolee.tw/hungchi-rice/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Lurou_fan%28Taiwanese_cuisine%29.jpg"
         },
         {
           "name": "鴨肉珍",
@@ -667,7 +673,8 @@
           "intro": "鹽埕鴨肉飯霸主，65 年老店，秘製鴨肉嫩滑淋肉燥滷汁。",
           "signature": "鴨肉飯、鴨米血、下水湯",
           "mapQuery": "鴨肉珍 鹽埕",
-          "link": "https://bobotravel.tw/blog/post/duck-zhen"
+          "link": "https://bobotravel.tw/blog/post/duck-zhen",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Lurou_fan%28Taiwanese_cuisine%29.jpg"
         }
       ]
     },
@@ -683,7 +690,8 @@
           "signature": "胡椒蝦、檸檬蝦、養生黑蒜蝦",
           "mapQuery": "四兩千金活蝦之家 左營",
           "link": "https://hoolee.tw/siliangqianjin-shrimp/",
-          "menuLink": "https://angelala.tw/shrimp-baby-2023/"
+          "menuLink": "https://angelala.tw/shrimp-baby-2023/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Plateau_van_zeevruchten.jpg"
         },
         {
           "name": "旗后活海產",
@@ -694,7 +702,8 @@
           "signature": "清蒸螃蟹(時價)、鹽烤蝦、深海魚",
           "mapQuery": "旗后活海產 旗津",
           "link": "https://nellydyu.tw/blog/post/qihou",
-          "menuLink": "https://www.bigfang.tw/blog/post/qihou-seafood"
+          "menuLink": "https://www.bigfang.tw/blog/post/qihou-seafood",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Plateau_van_zeevruchten.jpg"
         },
         {
           "name": "金聖春活海產",
@@ -704,7 +713,8 @@
           "intro": "旗津人氣現撈，秤重計價、價格平實，龍蝦/螃蟹粥出名。",
           "signature": "龍蝦粥、螃蟹粥、現撈海鮮(秤重)",
           "mapQuery": "金聖春活海產 旗津",
-          "link": "https://rainieis.tw/jin-sheng-chun/"
+          "link": "https://rainieis.tw/jin-sheng-chun/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Plateau_van_zeevruchten.jpg"
         },
         {
           "name": "莊記海產粥",
@@ -715,7 +725,8 @@
           "signature": "海產粥 $150、鹽蒸蝦、鹽蒸蚵",
           "mapQuery": "莊記海產粥 六合夜市",
           "link": "https://orange-dog.com/6seafood/",
-          "menuLink": "https://supertaste.tvbs.com.tw/infocard/12728"
+          "menuLink": "https://supertaste.tvbs.com.tw/infocard/12728",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/58/Chinese_rice_congee.jpg"
         }
       ]
     },
@@ -730,7 +741,8 @@
           "intro": "高雄最知名觀光夜市，捷運直達，適合家庭。",
           "signature": "海鮮粥、烤肉、木瓜牛奶",
           "mapQuery": "六合觀光夜市",
-          "link": "https://www.taiwan.net.tw/m1.aspx?sNo=0001121&id=2245"
+          "link": "https://www.taiwan.net.tw/m1.aspx?sNo=0001121&id=2245",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/57/Liouho-Night-Market-Kaohsiung.jpg"
         },
         {
           "name": "瑞豐夜市",
@@ -740,7 +752,8 @@
           "intro": "高雄規模最大、本地人氣最旺夜市，攤位多。",
           "signature": "天使雞排、火魂德國豬腳",
           "mapQuery": "瑞豐夜市",
-          "link": "https://gofunit.com/瑞豐夜市/"
+          "link": "https://gofunit.com/瑞豐夜市/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Shilin_Night_Market_21%2C_Dec_06.JPG"
         },
         {
           "name": "天使雞排（瑞豐）",
@@ -750,7 +763,8 @@
           "intro": "瑞豐人氣冠軍雞排，酥厚多汁，Google 6900+ 評。",
           "signature": "酥厚雞排",
           "mapQuery": "天使雞排 瑞豐夜市",
-          "link": "https://www.facebook.com/ANGEL594881/"
+          "link": "https://www.facebook.com/ANGEL594881/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Chicken_karaage_003.jpg/1280px-Chicken_karaage_003.jpg"
         },
         {
           "name": "火魂德國豬腳（瑞豐）",
@@ -760,7 +774,8 @@
           "intro": "夜市少見德國豬腳，醃→炸→炭烤，皮脆肉嫩。",
           "signature": "炭烤德國豬腳",
           "mapQuery": "火魂德國豬腳 瑞豐夜市",
-          "link": "https://gofunit.com/瑞豐夜市/"
+          "link": "https://gofunit.com/瑞豐夜市/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Schwein-Eisbein.png"
         }
       ]
     },
@@ -776,7 +791,8 @@
           "signature": "芒果雪花冰、超級水果冰、番茄切盤",
           "mapQuery": "高雄婆婆冰 創始店 鹽埕",
           "link": "https://inmap.tw/archives/73303",
-          "menuLink": "https://www.bigfang.tw/blog/post/popoice-main-kaohsiung"
+          "menuLink": "https://www.bigfang.tw/blog/post/popoice-main-kaohsiung",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Shavedice.jpg"
         },
         {
           "name": "渡船頭海之冰",
@@ -786,7 +802,8 @@
           "intro": "大碗公冰創始店，冰可放大 1–20 倍，一碗幾個人食，超啱一家人打卡。",
           "signature": "大碗公水果牛奶冰、芒果冰",
           "mapQuery": "渡船頭海之冰 鼓山",
-          "link": "https://albertblog.tw/25384/ice-bowl"
+          "link": "https://albertblog.tw/25384/ice-bowl",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Shavedice.jpg"
         },
         {
           "name": "玉井有間冰舖",
@@ -796,7 +813,8 @@
           "intro": "芒果故鄉玉井最著名芒果冰，澎湃大碗，8 月鮮芒果當造。",
           "signature": "芒果雪綿冰、新鮮芒果冰",
           "mapQuery": "有間冰舖 玉井",
-          "link": "https://shopee.tw/blog/yujing-mango/"
+          "link": "https://shopee.tw/blog/yujing-mango/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Shavedice.jpg"
         }
       ]
     },
@@ -812,7 +830,8 @@
           "signature": "筒仔米糕、蒸蛋湯、滷鐵蛋",
           "mapQuery": "北港蔡三代筒仔米糕 鹽埕",
           "link": "https://guide.michelin.com/us/en/kaohsiung-region/kaohsiung/restaurant/bei-gang-tsai-rice-tube-yancheng",
-          "menuLink": "https://momoblog.tw/beigangcai/"
+          "menuLink": "https://momoblog.tw/beigangcai/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Lurou_fan%28Taiwanese_cuisine%29.jpg"
         },
         {
           "name": "冬粉王",
@@ -823,7 +842,8 @@
           "signature": "鴨肉冬粉湯、乾冬粉、腰子湯",
           "mapQuery": "冬粉王 鹽埕",
           "link": "https://www.bigfang.tw/blog/post/dongfenwang-kaohsiung",
-          "menuLink": "https://tiffany0118.tw/cellophanenoodles/"
+          "menuLink": "https://tiffany0118.tw/cellophanenoodles/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Shoyu_Ramen%EF%BC%88Tokyo_Ramen%EF%BC%89_-_01.jpg"
         },
         {
           "name": "永和小籠包",
@@ -834,7 +854,8 @@
           "signature": "小籠湯包、酸辣湯、豬血湯",
           "mapQuery": "永和小籠包 鹽埕",
           "link": "https://hoolee.tw/yonghe-soup-dumpling/",
-          "menuLink": "https://nellydyu.tw/blog/post/41002654"
+          "menuLink": "https://nellydyu.tw/blog/post/41002654",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/A_Xiaolongbao_from_The_Modern_Shanghai.jpg/1280px-A_Xiaolongbao_from_The_Modern_Shanghai.jpg"
         }
       ]
     },
@@ -849,7 +870,8 @@
           "intro": "1982 年創，高雄奶茶始祖，全系列唔加冰塊（冰鎮）由頭濃到尾。",
           "signature": "益壽奶茶、樺達奶茶、加珍珠 +$5",
           "mapQuery": "樺達奶茶 鹽埕總店",
-          "link": "https://blog.pylin.org/hwadamilktea.html"
+          "link": "https://blog.pylin.org/hwadamilktea.html",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Bubble_Tea.png"
         },
         {
           "name": "鄭老牌木瓜牛奶",
@@ -860,7 +882,8 @@
           "signature": "木瓜牛奶、現打果汁",
           "mapQuery": "鄭老牌木瓜牛奶 六合夜市",
           "link": "https://blog.pklife.tw/2024/05/kaohsiung-zheng.html",
-          "menuLink": "https://tiffany0118.tw/hihijlppapaya/"
+          "menuLink": "https://tiffany0118.tw/hihijlppapaya/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Bubble_Tea.png"
         },
         {
           "name": "双妃奶茶",
@@ -870,7 +893,8 @@
           "intro": "鹽埕巷弄人氣奶茶，常同永和小籠包一齊食。",
           "signature": "奶茶系列",
           "mapQuery": "双妃奶茶 鹽埕",
-          "link": "https://nellydyu.tw/blog/post/41002654"
+          "link": "https://nellydyu.tw/blog/post/41002654",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Bubble_Tea.png"
         }
       ]
     },
@@ -885,7 +909,8 @@
           "intro": "1914 年日治高級料亭改建，書香文青老宅，行完哈瑪星歇腳一流。",
           "signature": "抹茶拿鐵、抹茶冰淇淋紅豆煎餅、紅酒燉牛肉烏龍麵",
           "mapQuery": "書店喫茶一二三亭 哈瑪星",
-          "link": "https://jeremyfoodie.tw/cafehifumi/"
+          "link": "https://jeremyfoodie.tw/cafehifumi/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Latte_and_dark_coffee.jpg"
         },
         {
           "name": "新濱·駅前（Hamasen）",
@@ -895,7 +920,8 @@
           "intro": "1921 年三和銀行改建，大正和洋風老建築，高人氣網美咖啡。",
           "signature": "手沖咖啡、輕食甜點",
           "mapQuery": "新濱駅前 哈瑪星",
-          "link": "https://mymarcy.tw/kaohsiung-cafes-guide/"
+          "link": "https://mymarcy.tw/kaohsiung-cafes-guide/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Latte_and_dark_coffee.jpg"
         },
         {
           "name": "厚里 Horli Baking",
@@ -905,7 +931,8 @@
           "intro": "火車車廂造型店面，望哈瑪星鐵道園區，小朋友會鍾意。",
           "signature": "手撕包、咖啡",
           "mapQuery": "厚里 Horli Baking 鹽埕",
-          "link": "https://mymarcy.tw/kaohsiung-cafes-guide/"
+          "link": "https://mymarcy.tw/kaohsiung-cafes-guide/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Latte_and_dark_coffee.jpg"
         },
         {
           "name": "路人咖啡（駁二）",
@@ -915,7 +942,8 @@
           "intro": "駁二內，大面落地窗望大港橋，行駁二順遊。",
           "signature": "精品咖啡、氣泡飲",
           "mapQuery": "路人咖啡 駁二",
-          "link": "https://damei17.com/yancheng-coffee/"
+          "link": "https://damei17.com/yancheng-coffee/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Latte_and_dark_coffee.jpg"
         }
       ]
     },
@@ -931,7 +959,8 @@
           "signature": "小金磚鳳梨酥、綠豆椪、杏香酥",
           "mapQuery": "舊振南餅店 SOGO 高雄",
           "link": "https://www.jzn.com.tw/",
-          "menuLink": "https://shop.jzn.com.tw/"
+          "menuLink": "https://shop.jzn.com.tw/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Taiwanese_Pineapple_Cake_001.jpg/1280px-Taiwanese_Pineapple_Cake_001.jpg"
         },
         {
           "name": "巴堂蜂蜜蛋糕",
@@ -942,7 +971,8 @@
           "signature": "蜂蜜蛋糕、芝麻Q餅、銅鑼燒",
           "mapQuery": "巴堂蜂蜜蛋糕 鹽埕",
           "link": "https://www.batung.com.tw/",
-          "menuLink": "https://appletrees.tw/blog/post/batung"
+          "menuLink": "https://appletrees.tw/blog/post/batung",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Castella%2Cmade_in_nagasaki-city%2Cjapan.JPG/1280px-Castella%2Cmade_in_nagasaki-city%2Cjapan.JPG"
         },
         {
           "name": "微熱山丘（駁二門市）",
@@ -953,7 +983,8 @@
           "signature": "土鳳梨酥、山丘芭娜娜",
           "mapQuery": "微熱山丘 駁二",
           "link": "https://www.fonfood.com/store/3022199",
-          "menuLink": "https://smilevivi.com/sunnyhills/"
+          "menuLink": "https://smilevivi.com/sunnyhills/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Taiwanese_Pineapple_Cake_001.jpg/1280px-Taiwanese_Pineapple_Cake_001.jpg"
         }
       ]
     },
@@ -969,7 +1000,8 @@
           "signature": "一幻蝦拉麵、日乃屋咖哩、JAPAN 燒烤",
           "mapQuery": "新濱町海洋廚房 鼓山",
           "link": "https://www.facebook.com/ShinhamachoCuisineHub/",
-          "menuLink": "https://ajunfun.tw/shinhamacho-cuisine-hub/"
+          "menuLink": "https://ajunfun.tw/shinhamacho-cuisine-hub/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Shoyu_Ramen%EF%BC%88Tokyo_Ramen%EF%BC%89_-_01.jpg"
         },
         {
           "name": "旗津老街小吃",
@@ -980,7 +1012,8 @@
           "signature": "番茄切盤、炭烤小卷、白糖粿、旗魚黑輪",
           "mapQuery": "旗津老街",
           "link": "https://bobowin.blog/cijin-food/",
-          "menuLink": "https://www.bring-you.info/zh-tw/qijin-street-snake"
+          "menuLink": "https://www.bring-you.info/zh-tw/qijin-street-snake",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Plateau_van_zeevruchten.jpg"
         },
         {
           "name": "駁二／鹽埕邊行邊食",
@@ -990,7 +1023,8 @@
           "intro": "倉庫群文創+美食，一路微熱山丘→路人咖啡→婆婆冰邊行邊食邊睇展。",
           "signature": "鳳梨酥、芒果冰、沿街攤",
           "mapQuery": "駁二藝術特區 大義倉庫",
-          "link": "https://damei17.com/yancheng-coffee/"
+          "link": "https://damei17.com/yancheng-coffee/",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/LiveWarehouse_Kaohsiung.jpg/1280px-LiveWarehouse_Kaohsiung.jpg"
         }
       ]
     }
@@ -1215,6 +1249,7 @@ function render(){
     ${has(T.kicker)?`<div class="kicker">${E(T.kicker)}</div>`:''}
     <h1>${E(T.title)}</h1>
     ${has(T.subtitle)?`<div class="sub">${E(T.subtitle)}</div>`:''}
+    <div class="deco">🏖️ ✈️ 🌴 🍧 📸 🗺️ 🌈</div>
     <div class="meta">
       ${has(T.dateRange)?`<span class="chip">📅 ${E(T.dateRange)}</span>`:''}
       ${has(T.travelers)?`<span class="chip">👥 ${E(T.travelers)}</span>`:''}
@@ -1297,11 +1332,13 @@ function render(){
   // Dining guide
   if(has(T.dining)&&T.dining.length){
     h+=`<section id="dining"><div class="sec-title"><span class="i">🍴</span>餐廳指南（分類）</div>`;
-    h+=`<div class="card"><div class="small muted">每間有介紹、招牌、營業時間（留意公休）、📍地圖、🔗介紹、📋Menu。價以現場為準。</div></div>`;
+    h+=`<div class="card"><div class="small muted">每間有介紹、招牌、營業時間（留意公休）、📍地圖、🔗介紹、📋Menu。<b>圖為該類代表食物（示意，非該店實拍）</b>，價以現場為準。</div></div>`;
     T.dining.forEach(g=>{
       h+=`<div class="alt-group"><h3>${E(g.category)}</h3>`;
       (g.items||[]).forEach(it=>{
-        h+=`<div class="din-item"><div class="an">${E(it.name)}</div>
+        h+=`<div class="din-item">
+          ${has(it.imageUrl)?`<img class="thumb" loading="lazy" src="${E(it.imageUrl)}" alt="">`:''}
+          <div class="an">${E(it.name)}</div>
           <div class="ad">${[it.area,it.price,it.hours].filter(has).map(E).join(' · ')}</div>
           ${has(it.intro)?`<div class="anote">${E(it.intro)}</div>`:''}
           ${has(it.signature)?`<div class="sig">🍽 ${E(it.signature)}</div>`:''}
