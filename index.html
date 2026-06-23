@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0ea5b7">
+<title>高雄輕鬆慢遊 7 天</title>
+<style>
+  :root{
+    --ink:#0f2742; --ink2:#3a5670; --muted:#6b7f95;
+    --teal:#0ea5b7; --teal-d:#0b7c8a; --coral:#f4647d; --amber:#f59e0b; --good:#10b981; --sky:#3b82f6;
+    --glass:rgba(255,255,255,.72); --glass2:rgba(255,255,255,.5); --line:rgba(15,39,66,.10);
+    --radius:18px; --maxw:700px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    color:var(--ink); min-height:100vh;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang HK","Noto Sans HK","Microsoft JhengHei",sans-serif;
+    line-height:1.62; font-size:16px; padding-bottom:env(safe-area-inset-bottom);
+    background:linear-gradient(175deg,#d8f3fb 0%,#e8fbf4 38%,#fff6e9 72%,#ffeede 100%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 14px}
+  a{color:var(--teal-d);text-decoration:none}
+  h1,h2,h3{margin:0;line-height:1.25}
+  .muted{color:var(--muted)}
+  .small{font-size:13px}
+
+  /* Print bar */
+  .printbar{position:sticky;top:0;z-index:50;display:flex;justify-content:flex-end;padding:9px 14px 0}
+  .printbtn{display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+    background:linear-gradient(135deg,var(--teal),var(--sky));color:#fff;border:0;
+    padding:9px 15px;border-radius:13px;font-size:14px;font-weight:800;
+    box-shadow:0 8px 20px rgba(14,165,183,.35)}
+  .printbtn:active{transform:translateY(1px)}
+
+  /* Cover */
+  .cover{position:relative;border-radius:24px;overflow:hidden;padding:34px 20px 28px;margin:6px 0 4px;
+    background:linear-gradient(130deg,#06b6d4 0%,#3b82f6 38%,#a855f7 64%,#f472b6 82%,#fb923c 100%);
+    box-shadow:0 18px 40px rgba(59,130,246,.28)}
+  .cover .hero{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;opacity:.34;mix-blend-mode:overlay}
+  .cover .veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,40,80,.05),rgba(8,40,80,.34))}
+  .cover .ct{position:relative;z-index:2}
+  .cover .kicker{font-size:13px;font-weight:800;letter-spacing:3px;color:rgba(255,255,255,.9);text-transform:uppercase}
+  .cover h1{font-size:29px;font-weight:900;color:#fff;letter-spacing:.5px;margin-top:6px;text-shadow:0 2px 12px rgba(0,0,0,.18)}
+  .cover .sub{margin-top:7px;color:rgba(255,255,255,.95);font-weight:600}
+  .cover .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .chip{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(6px);
+    padding:6px 12px;border-radius:999px;font-size:13px;color:#fff;font-weight:700;white-space:nowrap}
+
+  /* Sticky nav */
+  .nav{position:sticky;top:0;z-index:30;margin:10px -14px 0}
+  .nav .scroller{display:flex;gap:7px;overflow-x:auto;padding:9px 14px;scrollbar-width:none;
+    background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav .scroller::-webkit-scrollbar{display:none}
+  .nav button{flex:0 0 auto;background:#fff;color:var(--ink2);border:1px solid var(--line);
+    border-radius:999px;padding:7px 14px;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(15,39,66,.06)}
+  .nav button.active{background:linear-gradient(135deg,var(--teal),var(--sky));color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(14,165,183,.4)}
+
+  section{margin:20px 0}
+  .sec-title{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:900;margin:0 0 12px;color:var(--ink)}
+  .sec-title .i{font-size:22px}
+
+  .card{background:var(--glass);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.65);
+    border-radius:var(--radius);padding:15px;margin-bottom:13px;box-shadow:0 10px 28px rgba(15,39,66,.08)}
+
+  /* Day */
+  .day-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+  .day-head .d{font-size:14px;font-weight:900;letter-spacing:.5px;color:#fff;
+    background:linear-gradient(135deg,var(--coral),var(--amber));padding:5px 12px;border-radius:999px;box-shadow:0 4px 12px rgba(244,100,125,.32)}
+  .day-theme{font-size:18px;font-weight:900;margin:4px 0 12px;color:var(--ink)}
+  .wx{display:inline-flex;gap:6px;align-items:center;font-size:13px;color:var(--ink2);font-weight:700;
+    background:rgba(255,255,255,.7);border:1px solid var(--line);padding:4px 10px;border-radius:999px}
+
+  .act{display:flex;gap:12px;padding:13px 0;border-top:1px dashed var(--line)}
+  .act:first-of-type{border-top:0;padding-top:4px}
+  .act .time{flex:0 0 54px;font-weight:900;color:#fff;font-size:12.5px;text-align:center;
+    background:linear-gradient(135deg,var(--teal),var(--sky));border-radius:10px;padding:5px 4px;height:fit-content;
+    box-shadow:0 4px 10px rgba(14,165,183,.3)}
+  .act .body{flex:1;min-width:0}
+  .act .nm{font-weight:800;font-size:16.5px}
+  .act .det{font-size:13.5px;color:var(--ink2);margin-top:3px}
+  .act .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .tag{font-size:12px;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.85);
+    border:1px solid var(--line);color:var(--ink2);white-space:nowrap;font-weight:600}
+  .tag.cost{background:linear-gradient(135deg,rgba(245,158,11,.16),rgba(244,100,125,.16));border-color:rgba(245,158,11,.45);color:#b45309}
+  .tag.free{background:linear-gradient(135deg,rgba(16,185,129,.16),rgba(14,165,183,.16));border-color:rgba(16,185,129,.45);color:#047857}
+  .act img.thumb{width:100%;border-radius:14px;margin-top:10px;display:block;border:1px solid rgba(255,255,255,.6)}
+  .meal{background:linear-gradient(135deg,rgba(245,158,11,.10),rgba(244,100,125,.08));
+    border:1px solid rgba(245,158,11,.28);border-radius:14px;padding:11px 12px;margin-top:4px}
+  .meal .mt{font-weight:800}
+  .btn-map{display:inline-flex;align-items:center;gap:5px;margin-top:9px;
+    background:linear-gradient(135deg,rgba(14,165,183,.14),rgba(59,130,246,.14));
+    border:1px solid rgba(14,165,183,.4);color:var(--teal-d);
+    padding:7px 13px;border-radius:11px;font-size:13.5px;font-weight:800}
+  .btn-map:active{transform:translateY(1px)}
+
+  /* Day backup */
+  .backup{margin-top:12px;background:rgba(59,130,246,.07);border:1px dashed rgba(59,130,246,.4);
+    border-radius:13px;padding:10px 12px}
+  .backup .bt{font-weight:800;font-size:13.5px;color:var(--sky);margin-bottom:5px}
+  .backup ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink2)}
+  .backup li{margin:3px 0}
+
+  /* Alternatives library */
+  .alt-group{margin-bottom:16px}
+  .alt-group h3{font-size:16px;font-weight:900;margin:0 0 9px;display:flex;align-items:center;gap:7px}
+  .alt-item{background:var(--glass2);border:1px solid rgba(255,255,255,.6);border-radius:14px;padding:11px 12px;margin-bottom:9px}
+  .alt-item .an{font-weight:800;font-size:15.5px}
+  .alt-item .ad{font-size:13px;color:var(--ink2);margin-top:2px}
+  .alt-item .anote{font-size:13px;color:var(--muted);margin-top:4px}
+  .alt-item .arow{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:8px}
+
+  /* Hotels */
+  .hotel .hn{font-weight:900;font-size:17px}
+  .hotel .row{display:flex;justify-content:space-between;gap:10px;margin-top:5px;font-size:14px}
+  .hotel .price{color:#b45309;font-weight:900}
+  .hotel img.thumb{width:100%;border-radius:14px;margin-top:10px;border:1px solid rgba(255,255,255,.6)}
+
+  /* Budget */
+  table.bud{width:100%;border-collapse:collapse;font-size:14.5px}
+  table.bud td{padding:9px 4px;border-top:1px solid var(--line)}
+  table.bud tr:first-child td{border-top:0}
+  table.bud td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+  table.bud .total td{font-weight:900;font-size:16px;border-top:2px solid var(--coral);color:#b45309}
+  .tiers{display:flex;gap:9px;margin:2px 0 12px;overflow-x:auto;scrollbar-width:none}
+  .tier{flex:1;min-width:118px;background:var(--glass2);border:1px solid rgba(255,255,255,.6);border-radius:14px;padding:11px;text-align:center}
+  .tier .tl{font-size:13px;font-weight:800;color:var(--ink2)}
+  .tier .tv{font-size:18px;font-weight:900;margin-top:3px;background:linear-gradient(135deg,var(--teal),var(--coral));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .tier .tp{font-size:12px;color:var(--muted);margin-top:2px}
+  .tier.pick{border-color:var(--teal);box-shadow:0 6px 16px rgba(14,165,183,.2)}
+
+  ul.tips{margin:0;padding-left:19px}
+  ul.tips li{margin:7px 0}
+
+  .ess{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .ess .e{background:var(--glass2);border:1px solid rgba(255,255,255,.6);border-radius:13px;padding:10px 12px}
+  .ess .e .k{font-size:12px;color:var(--muted);font-weight:700}
+  .ess .e .v{font-weight:800;font-size:14.5px;margin-top:2px}
+
+  .reliab{font-size:12px;color:var(--muted);margin-top:9px;font-style:italic}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:24px 0 34px}
+  .totop{position:fixed;right:14px;bottom:18px;z-index:40;width:46px;height:46px;border-radius:50%;
+    background:linear-gradient(135deg,var(--teal),var(--sky));color:#fff;border:0;font-size:20px;font-weight:800;cursor:pointer;
+    box-shadow:0 8px 20px rgba(14,165,183,.4);display:none}
+
+  /* ===== Print / Save as PDF ===== */
+  @media print{
+    @page{margin:11mm}
+    body{background:#fff!important;font-size:12.5px}
+    .printbar,.nav,.totop{display:none!important}
+    .wrap{max-width:none}
+    .cover{box-shadow:none;border-radius:14px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    section,.card,.act,.hotel,.alt-item{break-inside:avoid;page-break-inside:avoid}
+    .card{box-shadow:none;background:#fff;border:1px solid #d7dee6;backdrop-filter:none}
+    .sec-title{break-after:avoid}
+    .day-head .d,.act .time,.tag.cost,.tag.free,.day-theme{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .btn-map{display:none}
+    .act img.thumb,.hotel img.thumb{max-height:170px;object-fit:cover}
+  }
+</style>
+</head>
+<body>
+<div class="printbar"><button class="printbtn" onclick="window.print()">🖨 一鍵列印 / 儲存 PDF</button></div>
+<div class="wrap"><div id="app"></div></div>
+<button class="totop" id="totop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script id="trip-data" type="application/json">
+{
+  "kicker": "KAOHSIUNG · TAIWAN",
+  "title": "高雄輕鬆慢遊 7 天",
+  "subtitle": "3 大 1 小（8 歲女）· 8/15–8/21 · 少景點・多放鬆・必去打卡 + 高分名店",
+  "dateRange": "2026/8/15（六）– 8/21（五）",
+  "travelers": "3 大人 + 1 小童（8 歲）",
+  "heroImage": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Kaohsiung_Skyline_2020_%28cropped%29.jpg",
+  "highlights": [
+    "必去全入：輕軌龍貓隧道、野森動物學校（魔法動物學校）、美麗島光之穹頂、駁二木育森林、愛河愛之船+西子灣夕陽、壽山情人觀景台、崗山之眼（機動日）",
+    "★ 兩個更正：①「魔法動物學校」其實係內門區「野森動物學校」，唔喺旗津，要包車約 50–60 分；②崗山之眼自 2025/2 休園整建，出發前必查是否已重開，未開行後備（佛光山／小琉球）",
+    "8/15 出發已對齊星期避開休館：壽山動物園/兒美/瑞豐(週一)、佛館(週二)、奇美(週三)；野森公休曖昧(官網週三/媒體週二三)→ 排咗最安全嘅週四(8/20)",
+    "住宿轉 Airbnb 整套 3 房（4 人各有房）：首選美麗島/中央公園區，6 晚約 HK$6,000–8,000，比開兩間飯店房抵又有客廳廚房",
+    "鎖中等檔・食唔慳：每日配高分必食名店（米其林必比登米糕/鴨肉、旗津現撈、芒果婆婆冰、漢來福園台菜一餐正）"
+  ],
+  "weather": {
+    "summary": "盛夏酷熱潮濕，午後雷陣雨頻密（約 1–3 小時），5–9 月為颱風季。",
+    "avgHigh": 32,
+    "avgLow": 26,
+    "rainfall": "約 46–50%",
+    "clothing": "輕薄透氣衫、帽、太陽眼鏡、防曬 SPF50+；室內冷氣強帶薄外套；女童帶替換衫。",
+    "tips": "帶輕便雨衣（海島/山上風大傘無用）+ 電解質；戶外排上午、13:00–17:00 改室內避雷暴避暑；崗山之眼/壽山夜景/旗津渡輪全部睇天氣，颱風即停。"
+  },
+  "days": [
+    {
+      "date": "8/15",
+      "weekday": "週六",
+      "theme": "落地・光之穹頂・愛河夜航（輕量）",
+      "weather": {
+        "icon": "partly",
+        "high": 32,
+        "low": 26
+      },
+      "activities": [
+        {
+          "time": "中午",
+          "name": "香港 → 高雄國際機場（小港 KHH）",
+          "note": "香港直飛高雄約 1.5–2 小時；落機後捷運紅線『高雄國際機場站』直達市區約 15–25 分；行李多叫 Uber 約 NT$300–450",
+          "cost": "捷運 NT$35/人",
+          "transport": "捷運紅線 R4",
+          "mapQuery": "Kaohsiung International Airport"
+        },
+        {
+          "time": "15:00",
+          "name": "Airbnb Check-in（美麗島/中央公園區）",
+          "note": "首選紅橘雙捷運核心，放行李抖一抖",
+          "cost": "—",
+          "transport": "捷運",
+          "mapQuery": "美麗島站 高雄"
+        },
+        {
+          "time": "18:00",
+          "name": "美麗島站・光之穹頂",
+          "note": "世界級最美地鐵站，燈光秀晚上 8 點一場（週六加映 5pm/7pm）",
+          "duration": "30分",
+          "cost": 0,
+          "transport": "捷運紅／橘線美麗島站",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Formosa_Boulevard_Station_entrances_at_night.jpg/1280px-Formosa_Boulevard_Station_entrances_at_night.jpg",
+          "mapQuery": "美麗島站 光之穹頂"
+        },
+        {
+          "time": "18:30",
+          "meal": {
+            "name": "六合夜市",
+            "cuisine": "台式夜市",
+            "perPerson": "NT$200–300",
+            "recommended": "莊記海產粥（1973年）、鄭老牌木瓜牛奶（60年）；距美麗島站步行 4 分",
+            "location": "新興・美麗島站旁",
+            "mapQuery": "六合夜市"
+          }
+        },
+        {
+          "time": "20:00",
+          "name": "愛河・愛之船夜航",
+          "note": "河岸夜景約 25 分；網購 KKday/Klook 約 NT$130（現場 NT$250）；上船點國賓站",
+          "duration": "45–60分",
+          "cost": "約 NT$130–250",
+          "transport": "捷運橘線前金站步行 10–15 分",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/40/Love_River_2015.JPG",
+          "mapQuery": "愛之船 國賓站"
+        }
+      ],
+      "backup": [
+        "累 → 跳愛之船，改愛河畔散步；落雨 → 漢神/大立室內百貨",
+        {
+          "name": "瑞豐夜市",
+          "note": "想去夜市 backup；★ 但週一、三公休，今日週六開",
+          "mapQuery": "瑞豐夜市"
+        }
+      ]
+    },
+    {
+      "date": "8/16",
+      "weekday": "週日",
+      "theme": "駁二・木育森林・西子灣夕陽搭船・旗津海鮮",
+      "weather": {
+        "icon": "showers",
+        "high": 32,
+        "low": 26
+      },
+      "activities": [
+        {
+          "time": "10:30",
+          "name": "木育森林（駁二門市）",
+          "note": "室內木製遊樂園 50+ 設施，8 歲女超啱，避正午曬+雷暴；建議官網先線上購票（現場較貴，約 NT$250–350 級，未核實確切價）",
+          "duration": "1.5–2h",
+          "cost": "約 NT$250–350（未核實）",
+          "transport": "捷運橘線鹽埕埔站／輕軌駁二大義站",
+          "mapQuery": "木育森林 駁二"
+        },
+        {
+          "time": "13:00",
+          "name": "駁二藝術特區（午餐+逛）",
+          "note": "倉庫文創、小火車、大港橋、海風；園區免費展覽另計。順食微熱山丘(送鳳梨酥+茶)、婆婆冰芒果冰",
+          "duration": "2–3h",
+          "cost": 0,
+          "transport": "步行",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/LiveWarehouse_Kaohsiung.jpg/1280px-LiveWarehouse_Kaohsiung.jpg",
+          "mapQuery": "駁二藝術特區"
+        },
+        {
+          "time": "16:30",
+          "name": "西子灣・鼓山渡輪夕陽",
+          "note": "捷運西子灣站步行 7 分到鼓山輪渡站，搭渡輪海上吹風睇夕陽（8月日落約 18:30）",
+          "duration": "1–2h",
+          "cost": "渡輪 NT$40・優待 15",
+          "transport": "鼓山渡輪",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/56/2017_NSYSU_bay1.jpg",
+          "mapQuery": "鼓山輪渡站"
+        },
+        {
+          "time": "17:30",
+          "meal": {
+            "name": "旗津海產（旗后活海產 / 金聖春）",
+            "cuisine": "現撈海鮮合菜",
+            "perPerson": "NT$500–1000",
+            "recommended": "現撈生魚片、清蒸魚、蒜蓉蝦；門口冰櫃現秤，多人建議訂位、先問價",
+            "location": "旗津老街（渡輪 10 分）",
+            "mapQuery": "旗后活海產 旗津"
+          }
+        }
+      ],
+      "backup": [
+        "雷暴延長 → 木育森林多玩 + 駁二室內展；唔想過旗津 → 西子灣睇完夕陽市區晚餐",
+        {
+          "name": "棧貳庫 KW2",
+          "note": "港邊文創倉庫，室內避雨兼食嘢",
+          "mapQuery": "棧貳庫"
+        }
+      ]
+    },
+    {
+      "date": "8/17",
+      "weekday": "週一",
+      "theme": "輕軌龍貓隧道・美術館（避開週一休館點）",
+      "weather": {
+        "icon": "partly",
+        "high": 33,
+        "low": 26
+      },
+      "activities": [
+        {
+          "time": "09:30",
+          "name": "高雄輕軌龍貓隧道",
+          "note": "環狀輕軌 C21 美術館站旁約 500m 小葉欖仁綠色樹隧道，早上人少光線靚；★ 鐵律：切勿走入軌道，月台用長焦影",
+          "duration": "30–45分",
+          "cost": "輕軌 NT$30",
+          "transport": "輕軌 C21 美術館站",
+          "mapQuery": "高雄輕軌美術館站 龍貓隧道"
+        },
+        {
+          "time": "10:30",
+          "name": "高雄市立美術館 + 內惟埤文化園區",
+          "note": "室內冷氣避午熱（週一本館照開，休的是兒美館）；綠地大可慢行",
+          "duration": "2–3h",
+          "cost": "全票 NT$90・12 歲以下免費",
+          "transport": "步行／輕軌",
+          "mapQuery": "高雄市立美術館"
+        },
+        {
+          "time": "13:00",
+          "meal": {
+            "name": "鴨肉珍 / 北港蔡三代筒仔米糕（鹽埕）",
+            "cuisine": "古早味老店",
+            "perPerson": "NT$100–180",
+            "recommended": "鴨肉飯（65年老店）、筒仔米糕（米其林必比登4年）；飯後高雄婆婆冰芒果冰",
+            "location": "鹽埕",
+            "mapQuery": "鴨肉珍 高雄 鹽埕"
+          }
+        },
+        {
+          "time": "18:00",
+          "name": "凱旋／光華夜市",
+          "note": "瑞豐今日週一休，改呢兩個夜市",
+          "duration": "1.5h",
+          "cost": "NT$200–300/人",
+          "transport": "捷運",
+          "mapQuery": "凱旋夜市"
+        }
+      ],
+      "backup": [
+        "午後雷雨 → 美術館多待 / 改漢神巨蛋商場",
+        {
+          "name": "蓮池潭・龍虎塔",
+          "note": "想加廟宇打卡（去前查龍虎塔整修狀態，無遮蔭帶水）",
+          "mapQuery": "蓮池潭龍虎塔"
+        }
+      ]
+    },
+    {
+      "date": "8/18",
+      "weekday": "週二",
+      "theme": "壽山動物園・哈瑪星・情人觀景台夜景（同山區集中）",
+      "weather": {
+        "icon": "sunny",
+        "high": 33,
+        "low": 27
+      },
+      "activities": [
+        {
+          "time": "10:00",
+          "name": "壽山動物園",
+          "note": "2022 重新開放、親子友善、上午較涼（週二開；週一先休）",
+          "duration": "2–2.5h",
+          "cost": "全票約 NT$90・6–12 歲約 NT$40（未核實最新）",
+          "transport": "捷運鹽埕埔站轉 56 號公車",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/56/2017_NSYSU_bay1.jpg",
+          "mapQuery": "壽山動物園"
+        },
+        {
+          "time": "13:00",
+          "meal": {
+            "name": "新濱町海洋廚房 / 書店喫茶一二三亭（哈瑪星）",
+            "cuisine": "海景美食聚落／日式老屋喫茶",
+            "perPerson": "NT$300–600",
+            "recommended": "2025 新開幕舊魚市場活化，碼頭海景；一二三亭為 1920 年代日式老屋",
+            "location": "鼓山渡船頭／哈瑪星",
+            "mapQuery": "新濱町海洋廚房 高雄"
+          }
+        },
+        {
+          "time": "15:00",
+          "name": "哈瑪星台灣鐵道館（午後室內備案）",
+          "note": "落雷暴時的室內點，鐵道模型 8 歲啱",
+          "duration": "1.5h",
+          "cost": "約 NT$149",
+          "transport": "步行",
+          "mapQuery": "哈瑪星台灣鐵道館"
+        },
+        {
+          "time": "18:00",
+          "name": "壽山情人觀景台（LOVE）日落夜景",
+          "note": "忠烈祠旁，免費；天黑前上山先賞山海日景再等華燈；★ 注意獼猴勿餵食、勿手持食物膠袋",
+          "duration": "45–60分",
+          "cost": 0,
+          "transport": "56 號公車「情人觀景台站」",
+          "mapQuery": "壽山情人觀景台"
+        }
+      ],
+      "backup": [
+        "天氣差睇唔到夜景 → 改 85 大樓觀景台或駁二夜逛",
+        {
+          "name": "漢來福園台菜（晚餐升級）",
+          "note": "想食一餐正：米其林推薦五星台菜，鱔魚意麵/海上鮮，有冷氣包廂，務必訂位 07-2135739",
+          "mapQuery": "福園台菜海鮮餐廳 漢來大飯店"
+        }
+      ]
+    },
+    {
+      "date": "8/19",
+      "weekday": "週三",
+      "theme": "機動王牌日：崗山之眼 / 佛光山 / 小琉球（揀最晴一日）",
+      "weather": {
+        "icon": "sunny",
+        "high": 33,
+        "low": 27
+      },
+      "activities": [
+        {
+          "time": "全日",
+          "name": "★ 出發前用天氣預報揀全程最晴朗一日做呢日（可同其他日對調）",
+          "note": "崗山之眼/壽山夜景/海島都靠天氣，呢日做機動王牌",
+          "cost": "—",
+          "transport": "—",
+          "mapQuery": "高雄"
+        },
+        {
+          "time": "方案A",
+          "name": "崗山之眼（岡山天空廊道）",
+          "note": "⚠️ 自 2025/2 休園整建，目標 2026Q1 重開但未公告 → 出發前必查 khh.travel 是否已開；包車約 50–60 分，山下停車換接駁車",
+          "duration": "1.5–2h",
+          "cost": "門票約 NT$60–80 + 接駁 NT$25（整修前參考）",
+          "transport": "包車／自駕",
+          "imageUrl": "",
+          "mapQuery": "崗山之眼"
+        },
+        {
+          "time": "方案B",
+          "name": "佛光山佛陀紀念館（崗山未開 → 行呢個）",
+          "note": "週三開（週二休），宏偉好拍、遮蔭多有星巴克、免費入場免費停車",
+          "duration": "2–3h",
+          "cost": 0,
+          "transport": "包車",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Fo_Guang_Shan_Buddha_Museum_%E4%BD%9B%E5%85%89%E5%B1%B1%E4%BD%9B%E9%99%80%E7%B4%80%E5%BF%B5%E9%A4%A8_.jpg/1280px-Fo_Guang_Shan_Buddha_Museum_%E4%BD%9B%E5%85%89%E5%B1%B1%E4%BD%9B%E9%99%80%E7%B4%80%E5%BF%B5%E9%A4%A8_.jpg",
+          "mapQuery": "佛光山佛陀紀念館"
+        }
+      ],
+      "backup": [
+        {
+          "name": "小琉球（海島後備）",
+          "note": "天氣極佳又特別想去海島先做：東港搭船 25–30 分睇海龜浮潛/半潛艇；帶 8 歲女拉車到東港較攰，列次優",
+          "mapQuery": "小琉球白沙尾漁港"
+        },
+        {
+          "name": "義大世界",
+          "note": "想玩樂園：與佛光山相鄰，全日票約 NT$650，8月戶外曬備雨具",
+          "mapQuery": "義大遊樂世界"
+        }
+      ]
+    },
+    {
+      "date": "8/20",
+      "weekday": "週四",
+      "theme": "★ 野森動物學校（魔法動物學校・內門整日）",
+      "weather": {
+        "icon": "partly",
+        "high": 33,
+        "low": 27
+      },
+      "activities": [
+        {
+          "time": "09:30",
+          "name": "高雄市區 → 內門（包車）",
+          "note": "野森喺內門區，唔喺旗津，無捷運直達，包車/自駕約 50–60 分",
+          "duration": "60分",
+          "cost": "包車約 NT$2,500–4,000/日（未核實）",
+          "transport": "包車／自駕",
+          "mapQuery": "野森動物學校"
+        },
+        {
+          "time": "10:00",
+          "name": "野森動物學校（魔法動物學校）",
+          "note": "11.5 公頃戶外生態園，20+ 種動物（水豚/樹懶/狐狸/笑笑羊）近距離互動餵食，8 歲女最愛；一開門入避正午高溫。★ 線上預約購票（每日限 1000），公休曖昧(官網週三/媒體週二三)→ 已排週四較安全，但出發前再電 07-6672017 核實",
+          "duration": "3–4h",
+          "cost": "全票 NT$399・半票(兒童) NT$149",
+          "transport": "園區內步行",
+          "mapQuery": "高雄市內門區中正路39巷168號"
+        },
+        {
+          "time": "14:30",
+          "name": "旗山老街（回程順遊）",
+          "note": "枝仔冰、香蕉蛋糕、巴洛克老街慢逛",
+          "duration": "1.5h",
+          "cost": "視消費",
+          "transport": "自駕經旗山",
+          "mapQuery": "旗山老街"
+        }
+      ],
+      "backup": [
+        "野森當日竟公休 → 改壽山動物園(週二/四開)或市區寵物互動館",
+        "嫌內門太遠 → 改義大樂園或市區親子館，留返體力"
+      ]
+    },
+    {
+      "date": "8/21",
+      "weekday": "週五",
+      "theme": "手信採購・捷運直達機場（輕量）",
+      "weather": {
+        "icon": "cloudy",
+        "high": 32,
+        "low": 26
+      },
+      "activities": [
+        {
+          "time": "10:00",
+          "name": "手信採購（舊振南/微熱山丘/巴堂蜂蜜蛋糕）",
+          "note": "鳳梨酥、蜂蜜蛋糕；單店滿 NT$2,000 可退稅帶護照",
+          "duration": "1.5h",
+          "cost": "視消費",
+          "transport": "捷運",
+          "mapQuery": "舊振南餅店 高雄"
+        },
+        {
+          "time": "12:00",
+          "name": "夢時代 / SKM Park（室內避暑+最後血拼）",
+          "note": "看航班時間，室內涼快",
+          "duration": "2h",
+          "cost": "視消費",
+          "transport": "捷運紅線凱旋站／輕軌",
+          "mapQuery": "統一夢時代購物中心"
+        },
+        {
+          "time": "下午",
+          "name": "取行李 → 小港機場",
+          "note": "捷運紅線直達小港機場站，預留 3 小時 buffer",
+          "duration": "30分",
+          "cost": "捷運 NT$35/人",
+          "transport": "捷運紅線",
+          "mapQuery": "Kaohsiung International Airport"
+        }
+      ],
+      "backup": [
+        {
+          "name": "草衙道商場（近機場）",
+          "note": "商場＋鈴鹿賽道樂園，回程前最後放電",
+          "mapQuery": "大魯閣草衙道"
+        }
+      ]
+    }
+  ],
+  "alternatives": [
+    {
+      "category": "🍽 高分必食名店（食唔慳・配行程）",
+      "items": [
+        {
+          "name": "漢來福園台菜海鮮（前金・漢來9F）",
+          "area": "前金",
+          "cost": "NT$1000–1800/人",
+          "tag": "米其林推薦・要訂位",
+          "note": "五星台菜：火爆鱔魚炒意麵、清蒸海上鮮、佛跳牆；有冷氣包廂，一家人食正一餐首選 07-2135739",
+          "mapQuery": "福園台菜海鮮餐廳 漢來大飯店"
+        },
+        {
+          "name": "四兩千金活蝦之家",
+          "area": "高雄",
+          "cost": "NT$400–700/人",
+          "tag": "親子・有遊樂區",
+          "note": "胡椒蝦/鳳梨蝦球，百坪無味精，8 歲女有得玩",
+          "mapQuery": "四兩千金活蝦之家 高雄"
+        },
+        {
+          "name": "北港蔡三代筒仔米糕",
+          "area": "鹽埕",
+          "cost": "NT$80–120/人",
+          "tag": "必比登4年",
+          "note": "米糕軟糯帶肉燥，平民價要排隊",
+          "mapQuery": "北港蔡三代筒仔米糕 高雄"
+        },
+        {
+          "name": "鴨肉珍",
+          "area": "鹽埕",
+          "cost": "NT$100–180/人",
+          "tag": "65年老店",
+          "note": "鴨肉飯整塊唔切片、煙燻香，Google 逾萬評",
+          "mapQuery": "鴨肉珍 高雄 鹽埕"
+        },
+        {
+          "name": "弘記肉燥飯舖",
+          "area": "左營巨蛋",
+          "cost": "NT$100–200/人",
+          "tag": "必比登3年",
+          "note": "腿庫飯每日限量，早去",
+          "mapQuery": "弘記肉燥飯舖 左營"
+        },
+        {
+          "name": "莊記海產粥",
+          "area": "六合夜市",
+          "cost": "NT$120–200/人",
+          "tag": "1973年",
+          "note": "鮮蚵/花枝/蛤蜊料多，六合最出名",
+          "mapQuery": "莊記海產粥 六合夜市"
+        },
+        {
+          "name": "高雄婆婆冰（創始店）",
+          "area": "鹽埕",
+          "cost": "NT$80–180/人",
+          "tag": "80年・8月芒果",
+          "note": "芒果冰當造必食；★ 週二公休",
+          "mapQuery": "高雄婆婆冰 創始店 七賢三路"
+        },
+        {
+          "name": "新濱町海洋廚房",
+          "area": "鼓山渡船頭",
+          "cost": "NT$300–600/人",
+          "tag": "2025新開・海景",
+          "note": "舊魚市場活化，碼頭海景夕陽",
+          "mapQuery": "新濱町海洋廚房 高雄"
+        }
+      ]
+    },
+    {
+      "category": "👧 親子・8 歲女童啱玩（後備加減）",
+      "items": [
+        {
+          "name": "國立科學工藝博物館（科工館）",
+          "area": "三民區",
+          "hours": "09:00–17:00（暑假假日到18:00）",
+          "cost": "常設展約 NT$100",
+          "tag": "室內・互動",
+          "note": "大量互動科學展，雨天最佳；特展另收",
+          "mapQuery": "國立科學工藝博物館"
+        },
+        {
+          "name": "兒童美術館（高美館園區）",
+          "area": "鼓山／內惟",
+          "hours": "09:30–17:30，★週一休",
+          "cost": 0,
+          "tag": "免費・室內",
+          "note": "沙坑、故事屋、積木",
+          "mapQuery": "高雄市立兒童美術館"
+        },
+        {
+          "name": "義大遊樂世界",
+          "area": "大樹區 約40分",
+          "hours": "09:00–17:30",
+          "cost": "全日票約 NT$650",
+          "tag": "樂園",
+          "note": "摩天輪＋主題樂園；8月戶外曬",
+          "mapQuery": "義大遊樂世界"
+        },
+        {
+          "name": "大魯閣草衙道（鈴鹿賽道樂園）",
+          "area": "前鎮・近機場",
+          "cost": "入場免費・設施另計",
+          "tag": "室內外樂園",
+          "note": "奧斯丁夢想樂園適合女童，回程前放電",
+          "mapQuery": "大魯閣草衙道"
+        }
+      ]
+    },
+    {
+      "category": "🌧️ 室內・落雨 backup（8月必備）",
+      "items": [
+        {
+          "name": "夢時代購物中心",
+          "area": "前鎮",
+          "cost": "免費入場",
+          "tag": "避暑",
+          "note": "摩天輪＋電影院＋餐廳，全天候",
+          "mapQuery": "統一夢時代購物中心"
+        },
+        {
+          "name": "棧貳庫 KW2",
+          "area": "鼓山港邊",
+          "cost": "免費入場",
+          "tag": "文創倉庫",
+          "note": "港邊文創＋食肆，室內避雨",
+          "mapQuery": "棧貳庫"
+        },
+        {
+          "name": "哈瑪星台灣鐵道館",
+          "area": "鼓山",
+          "cost": "約 NT$149",
+          "tag": "鐵道模型",
+          "note": "亞洲最大實體鐵道模型，8歲啱",
+          "mapQuery": "哈瑪星台灣鐵道館"
+        }
+      ]
+    },
+    {
+      "category": "🏝️ 海島・近郊（彈性後備）",
+      "items": [
+        {
+          "name": "小琉球（東港搭船）",
+          "area": "東港船 25–30 分",
+          "duration": "1 日",
+          "cost": "來回 NT$360–450・兒童 225",
+          "tag": "看海龜・後備",
+          "note": "浮潛與海龜共游/半潛艇；8月旺季+颱風雙風險，帶8歲女拉車較攰，列後備",
+          "mapQuery": "小琉球白沙尾漁港"
+        },
+        {
+          "name": "奇美博物館（台南）",
+          "area": "台鐵約40分",
+          "hours": "09:30–17:30，★週三休",
+          "cost": "常設展約 NT$200・園區免費",
+          "tag": "室內・冷氣",
+          "note": "歐式建築＋藝術典藏，8歲啱；台鐵當日來回",
+          "mapQuery": "奇美博物館"
+        },
+        {
+          "name": "安平古堡・安平老街（台南）",
+          "area": "約50分",
+          "duration": "半日",
+          "cost": "全票 70・半票 35",
+          "tag": "古蹟・小吃",
+          "note": "古蹟＋老街小吃慢逛",
+          "mapQuery": "安平古堡"
+        },
+        {
+          "name": "蓮池潭・龍虎塔",
+          "area": "左營",
+          "cost": 0,
+          "tag": "廟宇打卡",
+          "note": "龍口入虎口出；去前查整修、無遮蔭帶水",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/83/Lotus_Pond%2C_Kaohsiung.jpg",
+          "mapQuery": "蓮池潭龍虎塔"
+        }
+      ]
+    }
+  ],
+  "hotels": [
+    {
+      "name": "🥇 Airbnb 整套 3 房・美麗島／中央公園區（首選）",
+      "area": "紅線R10×橘線O5 雙捷運",
+      "pricePerNight": "6晚 ≈ HK$6,000–8,000",
+      "rating": "區域首選",
+      "highlights": "高雄唯一雙捷運交會，去邊都唔轉線、去機場最快（→小港約12–15分）；樓下六合夜市/新崛江/便利店。整層公寓供應多、多2025翻新自助入住。揀盤 filter：整套 entire place・房數≥3・入住≥4人・近捷運≤8分・評分≥4.8・Superhost・每房有冷氣・電梯・洗衣機。",
+      "confirmation": "（自己 Airbnb 訂・填訂單號）",
+      "mapQuery": "美麗島站 高雄"
+    },
+    {
+      "name": "🥈 Airbnb 整套・鹽埕／駁二區",
+      "area": "橘線 O2 鹽埕埔",
+      "pricePerNight": "6晚 ≈ HK$5,250–8,250",
+      "rating": "最有特色",
+      "highlights": "老屋改建設計民宿密度最高（塩晨/圈叉行旅OX/小驢舍一帶），行得到駁二、大港橋、棧貳庫、愛河、旗津渡輪，文青慢遊一流；缺點：去機場要美麗島轉紅線（約20–25分），夜市要搭車。",
+      "confirmation": "",
+      "mapQuery": "鹽埕埔站 高雄"
+    },
+    {
+      "name": "🥉 Airbnb 整套・左營／巨蛋區",
+      "area": "紅線 R16 高鐵／R14 巨蛋",
+      "pricePerNight": "6晚 ≈ HK$8,250–13,500（較貴）",
+      "rating": "最新淨",
+      "highlights": "高鐵左營站出站即捷運，跨城（台南）方便；漢神巨蛋+瑞豐夜市+美術館生活機能足、較新企理。缺點：離駁二老城核心遠、去機場最遠（約28分）、整套房較少較貴。",
+      "confirmation": "",
+      "mapQuery": "高鐵左營站"
+    },
+    {
+      "name": "⚠️ 合法民宿 + 訂房自保（必讀）",
+      "area": "全高雄",
+      "rating": "避坑",
+      "highlights": "台灣無牌日租屬違法且未過消防/保險審查（曾有無牌套房一氧化碳中毒個案）。訂前去『交通部觀光署台灣旅宿網 taiwanstay.net.tw』用地址/民宿名核對合法黃色標章+證號；揀 Superhost+大量真實評論；全程 Airbnb 平台付款，切勿私下匯款/LINE 收訂金；入住即影屋況防爭議。暑假早訂，揀免費取消先 lock 心水。",
+      "confirmation": "",
+      "mapQuery": "台灣旅宿網"
+    }
+  ],
+  "budget": {
+    "tiers": [
+      {
+        "label": "💵 經濟",
+        "total": "≈ HK$11,000",
+        "note": "人均 ~2,750｜平價整套2房・夜市為主"
+      },
+      {
+        "label": "💴 中等（已鎖）",
+        "total": "≈ HK$16,500",
+        "note": "人均 ~4,125｜Airbnb整套3房・食唔慳配名店",
+        "pick": true
+      },
+      {
+        "label": "💎 寬鬆",
+        "total": "≈ HK$24,000",
+        "note": "人均 ~6,000｜設計民宿+樂園+多餐廳+包車多日"
+      }
+    ],
+    "accommodation": {
+      "items": [],
+      "subtotal": "Airbnb整套3房 6晚 ≈ NT$28,000（約 HK$7,000）"
+    },
+    "transport": {
+      "items": [],
+      "subtotal": "捷運/台鐵+機動日2次包車 ≈ NT$9,000（約 HK$2,250）"
+    },
+    "food": {
+      "items": [],
+      "subtotal": "食唔慳・配名店+福園一餐 ≈ NT$13,000（約 HK$3,250）"
+    },
+    "tickets": {
+      "items": [],
+      "subtotal": "木育/野森/壽山/美術館/愛之船/崗山 ≈ NT$6,000（約 HK$1,500）"
+    },
+    "other": {
+      "items": [],
+      "subtotal": "手信/雜項 ≈ NT$4,000（約 HK$1,000）"
+    },
+    "total": "≈ NT$66,000（約 HK$16,500）",
+    "perPerson": "≈ HK$4,125",
+    "note": "中等檔（4人6夜・不計機票・食唔慳）。匯率 HK$1≈NT$4.0（參考~）。8月暑假最旺，Airbnb 越早訂越平，揀免費取消方案。所有價為 2025–26 公開資料整合，落單前以平台即時價為準；標 未核實／估算 者尤其要自行核對。"
+  },
+  "essentials": {
+    "currency": "新台幣 TWD；HK$1 ≈ NT$4.0（出發前查即時匯率）",
+    "plug": "A 型兩腳扁插，110V",
+    "transit": "一卡通 iPASS（捷運/輕軌/台鐵/部分船班通用；2024/11 起嘟卡無折扣，係買方便）",
+    "emergency": "警察 110 / 救護消防 119 / 旅遊諮詢 0800-011-765",
+    "sim": "機場買 eSIM 或租 Wi-Fi 蛋；中華電信訊號好",
+    "timezone": "台北時間，同香港無時差",
+    "language": "國語／台語，講普通話通",
+    "tipping": "唔使俾小費"
+  },
+  "tips": [
+    "★ 出發前 3 件 must-do 核實：①崗山之眼是否已重開（khh.travel）未開行佛光山/小琉球；②野森動物學校公休日(官網週三/媒體週二三)+先線上預約(每日限1000)，電 07-6672017；③木育森林確切票價+線上購票。",
+    "★ 休館日已對齊：壽山動物園/兒美/瑞豐夜市(週一8/17)、佛館(週二8/18)、奇美(週三8/19)——排程前再對清。",
+    "颱風＝船班/夜景全泡湯：旗津渡輪、小琉球、崗山之眼、壽山夜景全靠天氣，把崗山/海島放最晴一日（8/19 機動日可同其他日對調）。",
+    "午後雷陣雨幾乎每日：戶外排上午，13:00–17:00 改室內；隨身帶輕便雨衣（山上/海島風大傘無用）。",
+    "輕軌龍貓隧道安全鐵律：切勿走入軌道，月台用長焦影，警示燈亮禮讓列車。",
+    "壽山獼猴：勿餵食、勿手持食物及膠袋，收好隨身物；帶8歲女天黑前上情人觀景台，唔好太夜。",
+    "暑假人潮：野森/木育/愛之船門票、福園/旗津海產訂位、Airbnb 提早 1–2 週至 6–8 週網訂；芒果冰係 8 月限定彩蛋。",
+    "全程唔租車最省心：市內靠捷運/輕軌+iPASS；去內門(野森)、崗山之眼呢類郊區用包車一日，4 人分攤抵。"
+  ],
+  "generationDate": "2026-06-23"
+}
+</script>
+<script>
+const T = JSON.parse(document.getElementById('trip-data').textContent);
+const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const has=v=>v!==undefined&&v!==null&&v!=='';
+const mapUrl=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+function mapBtn(q,label){if(!has(q))return '';return `<a class="btn-map" target="_blank" rel="noopener" href="${mapUrl(q)}">📍 ${E(label||'開地圖導航')}</a>`;}
+function costTag(c){if(c===0)return '<span class="tag free">免費</span>';if(has(c))return `<span class="tag cost">${E(c)}</span>`;return '';}
+function wxIcon(k){const m={sunny:'☀️',cloudy:'☁️',rain:'🌧️',showers:'🌦️',snow:'❄️',storm:'⛈️',partly:'⛅',windy:'🌬️',fog:'🌫️'};return m[k]||'🌤️';}
+
+function render(){
+  let h='';
+  const hero=has(T.heroImage)?`<div class="hero" style="background-image:url('${E(T.heroImage)}')"></div>`:'';
+  h+=`<div class="cover">${hero}<div class="veil"></div><div class="ct">
+    ${has(T.kicker)?`<div class="kicker">${E(T.kicker)}</div>`:''}
+    <h1>${E(T.title)}</h1>
+    ${has(T.subtitle)?`<div class="sub">${E(T.subtitle)}</div>`:''}
+    <div class="meta">
+      ${has(T.dateRange)?`<span class="chip">📅 ${E(T.dateRange)}</span>`:''}
+      ${has(T.travelers)?`<span class="chip">👥 ${E(T.travelers)}</span>`:''}
+      ${has(T.days)?`<span class="chip">🗓️ ${T.days.length} 天</span>`:''}
+      ${has(T.budget&&T.budget.perPerson)?`<span class="chip">💰 人均 ${E(T.budget.perPerson)}</span>`:''}
+    </div></div></div>`;
+
+  // Nav
+  if(has(T.days)&&T.days.length){
+    h+='<div class="nav"><div class="scroller" id="dnav"><button data-go="top" class="active">總覽</button>';
+    T.days.forEach((d,i)=>{h+=`<button data-go="day${i}">D${i+1}${has(d.date)?' · '+E(d.date):''}</button>`;});
+    if(has(T.alternatives))h+=`<button data-go="alts">備選</button>`;
+    if(has(T.hotels))h+=`<button data-go="hotels">住宿</button>`;
+    if(has(T.budget))h+=`<button data-go="budget">預算</button>`;
+    if(has(T.essentials))h+=`<button data-go="ess">實用</button>`;
+    h+='</div></div>';
+  }
+
+  if(has(T.highlights)&&T.highlights.length){
+    h+=`<section id="top"><div class="sec-title"><span class="i">✨</span>行程亮點</div><div class="card"><ul class="tips">`;
+    h+=T.highlights.map(x=>`<li>${E(x)}</li>`).join('')+'</ul></div></section>';
+  }
+
+  if(has(T.weather)){const w=T.weather;
+    h+=`<section><div class="sec-title"><span class="i">🌤️</span>天氣 & 穿搭</div><div class="card">
+      <div>${E(w.summary)||''}</div>
+      <div class="tags" style="margin-top:9px">
+        ${has(w.avgHigh)?`<span class="tag">高 ${E(w.avgHigh)}°</span>`:''}
+        ${has(w.avgLow)?`<span class="tag">低 ${E(w.avgLow)}°</span>`:''}
+        ${has(w.rainfall)?`<span class="tag">降雨 ${E(w.rainfall)}</span>`:''}
+      </div>
+      ${has(w.clothing)?`<div class="small muted" style="margin-top:9px">👕 ${E(w.clothing)}</div>`:''}
+      ${has(w.tips)?`<div class="small muted" style="margin-top:4px">💡 ${E(w.tips)}</div>`:''}
+    </div></section>`;
+  }
+
+  // Days
+  if(has(T.days))T.days.forEach((d,i)=>{
+    h+=`<section id="day${i}"><div class="card">
+      <div class="day-head"><span class="d">DAY ${i+1}${has(d.date)?' · '+E(d.date):''}${has(d.weekday)?' '+E(d.weekday):''}</span>
+      ${has(d.weather)?`<span class="wx">${wxIcon(d.weather.icon)} ${has(d.weather.high)?E(d.weather.high)+'°':''}${has(d.weather.low)?'/'+E(d.weather.low)+'°':''}</span>`:''}</div>
+      ${has(d.theme)?`<div class="day-theme">${E(d.theme)}</div>`:''}`;
+    (d.activities||[]).forEach(a=>{
+      if(a.meal){const m=a.meal;
+        h+=`<div class="act"><div class="time">${E(a.time)||'🍽'}</div><div class="body">
+          <div class="meal"><div class="mt">🍴 ${E(m.name)}</div>
+          <div class="det">${[m.cuisine,has(m.perPerson)?'人均 '+E(m.perPerson):'',m.location].filter(has).map(E).join(' · ')}</div>
+          ${has(m.recommended)?`<div class="small muted" style="margin-top:3px">推薦：${E(m.recommended)}</div>`:''}
+          ${mapBtn(m.mapQuery||((m.name||'')+' '+(m.location||'')),'搵餐廳')}</div></div></div>`;
+      }else{
+        h+=`<div class="act"><div class="time">${E(a.time)||'•'}</div><div class="body">
+          <div class="nm">${E(a.name)}</div>
+          ${has(a.note)?`<div class="det">${E(a.note)}</div>`:''}
+          <div class="tags">
+            ${has(a.duration)?`<span class="tag">⏱ ${E(a.duration)}</span>`:''}
+            ${costTag(a.cost)}
+            ${has(a.transport)?`<span class="tag">🚇 ${E(a.transport)}</span>`:''}
+          </div>
+          ${has(a.imageUrl)?`<img class="thumb" loading="lazy" src="${E(a.imageUrl)}" alt="">`:''}
+          ${mapBtn(a.mapQuery||a.address||a.name)}</div></div>`;
+      }
+    });
+    if(has(d.backup)&&d.backup.length){
+      h+=`<div class="backup"><div class="bt">☔ 後備方案（落雨／改主意）</div><ul>`;
+      h+=d.backup.map(b=>{const t=typeof b==='string'?b:`${b.name}${has(b.note)?' — '+b.note:''}`;
+        const q=typeof b==='object'?(b.mapQuery||b.name):null;
+        return `<li>${E(t)}${q?` <a target="_blank" rel="noopener" href="${mapUrl(q)}">📍</a>`:''}</li>`;}).join('');
+      h+=`</ul></div>`;
+    }
+    h+=`</div></section>`;
+  });
+
+  // Alternatives library
+  if(has(T.alternatives)&&T.alternatives.length){
+    h+=`<section id="alts"><div class="sec-title"><span class="i">🔁</span>備選活動庫 — 自由替換</div>`;
+    h+=`<div class="card"><div class="small muted" style="margin-bottom:4px">想換／加邊個都得，話我知就改行程重出。所有 📍 都可一㩒導航。</div></div>`;
+    T.alternatives.forEach(g=>{
+      h+=`<div class="alt-group"><h3>${E(g.category)}</h3>`;
+      (g.items||[]).forEach(it=>{
+        h+=`<div class="alt-item"><div class="an">${E(it.name)}</div>
+          <div class="ad">${[it.area,it.duration,it.hours].filter(has).map(E).join(' · ')}</div>
+          ${has(it.note)?`<div class="anote">${E(it.note)}</div>`:''}
+          <div class="arow">${costTag(it.cost)}${has(it.tag)?`<span class="tag">${E(it.tag)}</span>`:''}${mapBtn(it.mapQuery||it.name)}</div>
+        </div>`;
+      });
+      h+=`</div>`;
+    });
+    h+=`</section>`;
+  }
+
+  // Hotels
+  if(has(T.hotels)&&T.hotels.length){
+    h+=`<section id="hotels"><div class="sec-title"><span class="i">🏨</span>住宿推薦</div>`;
+    T.hotels.forEach(ht=>{
+      h+=`<div class="card hotel"><div class="hn">${E(ht.name)}</div>
+        <div class="row"><span class="muted">${E(ht.area)||''}${has(ht.rating)?' · ⭐'+E(ht.rating):''}</span>
+        ${has(ht.pricePerNight)?`<span class="price">${E(ht.pricePerNight)}/晚</span>`:''}</div>
+        ${has(ht.checkIn)?`<div class="small muted" style="margin-top:4px">入住 ${E(ht.checkIn)}${has(ht.checkOut)?' → 退房 '+E(ht.checkOut):''}</div>`:''}
+        ${has(ht.highlights)?`<div class="small" style="margin-top:6px">${E(ht.highlights)}</div>`:''}
+        ${has(ht.confirmation)?`<div class="small muted" style="margin-top:4px">訂單號：${E(ht.confirmation)}</div>`:''}
+        ${has(ht.imageUrl)?`<img class="thumb" loading="lazy" src="${E(ht.imageUrl)}" alt="">`:''}
+        ${mapBtn(ht.mapQuery||ht.address||((ht.name||'')+' '+(ht.area||'')))}</div>`;
+    });
+    h+=`</section>`;
+  }
+
+  // Budget
+  if(has(T.budget)){const b=T.budget,cats=[['transport','🚄 交通'],['accommodation','🏨 住宿'],['food','🍴 餐飲'],['tickets','🎫 門票'],['other','🛍 其他']];
+    h+=`<section id="budget"><div class="sec-title"><span class="i">💰</span>預算</div>`;
+    if(has(b.tiers)&&b.tiers.length){
+      h+=`<div class="tiers">`+b.tiers.map(t=>`<div class="tier ${t.pick?'pick':''}"><div class="tl">${E(t.label)}</div><div class="tv">${E(t.total)}</div>${has(t.note)?`<div class="tp">${E(t.note)}</div>`:''}</div>`).join('')+`</div>`;
+    }
+    h+=`<div class="card"><table class="bud">`;
+    cats.forEach(([k,lbl])=>{if(b[k]&&has(b[k].subtotal))h+=`<tr><td>${lbl}</td><td class="r">${E(b[k].subtotal)}</td></tr>`;});
+    if(has(b.total))h+=`<tr class="total"><td>總計</td><td class="r">${E(b.total)}</td></tr>`;
+    if(has(b.perPerson))h+=`<tr><td class="muted">人均</td><td class="r muted">${E(b.perPerson)}</td></tr>`;
+    h+=`</table>${has(b.note)?`<div class="reliab">${E(b.note)}</div>`:''}</div></section>`;
+  }
+
+  // Essentials
+  if(has(T.essentials)){const es=T.essentials;
+    const rows=[['currency','💱 貨幣 / 匯率'],['plug','🔌 插頭電壓'],['transit','🚇 交通卡'],['emergency','🚨 緊急電話'],['sim','📶 上網 / SIM'],['timezone','🕐 時區'],['language','🗣 語言'],['tipping','💵 小費']];
+    h+=`<section id="ess"><div class="sec-title"><span class="i">🧭</span>實用資訊</div><div class="card"><div class="ess">`;
+    rows.forEach(([k,lbl])=>{if(has(es[k]))h+=`<div class="e"><div class="k">${lbl}</div><div class="v">${E(es[k])}</div></div>`;});
+    h+=`</div></div></section>`;
+  }
+
+  // Tips
+  if(has(T.tips)&&T.tips.length){
+    h+=`<section><div class="sec-title"><span class="i">📝</span>貼士 & 避坑</div><div class="card"><ul class="tips">`;
+    h+=T.tips.map(x=>`<li>${E(x)}</li>`).join('')+`</ul></div></section>`;
+  }
+
+  h+=`<footer>由 AI Travel Brain · 三角色 Swarm 生成${has(T.generationDate)?' · '+E(T.generationDate):''}<br>資料整合自公開來源，出發前請核實營業時間 / 票價 / 交通 / 天氣。</footer>`;
+  document.getElementById('app').innerHTML=h;
+  wireNav();
+}
+function wireNav(){
+  const nav=document.getElementById('dnav');
+  if(nav){
+    nav.addEventListener('click',e=>{const b=e.target.closest('button[data-go]');if(!b)return;
+      const id=b.dataset.go;const el=id==='top'?document.body:document.getElementById(id);
+      if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});
+    const btns=[...nav.querySelectorAll('button')],map={};btns.forEach(b=>map[b.dataset.go]=b);
+    const io=new IntersectionObserver(ents=>{ents.forEach(en=>{if(en.isIntersecting){
+      btns.forEach(x=>x.classList.remove('active'));
+      const m=map[en.target.id]||map['top'];if(m){m.classList.add('active');m.scrollIntoView({inline:'center',block:'nearest'});}}});},
+      {rootMargin:'-45% 0px -50% 0px'});
+    document.querySelectorAll('section[id]').forEach(s=>io.observe(s));
+  }
+  const tt=document.getElementById('totop');
+  addEventListener('scroll',()=>{tt.style.display=scrollY>500?'block':'none'});
+}
+render();
+</script>
+</body>
+</html>
