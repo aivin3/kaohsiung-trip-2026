@@ -60,7 +60,7 @@
   .chip{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(6px);
     padding:6px 12px;border-radius:999px;font-size:13px;color:#fff;font-weight:700;white-space:nowrap}
 
-  .nav{position:sticky;top:0;z-index:30;margin:10px -14px 0}
+  .nav{position:sticky;top:50px;z-index:30;margin:10px -14px 0}
   .nav .scroller{display:flex;gap:7px;overflow-x:auto;padding:9px 14px;scrollbar-width:none;
     background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
   .nav .scroller::-webkit-scrollbar{display:none}
@@ -162,11 +162,43 @@
   .totop{position:fixed;right:14px;bottom:18px;z-index:40;width:46px;height:46px;border-radius:50%;
     background:linear-gradient(135deg,var(--teal),var(--sky));color:#fff;border:0;font-size:20px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(14,165,183,.4);display:none}
 
+  /* ===== 工具列 + 計錢分帳 ===== */
+  .topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:8px 14px;background:rgba(255,255,255,.62);backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid rgba(255,255,255,.6)}
+  .modetabs{display:flex;gap:7px}
+  .modetabs button{background:#fff;color:var(--ink2);border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 2px 6px rgba(15,39,66,.06)}
+  .modetabs button.active{background:linear-gradient(135deg,#d946ef,#6366f1);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(217,70,239,.4)}
+  #exp input,#exp select{font:inherit;padding:9px 11px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.88);color:var(--ink);min-width:0}
+  #exp input:focus,#exp select:focus{outline:2px solid rgba(99,102,241,.4)}
+  #exp #edesc{width:100%}
+  .exlab{font-weight:900;font-size:16px;margin-bottom:9px}
+  .exlab2{font-weight:800;font-size:13.5px;color:var(--ink2);margin:9px 0 6px}
+  .exrow{display:flex;gap:8px;margin-top:9px}
+  .exrow input{flex:1}
+  .exbtn{background:linear-gradient(135deg,var(--teal),var(--sky));color:#fff;border:0;border-radius:11px;padding:9px 15px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .exbtn.full{width:100%;margin-top:10px;padding:11px}
+  .exbtn.ghost{background:rgba(244,100,125,.12);color:#be185d;border:1px solid rgba(244,100,125,.4)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .mchip{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(14,165,183,.16),rgba(59,130,246,.14));border:1px solid rgba(14,165,183,.4);color:var(--teal-d);padding:5px 10px;border-radius:999px;font-weight:700;font-size:13.5px}
+  .mchip button{background:none;border:0;color:var(--coral);cursor:pointer;font-weight:900;font-size:14px;padding:0;line-height:1}
+  .wchip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.8);border:1px solid var(--line);padding:5px 10px;border-radius:999px;font-size:13.5px;font-weight:600;cursor:pointer}
+  .exitem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-top:1px dashed var(--line)}
+  .exitem:first-of-type{border-top:0}
+  .examt{font-weight:800;white-space:nowrap;display:flex;align-items:center;gap:8px}
+  .examt button{background:none;border:0;color:var(--coral);cursor:pointer;font-weight:900;font-size:15px}
+  .exsum{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:5px 0;font-size:14.5px}
+  .exsum .pos{color:#047857}.exsum .neg{color:#be185d}
+  .extx{background:rgba(99,102,241,.08);border-left:3px solid var(--indigo);border-radius:0 10px 10px 0;padding:7px 11px;margin:5px 0;font-weight:600;font-size:14px}
+  .bar{height:12px;border-radius:999px;background:rgba(15,39,66,.1);overflow:hidden;margin:7px 0}
+  .barfill{height:100%;background:linear-gradient(90deg,var(--teal),var(--amber),var(--coral))}
+  .exrate{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--muted);white-space:nowrap}
+  .exrate input{width:56px;padding:6px 8px}
+
   @media print{
     @page{margin:11mm}
     body{background:#fff!important;font-size:12.5px;animation:none}
     body::before{display:none!important}
-    .printbar,.nav,.totop{display:none!important}
+    .topbar,.nav,.totop{display:none!important}
     .wrap{max-width:none}
     .cover{box-shadow:none;border-radius:14px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     section,.card,.act,.hotel,.alt-item,.din-item{break-inside:avoid;page-break-inside:avoid}
@@ -179,8 +211,15 @@
 </style>
 </head>
 <body>
-<div class="printbar"><button class="printbtn" onclick="window.print()">🖨 一鍵列印 / 儲存 PDF</button></div>
-<div class="wrap"><div id="app"></div></div>
+<div class="topbar">
+  <div class="modetabs">
+    <button id="mb-trip" class="active" onclick="setMode('trip')">📋 行程</button>
+    <button id="mb-money" onclick="setMode('money')">🧮 分帳</button>
+  </div>
+  <button class="printbtn" onclick="window.print()">🖨 PDF</button>
+</div>
+<div id="view-trip"><div class="wrap"><div id="app"></div></div></div>
+<div id="view-tools" style="display:none"><div class="wrap"><div id="exp"></div></div></div>
 <button class="totop" id="totop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <script id="trip-data" type="application/json">
@@ -1403,7 +1442,75 @@ function wireNav(){
   const tt=document.getElementById('totop');
   addEventListener('scroll',()=>{tt.style.display=scrollY>500?'block':'none'});
 }
+
+/* ===== 🧮 計錢分攤工具（純前端 localStorage） ===== */
+const EKEY='exp_'+String(T.title||'trip').replace(/\s+/g,'_');
+let EX={members:[],expenses:[],rate:4,budget:16500};
+function expLoad(){try{const s=localStorage.getItem(EKEY);if(s)EX=Object.assign(EX,JSON.parse(s));}catch(e){}}
+function expSave(){try{localStorage.setItem(EKEY,JSON.stringify(EX));}catch(e){}}
+const uid=()=>Math.random().toString(36).slice(2,9);
+const ntf=n=>'NT$'+Math.round(n).toLocaleString();
+const hkf=n=>'HK$'+Math.round(n).toLocaleString();
+const nmOf=id=>{const m=EX.members.find(x=>x.id===id);return m?m.name:'?';};
+function expAddMember(){const i=document.getElementById('mname');const v=(i.value||'').trim();if(!v)return;EX.members.push({id:uid(),name:v});expSave();expRender();const f=document.getElementById('mname');if(f)f.focus();}
+function expDelMember(id){EX.members=EX.members.filter(m=>m.id!==id);EX.expenses=EX.expenses.filter(e=>e.payer!==id);EX.expenses.forEach(e=>e.who=e.who.filter(w=>w!==id));expSave();expRender();}
+function expAddExpense(){const desc=(document.getElementById('edesc').value||'').trim()||'未命名';const amt=parseFloat(document.getElementById('eamt').value);const payer=document.getElementById('epayer').value;const who=[...document.querySelectorAll('.ewho:checked')].map(c=>c.value);if(!payer||!(amt>0)){alert('請填付款人同金額');return;}if(!who.length){alert('請揀邊個分攤');return;}EX.expenses.push({id:uid(),desc,amount:amt,payer,who});expSave();expRender();}
+function expDel(id){EX.expenses=EX.expenses.filter(e=>e.id!==id);expSave();expRender();}
+function expSetRate(v){const r=parseFloat(v);if(r>0){EX.rate=r;expSave();expRender();}}
+function expSetBudget(v){const b=parseFloat(v);EX.budget=(b>0?b:null);expSave();expRender();}
+function expClear(){if(confirm('清空所有分帳記錄？(成員會保留)')){EX.expenses=[];expSave();expRender();}}
+function expSettle(){const net={};EX.members.forEach(m=>net[m.id]=0);EX.expenses.forEach(e=>{net[e.payer]=(net[e.payer]||0)+e.amount;const sh=e.amount/e.who.length;e.who.forEach(w=>{net[w]=(net[w]||0)-sh;});});
+  const cred=[],deb=[];Object.keys(net).forEach(id=>{const v=net[id];if(v>0.5)cred.push({id,v});else if(v<-0.5)deb.push({id,v:-v});});
+  cred.sort((a,b)=>b.v-a.v);deb.sort((a,b)=>b.v-a.v);const tx=[];let i=0,j=0;
+  while(i<deb.length&&j<cred.length){const pay=Math.min(deb[i].v,cred[j].v);tx.push({from:deb[i].id,to:cred[j].id,amt:pay});deb[i].v-=pay;cred[j].v-=pay;if(deb[i].v<0.5)i++;if(cred[j].v<0.5)j++;}
+  return {net,tx};}
+function expRender(){const el=document.getElementById('exp');if(!el)return;
+  const total=EX.expenses.reduce((s,e)=>s+e.amount,0);let h='';
+  h+=`<div class="sec-title"><span class="i">🧮</span>計錢分攤 + 預算</div>`;
+  h+=`<div class="card"><div class="exlab">👥 成員</div><div class="chips">`;
+  h+=EX.members.map(m=>`<span class="mchip">${E(m.name)}<button onclick="expDelMember('${m.id}')">✕</button></span>`).join('')||'<span class="muted small">未有成員，先加（例：爸/媽/我/女）</span>';
+  h+=`</div><div class="exrow"><input id="mname" placeholder="加成員名" onkeydown="if(event.key==='Enter')expAddMember()"><button class="exbtn" onclick="expAddMember()">＋ 加</button></div></div>`;
+  if(EX.members.length){
+    h+=`<div class="card"><div class="exlab">➕ 加一筆開支</div>
+      <input id="edesc" placeholder="用途（例：晚餐 / 的士 / 門票）">
+      <div class="exrow"><input id="eamt" type="number" inputmode="decimal" placeholder="金額 NT$">
+      <select id="epayer">${EX.members.map(m=>`<option value="${m.id}">${E(m.name)} 付</option>`).join('')}</select></div>
+      <div class="exlab2">邊個分攤（預設全部）</div>
+      <div class="chips">${EX.members.map(m=>`<label class="wchip"><input type="checkbox" class="ewho" value="${m.id}" checked> ${E(m.name)}</label>`).join('')}</div>
+      <button class="exbtn full" onclick="expAddExpense()">加入記錄</button></div>`;
+  }
+  if(EX.expenses.length){
+    h+=`<div class="card"><div class="exlab">🧾 記錄（${EX.expenses.length}）</div>`;
+    h+=EX.expenses.slice().reverse().map(e=>`<div class="exitem"><div><b>${E(e.desc)}</b><div class="small muted">${E(nmOf(e.payer))} 付 · 分 ${e.who.length} 人</div></div><div class="examt">${ntf(e.amount)}<button onclick="expDel('${e.id}')">✕</button></div></div>`).join('');
+    h+=`</div>`;
+  }
+  const {net,tx}=expSettle();
+  h+=`<div class="card"><div class="exlab">📊 結算</div>`;
+  h+=`<div class="exsum"><span>總開支</span><b>${ntf(total)} <span class="muted">≈ ${hkf(total/EX.rate)}</span></b></div>`;
+  if(EX.members.length)h+=`<div class="exsum"><span>人均</span><b>${ntf(total/EX.members.length)} <span class="muted">≈ ${hkf(total/EX.members.length/EX.rate)}</span></b></div>`;
+  if(EX.members.length){h+=`<div class="exlab2">每人淨額</div>`;
+    h+=EX.members.map(m=>{const v=net[m.id]||0;return `<div class="exsum"><span>${E(m.name)}</span><b class="${v>=0?'pos':'neg'}">${v>=0?'應收 ':'應付 '}${ntf(Math.abs(v))}</b></div>`;}).join('');}
+  if(tx.length){h+=`<div class="exlab2">💸 最少轉帳結算</div>`;
+    h+=tx.map(t=>`<div class="extx">${E(nmOf(t.from))} → ${E(nmOf(t.to))} <b>${ntf(t.amt)}</b></div>`).join('');}
+  h+=`<div class="exlab2">🎯 預算（HK$）</div>
+    <div class="exrow"><input id="ebud" type="number" inputmode="decimal" value="${EX.budget||''}" placeholder="總預算 HK$" onchange="expSetBudget(this.value)">
+    <span class="exrate">HK$1=NT$<input id="erate" type="number" value="${EX.rate}" onchange="expSetRate(this.value)"></span></div>`;
+  if(EX.budget){const usedHK=total/EX.rate,left=EX.budget-usedHK,pct=Math.min(100,EX.budget>0?usedHK/EX.budget*100:0);
+    h+=`<div class="bar"><div class="barfill" style="width:${pct}%"></div></div>
+    <div class="exsum"><span>已用</span><b>${hkf(usedHK)} / ${hkf(EX.budget)}</b></div>
+    <div class="exsum"><span>${left>=0?'仲有':'⚠️ 超支'}</span><b class="${left>=0?'pos':'neg'}">${hkf(Math.abs(left))}</b></div>`;}
+  h+=`<button class="exbtn ghost full" onclick="expClear()" style="margin-top:12px">🗑 清空記錄</button>
+    <div class="small muted" style="margin-top:8px">數據只存喺你手機（localStorage），離線可用、唔上傳；換手機唔會帶過去。</div></div>`;
+  el.innerHTML=h;
+}
+function setMode(m){document.getElementById('view-trip').style.display=m==='trip'?'':'none';
+  document.getElementById('view-tools').style.display=m==='money'?'':'none';
+  document.getElementById('mb-trip').classList.toggle('active',m==='trip');
+  document.getElementById('mb-money').classList.toggle('active',m==='money');
+  if(m==='money')expRender();scrollTo({top:0});}
+
 render();
+expLoad();
 </script>
 </body>
 </html>
