@@ -8,7 +8,7 @@
 <style>
   :root{
     --ink:#0f2742; --ink2:#3a5670; --muted:#6b7f95;
-    --teal:#0ea5b7; --teal-d:#0b7c8a; --coral:#f4647d; --amber:#f59e0b; --good:#10b981; --sky:#3b82f6;
+    --teal:#0ea5b7; --teal-d:#0b7c8a; --coral:#f4647d; --amber:#f59e0b; --good:#10b981; --sky:#3b82f6; --indigo:#6366f1;
     --glass:rgba(255,255,255,.72); --glass2:rgba(255,255,255,.5); --line:rgba(15,39,66,.10);
     --radius:18px; --maxw:700px;
   }
@@ -27,15 +27,12 @@
   .muted{color:var(--muted)}
   .small{font-size:13px}
 
-  /* Print bar */
   .printbar{position:sticky;top:0;z-index:50;display:flex;justify-content:flex-end;padding:9px 14px 0}
   .printbtn{display:inline-flex;align-items:center;gap:6px;cursor:pointer;
     background:linear-gradient(135deg,var(--teal),var(--sky));color:#fff;border:0;
-    padding:9px 15px;border-radius:13px;font-size:14px;font-weight:800;
-    box-shadow:0 8px 20px rgba(14,165,183,.35)}
+    padding:9px 15px;border-radius:13px;font-size:14px;font-weight:800;box-shadow:0 8px 20px rgba(14,165,183,.35)}
   .printbtn:active{transform:translateY(1px)}
 
-  /* Cover */
   .cover{position:relative;border-radius:24px;overflow:hidden;padding:34px 20px 28px;margin:6px 0 4px;
     background:linear-gradient(130deg,#06b6d4 0%,#3b82f6 38%,#a855f7 64%,#f472b6 82%,#fb923c 100%);
     box-shadow:0 18px 40px rgba(59,130,246,.28)}
@@ -49,7 +46,6 @@
   .chip{background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(6px);
     padding:6px 12px;border-radius:999px;font-size:13px;color:#fff;font-weight:700;white-space:nowrap}
 
-  /* Sticky nav */
   .nav{position:sticky;top:0;z-index:30;margin:10px -14px 0}
   .nav .scroller{display:flex;gap:7px;overflow-x:auto;padding:9px 14px;scrollbar-width:none;
     background:rgba(255,255,255,.6);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
@@ -65,7 +61,6 @@
   .card{background:var(--glass);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.65);
     border-radius:var(--radius);padding:15px;margin-bottom:13px;box-shadow:0 10px 28px rgba(15,39,66,.08)}
 
-  /* Day */
   .day-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
   .day-head .d{font-size:14px;font-weight:900;letter-spacing:.5px;color:#fff;
     background:linear-gradient(135deg,var(--coral),var(--amber));padding:5px 12px;border-radius:999px;box-shadow:0 4px 12px rgba(244,100,125,.32)}
@@ -76,49 +71,53 @@
   .act{display:flex;gap:12px;padding:13px 0;border-top:1px dashed var(--line)}
   .act:first-of-type{border-top:0;padding-top:4px}
   .act .time{flex:0 0 54px;font-weight:900;color:#fff;font-size:12.5px;text-align:center;
-    background:linear-gradient(135deg,var(--teal),var(--sky));border-radius:10px;padding:5px 4px;height:fit-content;
-    box-shadow:0 4px 10px rgba(14,165,183,.3)}
+    background:linear-gradient(135deg,var(--teal),var(--sky));border-radius:10px;padding:5px 4px;height:fit-content;box-shadow:0 4px 10px rgba(14,165,183,.3)}
   .act .body{flex:1;min-width:0}
   .act .nm{font-weight:800;font-size:16.5px}
   .act .det{font-size:13.5px;color:var(--ink2);margin-top:3px}
   .act .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-  .tag{font-size:12px;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.85);
-    border:1px solid var(--line);color:var(--ink2);white-space:nowrap;font-weight:600}
+  .tag{font-size:12px;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.85);border:1px solid var(--line);color:var(--ink2);white-space:nowrap;font-weight:600}
   .tag.cost{background:linear-gradient(135deg,rgba(245,158,11,.16),rgba(244,100,125,.16));border-color:rgba(245,158,11,.45);color:#b45309}
   .tag.free{background:linear-gradient(135deg,rgba(16,185,129,.16),rgba(14,165,183,.16));border-color:rgba(16,185,129,.45);color:#047857}
   .act img.thumb{width:100%;border-radius:14px;margin-top:10px;display:block;border:1px solid rgba(255,255,255,.6)}
-  .meal{background:linear-gradient(135deg,rgba(245,158,11,.10),rgba(244,100,125,.08));
-    border:1px solid rgba(245,158,11,.28);border-radius:14px;padding:11px 12px;margin-top:4px}
+  .act-ph{margin-top:10px;height:92px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:9px;
+    color:#fff;font-weight:800;font-size:15px;text-shadow:0 1px 7px rgba(0,0,0,.28);
+    background:linear-gradient(135deg,#06b6d4,#3b82f6 55%,#f472b6);border:1px solid rgba(255,255,255,.5)}
+  .act-ph .pe{font-size:24px}
+  .act-ph span{max-width:72%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mustdo{margin-top:8px;background:linear-gradient(135deg,rgba(16,185,129,.13),rgba(245,158,11,.12));
+    border:1px solid rgba(16,185,129,.38);border-radius:12px;padding:8px 11px;font-size:13.5px}
+  .mustdo b{color:#047857}
+  .transfer{margin-top:11px;font-size:13px;color:var(--ink2);background:rgba(59,130,246,.09);
+    border-left:3px solid var(--sky);border-radius:0 10px 10px 0;padding:7px 11px;font-weight:600}
+  .meal{background:linear-gradient(135deg,rgba(245,158,11,.10),rgba(244,100,125,.08));border:1px solid rgba(245,158,11,.28);border-radius:14px;padding:11px 12px;margin-top:4px}
   .meal .mt{font-weight:800}
-  .btn-map{display:inline-flex;align-items:center;gap:5px;margin-top:9px;
-    background:linear-gradient(135deg,rgba(14,165,183,.14),rgba(59,130,246,.14));
-    border:1px solid rgba(14,165,183,.4);color:var(--teal-d);
-    padding:7px 13px;border-radius:11px;font-size:13.5px;font-weight:800}
-  .btn-map:active{transform:translateY(1px)}
 
-  /* Day backup */
-  .backup{margin-top:12px;background:rgba(59,130,246,.07);border:1px dashed rgba(59,130,246,.4);
-    border-radius:13px;padding:10px 12px}
+  .btn-map,.btn-link,.btn-menu{display:inline-flex;align-items:center;gap:5px;margin-top:9px;padding:7px 12px;border-radius:11px;font-size:13px;font-weight:800}
+  .btn-map{background:linear-gradient(135deg,rgba(14,165,183,.14),rgba(59,130,246,.14));border:1px solid rgba(14,165,183,.4);color:var(--teal-d)}
+  .btn-link{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.4);color:#4f46e5}
+  .btn-menu{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.5);color:#b45309}
+  .btn-map:active,.btn-link:active,.btn-menu:active{transform:translateY(1px)}
+
+  .backup{margin-top:12px;background:rgba(59,130,246,.07);border:1px dashed rgba(59,130,246,.4);border-radius:13px;padding:10px 12px}
   .backup .bt{font-weight:800;font-size:13.5px;color:var(--sky);margin-bottom:5px}
   .backup ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink2)}
   .backup li{margin:3px 0}
 
-  /* Alternatives library */
   .alt-group{margin-bottom:16px}
   .alt-group h3{font-size:16px;font-weight:900;margin:0 0 9px;display:flex;align-items:center;gap:7px}
-  .alt-item{background:var(--glass2);border:1px solid rgba(255,255,255,.6);border-radius:14px;padding:11px 12px;margin-bottom:9px}
-  .alt-item .an{font-weight:800;font-size:15.5px}
-  .alt-item .ad{font-size:13px;color:var(--ink2);margin-top:2px}
-  .alt-item .anote{font-size:13px;color:var(--muted);margin-top:4px}
-  .alt-item .arow{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:8px}
+  .alt-item,.din-item{background:var(--glass2);border:1px solid rgba(255,255,255,.6);border-radius:14px;padding:11px 12px;margin-bottom:9px}
+  .alt-item .an,.din-item .an{font-weight:800;font-size:15.5px}
+  .alt-item .ad,.din-item .ad{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .alt-item .anote,.din-item .anote{font-size:13.5px;color:var(--ink2);margin-top:5px}
+  .din-item .sig{font-size:13px;color:#b45309;margin-top:5px;font-weight:600}
+  .alt-item .arow,.din-item .arow{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:6px}
 
-  /* Hotels */
   .hotel .hn{font-weight:900;font-size:17px}
   .hotel .row{display:flex;justify-content:space-between;gap:10px;margin-top:5px;font-size:14px}
   .hotel .price{color:#b45309;font-weight:900}
   .hotel img.thumb{width:100%;border-radius:14px;margin-top:10px;border:1px solid rgba(255,255,255,.6)}
 
-  /* Budget */
   table.bud{width:100%;border-collapse:collapse;font-size:14.5px}
   table.bud td{padding:9px 4px;border-top:1px solid var(--line)}
   table.bud tr:first-child td{border-top:0}
@@ -133,7 +132,6 @@
 
   ul.tips{margin:0;padding-left:19px}
   ul.tips li{margin:7px 0}
-
   .ess{display:grid;grid-template-columns:1fr 1fr;gap:9px}
   .ess .e{background:var(--glass2);border:1px solid rgba(255,255,255,.6);border-radius:13px;padding:10px 12px}
   .ess .e .k{font-size:12px;color:var(--muted);font-weight:700}
@@ -142,21 +140,19 @@
   .reliab{font-size:12px;color:var(--muted);margin-top:9px;font-style:italic}
   footer{text-align:center;color:var(--muted);font-size:12px;padding:24px 0 34px}
   .totop{position:fixed;right:14px;bottom:18px;z-index:40;width:46px;height:46px;border-radius:50%;
-    background:linear-gradient(135deg,var(--teal),var(--sky));color:#fff;border:0;font-size:20px;font-weight:800;cursor:pointer;
-    box-shadow:0 8px 20px rgba(14,165,183,.4);display:none}
+    background:linear-gradient(135deg,var(--teal),var(--sky));color:#fff;border:0;font-size:20px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(14,165,183,.4);display:none}
 
-  /* ===== Print / Save as PDF ===== */
   @media print{
     @page{margin:11mm}
     body{background:#fff!important;font-size:12.5px}
     .printbar,.nav,.totop{display:none!important}
     .wrap{max-width:none}
     .cover{box-shadow:none;border-radius:14px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    section,.card,.act,.hotel,.alt-item{break-inside:avoid;page-break-inside:avoid}
+    section,.card,.act,.hotel,.alt-item,.din-item{break-inside:avoid;page-break-inside:avoid}
     .card{box-shadow:none;background:#fff;border:1px solid #d7dee6;backdrop-filter:none}
     .sec-title{break-after:avoid}
-    .day-head .d,.act .time,.tag.cost,.tag.free,.day-theme{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .btn-map{display:none}
+    .day-head .d,.act .time,.tag.cost,.tag.free,.day-theme,.mustdo{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .btn-map,.btn-link,.btn-menu,.act-ph{display:none!important}
     .act img.thumb,.hotel img.thumb{max-height:170px;object-fit:cover}
   }
 </style>
@@ -170,16 +166,16 @@
 {
   "kicker": "KAOHSIUNG · TAIWAN",
   "title": "高雄輕鬆慢遊 7 天",
-  "subtitle": "3 大 1 小（8 歲女）· 8/15–8/21 · 少景點・多放鬆・必去打卡 + 高分名店",
+  "subtitle": "3 大 1 小（8 歲女）· 8/15–8/21 · 必去打卡 + 高分名店 + 每段交通時間",
   "dateRange": "2026/8/15（六）– 8/21（五）",
   "travelers": "3 大人 + 1 小童（8 歲）",
   "heroImage": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Kaohsiung_Skyline_2020_%28cropped%29.jpg",
   "highlights": [
     "必去全入：輕軌龍貓隧道、野森動物學校（魔法動物學校）、美麗島光之穹頂、駁二木育森林、愛河愛之船+西子灣夕陽、壽山情人觀景台、崗山之眼（機動日）",
-    "★ 兩個更正：①「魔法動物學校」其實係內門區「野森動物學校」，唔喺旗津，要包車約 50–60 分；②崗山之眼自 2025/2 休園整建，出發前必查是否已重開，未開行後備（佛光山／小琉球）",
-    "8/15 出發已對齊星期避開休館：壽山動物園/兒美/瑞豐(週一)、佛館(週二)、奇美(週三)；野森公休曖昧(官網週三/媒體週二三)→ 排咗最安全嘅週四(8/20)",
-    "住宿轉 Airbnb 整套 3 房（4 人各有房）：首選美麗島/中央公園區，6 晚約 HK$6,000–8,000，比開兩間飯店房抵又有客廳廚房",
-    "鎖中等檔・食唔慳：每日配高分必食名店（米其林必比登米糕/鴨肉、旗津現撈、芒果婆婆冰、漢來福園台菜一餐正）"
+    "★ 兩個更正：①「魔法動物學校」其實係內門「野森動物學校」唔喺旗津，要包車約 50–60 分；②崗山之眼自 2025/2 休園整建，出發前必查 khh.travel 是否已重開，未開行佛光山",
+    "8/15 出發已對齊星期避開休館：壽山動物園/兒美/瑞豐(週一)、佛館(週二)、奇美(週三)、野森(疑週二三)→ 排最安全嘅週四(8/20)",
+    "每段行程附『➡️ 去下一站』交通＋時間＋車資；上山/郊區(壽山/崗山/內門)建議 Uber 或包車慳體力",
+    "獨立『餐廳指南』29 間分 9 類（台灣菜/海鮮/夜市/甜品冰品/小食/飲品/咖啡/伴手禮/邊行邊食），每間有介紹+招牌+📍地圖+🔗介紹+📋Menu"
   ],
   "weather": {
     "summary": "盛夏酷熱潮濕，午後雷陣雨頻密（約 1–3 小時），5–9 月為颱風季。",
@@ -187,7 +183,7 @@
     "avgLow": 26,
     "rainfall": "約 46–50%",
     "clothing": "輕薄透氣衫、帽、太陽眼鏡、防曬 SPF50+；室內冷氣強帶薄外套；女童帶替換衫。",
-    "tips": "帶輕便雨衣（海島/山上風大傘無用）+ 電解質；戶外排上午、13:00–17:00 改室內避雷暴避暑；崗山之眼/壽山夜景/旗津渡輪全部睇天氣，颱風即停。"
+    "tips": "帶輕便雨衣（山上/海島風大傘無用）+ 電解質；戶外排上午、13:00–17:00 改室內；崗山之眼/壽山夜景/渡輪全靠天氣，颱風即停。"
   },
   "days": [
     {
@@ -203,47 +199,51 @@
         {
           "time": "中午",
           "name": "香港 → 高雄國際機場（小港 KHH）",
-          "note": "香港直飛高雄約 1.5–2 小時；落機後捷運紅線『高雄國際機場站』直達市區約 15–25 分；行李多叫 Uber 約 NT$300–450",
-          "cost": "捷運 NT$35/人",
+          "icon": "✈️",
+          "note": "香港直飛約 1.5–2 小時",
           "transport": "捷運紅線 R4",
-          "mapQuery": "Kaohsiung International Airport"
+          "mapQuery": "Kaohsiung International Airport",
+          "transfer": "捷運紅線 機場R4 → 美麗島R10 直達，約16分・NT$30/人（行李多 Uber 約NT$250–320/車）"
         },
         {
           "time": "15:00",
           "name": "Airbnb Check-in（美麗島/中央公園區）",
+          "icon": "🏠",
           "note": "首選紅橘雙捷運核心，放行李抖一抖",
-          "cost": "—",
           "transport": "捷運",
-          "mapQuery": "美麗島站 高雄"
+          "mapQuery": "美麗島站 高雄",
+          "transfer": "步行 5–10 分（住美麗島區）・免費"
         },
         {
           "time": "18:00",
           "name": "美麗島站・光之穹頂",
-          "note": "世界級最美地鐵站，燈光秀晚上 8 點一場（週六加映 5pm/7pm）",
+          "note": "世界級最美地鐵站，穿堂層免費影相",
           "duration": "30分",
           "cost": 0,
           "transport": "捷運紅／橘線美麗島站",
+          "mustDo": "晚上 8 點睇燈光秀（週六加映 5pm/7pm）",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Formosa_Boulevard_Station_entrances_at_night.jpg/1280px-Formosa_Boulevard_Station_entrances_at_night.jpg",
-          "mapQuery": "美麗島站 光之穹頂"
+          "mapQuery": "美麗島站 光之穹頂",
+          "transfer": "步行 3 分（美麗島站 11 號出口外）・免費"
         },
         {
           "time": "18:30",
-          "meal": {
-            "name": "六合夜市",
-            "cuisine": "台式夜市",
-            "perPerson": "NT$200–300",
-            "recommended": "莊記海產粥（1973年）、鄭老牌木瓜牛奶（60年）；距美麗島站步行 4 分",
-            "location": "新興・美麗島站旁",
-            "mapQuery": "六合夜市"
-          }
+          "name": "六合夜市（晚餐）",
+          "note": "捷運美麗島站旁，最方便",
+          "duration": "1.5h",
+          "cost": "NT$200–300/人",
+          "mustDo": "鄭老牌木瓜牛奶 + 莊記海產粥",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/57/Liouho-Night-Market-Kaohsiung.jpg",
+          "mapQuery": "六合觀光夜市",
+          "transfer": "Uber 約8分・NT$130/車（或橘線+步行約15分）"
         },
         {
           "time": "20:00",
           "name": "愛河・愛之船夜航",
-          "note": "河岸夜景約 25 分；網購 KKday/Klook 約 NT$130（現場 NT$250）；上船點國賓站",
+          "note": "河岸夜景約 25 分；上船點國賓站",
           "duration": "45–60分",
           "cost": "約 NT$130–250",
-          "transport": "捷運橘線前金站步行 10–15 分",
+          "mustDo": "黃昏後搭船最靚；網購 KKday/Klook 票平過現場",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/40/Love_River_2015.JPG",
           "mapQuery": "愛之船 國賓站"
         }
@@ -252,7 +252,7 @@
         "累 → 跳愛之船，改愛河畔散步；落雨 → 漢神/大立室內百貨",
         {
           "name": "瑞豐夜市",
-          "note": "想去夜市 backup；★ 但週一、三公休，今日週六開",
+          "note": "想去夜市 backup；★ 週一三公休，今日週六開",
           "mapQuery": "瑞豐夜市"
         }
       ]
@@ -270,31 +270,38 @@
         {
           "time": "10:30",
           "name": "木育森林（駁二門市）",
-          "note": "室內木製遊樂園 50+ 設施，8 歲女超啱，避正午曬+雷暴；建議官網先線上購票（現場較貴，約 NT$250–350 級，未核實確切價）",
+          "icon": "🧩",
+          "note": "起點：橘線美麗島O5→鹽埕埔O2 約6分 NT$25 步行8分。室內木製遊樂園 50+ 設施，避正午曬+雷暴",
           "duration": "1.5–2h",
           "cost": "約 NT$250–350（未核實）",
-          "transport": "捷運橘線鹽埕埔站／輕軌駁二大義站",
-          "mapQuery": "木育森林 駁二"
+          "transport": "捷運橘線鹽埕埔站",
+          "mustDo": "官網先線上購票（現場較貴）；玩大型木製遊具+DIY",
+          "mapQuery": "木育森林 駁二",
+          "transfer": "步行 3–10 分（同園區內）・免費"
         },
         {
           "time": "13:00",
           "name": "駁二藝術特區（午餐+逛）",
-          "note": "倉庫文創、小火車、大港橋、海風；園區免費展覽另計。順食微熱山丘(送鳳梨酥+茶)、婆婆冰芒果冰",
+          "note": "倉庫文創、小火車、大港橋、海風",
           "duration": "2–3h",
           "cost": 0,
           "transport": "步行",
+          "mustDo": "微熱山丘領免費鳳梨酥+茶、婆婆冰芒果冰、大港橋打卡",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/LiveWarehouse_Kaohsiung.jpg/1280px-LiveWarehouse_Kaohsiung.jpg",
-          "mapQuery": "駁二藝術特區"
+          "mapQuery": "駁二藝術特區",
+          "transfer": "輕軌 駁二大義C12 → 哈瑪星C14 約5分・NT$20，步行8分（或沿海散步20–25分）"
         },
         {
           "time": "16:30",
           "name": "西子灣・鼓山渡輪夕陽",
-          "note": "捷運西子灣站步行 7 分到鼓山輪渡站，搭渡輪海上吹風睇夕陽（8月日落約 18:30）",
+          "note": "鼓山輪渡站搭渡輪海上吹風睇夕陽",
           "duration": "1–2h",
           "cost": "渡輪 NT$40・優待 15",
           "transport": "鼓山渡輪",
+          "mustDo": "搭渡輪過旗津、睇夕陽（8 月約 18:30）",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/56/2017_NSYSU_bay1.jpg",
-          "mapQuery": "鼓山輪渡站"
+          "mapQuery": "鼓山輪渡站",
+          "transfer": "鼓山-旗津渡輪 約5分・NT$40/人（兒童15），班次密 5–7 分一班"
         },
         {
           "time": "17:30",
@@ -302,9 +309,10 @@
             "name": "旗津海產（旗后活海產 / 金聖春）",
             "cuisine": "現撈海鮮合菜",
             "perPerson": "NT$500–1000",
-            "recommended": "現撈生魚片、清蒸魚、蒜蓉蝦；門口冰櫃現秤，多人建議訂位、先問價",
-            "location": "旗津老街（渡輪 10 分）",
-            "mapQuery": "旗后活海產 旗津"
+            "recommended": "現撈生魚片、清蒸魚、蒜蓉蝦；多人建議訂位、先問價",
+            "location": "旗津老街",
+            "mapQuery": "旗后活海產 旗津",
+            "menuLink": "https://www.bigfang.tw/blog/post/qihou-seafood"
           }
         }
       ],
@@ -329,40 +337,49 @@
       "activities": [
         {
           "time": "09:30",
-          "name": "高雄輕軌龍貓隧道",
-          "note": "環狀輕軌 C21 美術館站旁約 500m 小葉欖仁綠色樹隧道，早上人少光線靚；★ 鐵律：切勿走入軌道，月台用長焦影",
+          "name": "高雄輕軌龍貓隧道（C21 美術館站）",
+          "note": "起點：Uber直達約12分 NT$170/車，或捷運+輕軌約35–40分。約500m 小葉欖仁綠色樹隧道，早上人少光線靚",
           "duration": "30–45分",
           "cost": "輕軌 NT$30",
           "transport": "輕軌 C21 美術館站",
-          "mapQuery": "高雄輕軌美術館站 龍貓隧道"
+          "mustDo": "綠色樹隧道+蜜柑號彩繪列車打卡；★ 切勿走入軌道，月台用長焦影",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ed/%E9%AB%98%E9%9B%84%E8%BC%95%E8%BB%8C%E8%9C%9C%E6%9F%91%E8%99%9F_%28cropped%29.jpg",
+          "mapQuery": "高雄輕軌美術館站 龍貓隧道",
+          "transfer": "步行穿綠色隧道入內惟埤園區 約10–15分・免費（沿途就係打卡點）"
         },
         {
           "time": "10:30",
           "name": "高雄市立美術館 + 內惟埤文化園區",
-          "note": "室內冷氣避午熱（週一本館照開，休的是兒美館）；綠地大可慢行",
+          "icon": "🎨",
+          "note": "室內冷氣避午熱（週一本館照開，休的是兒美館）",
           "duration": "2–3h",
           "cost": "全票 NT$90・12 歲以下免費",
           "transport": "步行／輕軌",
-          "mapQuery": "高雄市立美術館"
+          "mustDo": "行內惟埤園區綠地避暑",
+          "mapQuery": "高雄市立美術館",
+          "transfer": "輕軌 美術館C21 → 駁二大義C12 約15分・NT$20 步行5–8分（或 Uber 12分 NT$160/車）到鹽埕"
         },
         {
           "time": "13:00",
           "meal": {
-            "name": "鴨肉珍 / 北港蔡三代筒仔米糕（鹽埕）",
-            "cuisine": "古早味老店",
+            "name": "鴨肉珍（鹽埕・午餐）",
+            "cuisine": "65 年鴨肉飯老店",
             "perPerson": "NT$100–180",
-            "recommended": "鴨肉飯（65年老店）、筒仔米糕（米其林必比登4年）；飯後高雄婆婆冰芒果冰",
+            "recommended": "鴨肉飯、鴨米血、下水湯；★本店週二休（今日週一開）；飯後高雄婆婆冰芒果冰",
             "location": "鹽埕",
-            "mapQuery": "鴨肉珍 高雄 鹽埕"
+            "mapQuery": "鴨肉珍 鹽埕",
+            "menuLink": "https://bobotravel.tw/blog/post/duck-zhen"
           }
         },
         {
           "time": "18:00",
-          "name": "凱旋／光華夜市",
-          "note": "瑞豐今日週一休，改呢兩個夜市",
+          "name": "凱旋夜市",
+          "icon": "🏮",
+          "note": "瑞豐今日週一休，改凱旋／光華夜市",
           "duration": "1.5h",
           "cost": "NT$200–300/人",
-          "transport": "捷運",
+          "transport": "捷運／Uber",
+          "mustDo": "邊行邊食銅板小食",
           "mapQuery": "凱旋夜市"
         }
       ],
@@ -370,7 +387,7 @@
         "午後雷雨 → 美術館多待 / 改漢神巨蛋商場",
         {
           "name": "蓮池潭・龍虎塔",
-          "note": "想加廟宇打卡（去前查龍虎塔整修狀態，無遮蔭帶水）",
+          "note": "想加廟宇打卡（去前查整修，無遮蔭帶水）",
           "mapQuery": "蓮池潭龍虎塔"
         }
       ]
@@ -388,40 +405,48 @@
         {
           "time": "10:00",
           "name": "壽山動物園",
-          "note": "2022 重新開放、親子友善、上午較涼（週二開；週一先休）",
+          "icon": "🦒",
+          "note": "起點：Uber直上約18分 NT$230/車，或鹽埕埔站4號出口56號公車直上 約15–20分 NT$12/人。2022 重新開放、親子友善（週二開）",
           "duration": "2–2.5h",
-          "cost": "全票約 NT$90・6–12 歲約 NT$40（未核實最新）",
-          "transport": "捷運鹽埕埔站轉 56 號公車",
-          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/5/56/2017_NSYSU_bay1.jpg",
-          "mapQuery": "壽山動物園"
+          "cost": "全票約 NT$90・6–12 歲約 NT$40（未核實）",
+          "transport": "56 號公車／Uber",
+          "mustDo": "上午較涼先去",
+          "mapQuery": "壽山動物園",
+          "transfer": "落山 56 號公車或 Uber 約12分 NT$160/車到哈瑪星"
         },
         {
           "time": "13:00",
           "meal": {
-            "name": "新濱町海洋廚房 / 書店喫茶一二三亭（哈瑪星）",
-            "cuisine": "海景美食聚落／日式老屋喫茶",
+            "name": "新濱町海洋廚房 / 一二三亭（哈瑪星午餐）",
+            "cuisine": "海港美食聚落／日式老屋喫茶",
             "perPerson": "NT$300–600",
-            "recommended": "2025 新開幕舊魚市場活化，碼頭海景；一二三亭為 1920 年代日式老屋",
+            "recommended": "2025 新開幕舊魚市場活化，一幻拉麵/日乃屋咖哩；一二三亭為 1920 年代老料亭",
             "location": "鼓山渡船頭／哈瑪星",
-            "mapQuery": "新濱町海洋廚房 高雄"
+            "mapQuery": "新濱町海洋廚房 高雄",
+            "menuLink": "https://ajunfun.tw/shinhamacho-cuisine-hub/"
           }
         },
         {
           "time": "15:00",
-          "name": "哈瑪星台灣鐵道館（午後室內備案）",
-          "note": "落雷暴時的室內點，鐵道模型 8 歲啱",
+          "name": "打狗鐵道故事館・哈瑪星鐵道園區",
+          "note": "渡船頭、鐵道館、大草坪連成一片，落雷暴可入館",
           "duration": "1.5h",
-          "cost": "約 NT$149",
+          "cost": "免費／鐵道館約 NT$149",
           "transport": "步行",
-          "mapQuery": "哈瑪星台灣鐵道館"
+          "mustDo": "大草坪放電 + 鐵道模型（8歲啱）",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d5/%E6%89%93%E7%8B%97%E9%90%B5%E9%81%93%E6%95%85%E4%BA%8B%E9%A4%A801.jpg",
+          "mapQuery": "打狗鐵道故事館",
+          "transfer": "Uber／小黃上山 約12–15分・NT$200–250/車（叫司機等回程，山上難叫車）"
         },
         {
           "time": "18:00",
           "name": "壽山情人觀景台（LOVE）日落夜景",
-          "note": "忠烈祠旁，免費；天黑前上山先賞山海日景再等華燈；★ 注意獼猴勿餵食、勿手持食物膠袋",
+          "icon": "🌃",
+          "note": "忠烈祠旁，免費；天黑前上山先賞山海日景再等華燈",
           "duration": "45–60分",
           "cost": 0,
-          "transport": "56 號公車「情人觀景台站」",
+          "transport": "Uber／包車",
+          "mustDo": "LOVE 字+夕陽夜景打卡；★ 注意獼猴勿餵食、勿手持食物膠袋",
           "mapQuery": "壽山情人觀景台"
         }
       ],
@@ -429,7 +454,7 @@
         "天氣差睇唔到夜景 → 改 85 大樓觀景台或駁二夜逛",
         {
           "name": "漢來福園台菜（晚餐升級）",
-          "note": "想食一餐正：米其林推薦五星台菜，鱔魚意麵/海上鮮，有冷氣包廂，務必訂位 07-2135739",
+          "note": "想食一餐正：米其林推薦五星台菜，務必訂位 07-2135739",
           "mapQuery": "福園台菜海鮮餐廳 漢來大飯店"
         }
       ]
@@ -446,29 +471,31 @@
       "activities": [
         {
           "time": "全日",
-          "name": "★ 出發前用天氣預報揀全程最晴朗一日做呢日（可同其他日對調）",
-          "note": "崗山之眼/壽山夜景/海島都靠天氣，呢日做機動王牌",
-          "cost": "—",
+          "name": "★ 用天氣預報揀全程最晴朗一日做呢日（可同其他日對調）",
+          "icon": "🌦️",
+          "note": "崗山之眼/夜景/海島都靠天氣，呢日做機動王牌",
           "transport": "—",
           "mapQuery": "高雄"
         },
         {
           "time": "方案A",
           "name": "崗山之眼（岡山天空廊道）",
-          "note": "⚠️ 自 2025/2 休園整建，目標 2026Q1 重開但未公告 → 出發前必查 khh.travel 是否已開；包車約 50–60 分，山下停車換接駁車",
+          "note": "⚠️ 自 2025/2 休園整建，未公告重開 → 出發前必查 khh.travel；去程：紅線美麗島→南岡山R24 約35分 NT$45，轉紅68+觀光公車上山約25–30分 NT$25（或包車一日 NT$2,500–3,000）",
           "duration": "1.5–2h",
           "cost": "門票約 NT$60–80 + 接駁 NT$25（整修前參考）",
-          "transport": "包車／自駕",
-          "imageUrl": "",
+          "transport": "包車／捷運+接駁",
+          "mustDo": "天空廊道俯瞰大高雄、傍晚夜景；★ 純晴天先值得去",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Siaogangshan_Skywalk_Park_%E5%B2%A1%E5%B1%B1%E4%B9%8B%E7%9C%BC%E5%85%A8%E6%99%AF.jpg",
           "mapQuery": "崗山之眼"
         },
         {
           "time": "方案B",
           "name": "佛光山佛陀紀念館（崗山未開 → 行呢個）",
-          "note": "週三開（週二休），宏偉好拍、遮蔭多有星巴克、免費入場免費停車",
+          "note": "全年開（週二休，今日週三開）；去程：紅線到左營R16，搭哈佛快線E02約30分 NT$70/人（或 Uber 直達約35–40分 NT$550–650/車）",
           "duration": "2–3h",
           "cost": 0,
-          "transport": "包車",
+          "transport": "哈佛快線／包車",
+          "mustDo": "大佛+禮敬大廳；遮蔭長廊+星巴克，對細路友善",
           "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Fo_Guang_Shan_Buddha_Museum_%E4%BD%9B%E5%85%89%E5%B1%B1%E4%BD%9B%E9%99%80%E7%B4%80%E5%BF%B5%E9%A4%A8_.jpg/1280px-Fo_Guang_Shan_Buddha_Museum_%E4%BD%9B%E5%85%89%E5%B1%B1%E4%BD%9B%E9%99%80%E7%B4%80%E5%BF%B5%E9%A4%A8_.jpg",
           "mapQuery": "佛光山佛陀紀念館"
         }
@@ -476,12 +503,12 @@
       "backup": [
         {
           "name": "小琉球（海島後備）",
-          "note": "天氣極佳又特別想去海島先做：東港搭船 25–30 分睇海龜浮潛/半潛艇；帶 8 歲女拉車到東港較攰，列次優",
+          "note": "天氣極佳又想去海島先做：東港搭船 25–30 分睇海龜浮潛/半潛艇；帶8歲女拉車到東港較攰，列後備",
           "mapQuery": "小琉球白沙尾漁港"
         },
         {
           "name": "義大世界",
-          "note": "想玩樂園：與佛光山相鄰，全日票約 NT$650，8月戶外曬備雨具",
+          "note": "想玩樂園：與佛光山相鄰，全日票約 NT$650",
           "mapQuery": "義大遊樂世界"
         }
       ]
@@ -499,33 +526,40 @@
         {
           "time": "09:30",
           "name": "高雄市區 → 內門（包車）",
-          "note": "野森喺內門區，唔喺旗津，無捷運直達，包車/自駕約 50–60 分",
+          "icon": "🚐",
+          "note": "野森喺內門區唔喺旗津，無捷運直達；包車一日約 NT$3,000–3,800 最實際（公共交通要客運→旗山轉運站→接駁車多重轉乘）",
           "duration": "60分",
-          "cost": "包車約 NT$2,500–4,000/日（未核實）",
           "transport": "包車／自駕",
-          "mapQuery": "野森動物學校"
+          "mapQuery": "野森動物學校",
+          "transfer": "包車直送園區（公共交通：高雄客運往旗山約50–60分 NT$80–100，轉野森免費接駁約15–20分）"
         },
         {
           "time": "10:00",
           "name": "野森動物學校（魔法動物學校）",
-          "note": "11.5 公頃戶外生態園，20+ 種動物（水豚/樹懶/狐狸/笑笑羊）近距離互動餵食，8 歲女最愛；一開門入避正午高溫。★ 線上預約購票（每日限 1000），公休曖昧(官網週三/媒體週二三)→ 已排週四較安全，但出發前再電 07-6672017 核實",
+          "icon": "🦦",
+          "note": "11.5 公頃戶外生態園，20+ 種動物近距離互動餵食，8 歲女最愛；一開門入避正午高溫",
           "duration": "3–4h",
           "cost": "全票 NT$399・半票(兒童) NT$149",
           "transport": "園區內步行",
-          "mapQuery": "高雄市內門區中正路39巷168號"
+          "mustDo": "餵水豚/樹懶/笑笑羊/狐狸；★ 先官網預約購票(每日限1000)、電 07-6672017 確認公休(官網週三/媒體週二三)",
+          "mapQuery": "高雄市內門區中正路39巷168號",
+          "transfer": "園區接駁/8035 返旗山轉運站 約15–20分（包車直接15分到老街）"
         },
         {
           "time": "14:30",
           "name": "旗山老街（回程順遊）",
-          "note": "枝仔冰、香蕉蛋糕、巴洛克老街慢逛",
+          "note": "枝仔冰、香蕉蛋糕、巴洛克街屋慢逛",
           "duration": "1.5h",
           "cost": "視消費",
-          "transport": "自駕經旗山",
-          "mapQuery": "旗山老街"
+          "transport": "包車／客運",
+          "mustDo": "枝仔冰、香蕉蛋糕、仿巴洛克老街拱廊",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/%E6%97%97%E5%B1%B1%E4%BA%AD%E4%BB%94%E8%85%B3%EF%BC%88%E7%9F%B3%E6%8B%B1%E5%9C%88%EF%BC%89%EF%BC%9C1%EF%BC%9E.jpg/1280px-%E6%97%97%E5%B1%B1%E4%BA%AD%E4%BB%94%E8%85%B3%EF%BC%88%E7%9F%B3%E6%8B%B1%E5%9C%88%EF%BC%89%EF%BC%9C1%EF%BC%9E.jpg",
+          "mapQuery": "旗山老街",
+          "transfer": "包車直送 Airbnb 約50分（客運返高雄火車站約50–60分 NT$80–100，留意尾班約 21:00 前）"
         }
       ],
       "backup": [
-        "野森當日竟公休 → 改壽山動物園(週二/四開)或市區寵物互動館",
+        "野森當日竟公休 → 改壽山動物園或市區寵物互動館",
         "嫌內門太遠 → 改義大樂園或市區親子館，留返體力"
       ]
     },
@@ -542,28 +576,35 @@
         {
           "time": "10:00",
           "name": "手信採購（舊振南/微熱山丘/巴堂蜂蜜蛋糕）",
+          "icon": "🎁",
           "note": "鳳梨酥、蜂蜜蛋糕；單店滿 NT$2,000 可退稅帶護照",
           "duration": "1.5h",
           "cost": "視消費",
           "transport": "捷運",
-          "mapQuery": "舊振南餅店 高雄"
+          "mustDo": "舊振南小金磚鳳梨酥、巴堂蜂蜜蛋糕",
+          "mapQuery": "舊振南餅店 高雄",
+          "transfer": "捷運紅線到凱旋R6，3 號出口夢時代免費接駁車約10分（或輕軌前鎮之星C3→夢時代C5 約5分 NT$20）"
         },
         {
           "time": "12:00",
-          "name": "夢時代 / SKM Park（室內避暑+最後血拼）",
-          "note": "看航班時間，室內涼快",
+          "name": "統一夢時代（室內避暑+最後血拼）",
+          "note": "頂樓摩天輪；看航班時間，室內涼快",
           "duration": "2h",
           "cost": "視消費",
-          "transport": "捷運紅線凱旋站／輕軌",
-          "mapQuery": "統一夢時代購物中心"
+          "transport": "捷運／輕軌",
+          "mustDo": "頂樓摩天輪",
+          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4e/%E7%B5%B1%E4%B8%80%E5%A4%A2%E6%99%82%E4%BB%A3%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83_%282%29.JPG",
+          "mapQuery": "統一夢時代購物中心",
+          "transfer": "輕軌 夢時代C5→前鎮之星C3 轉紅線凱旋R6→機場R4 約25分・NT$45/人（或 Uber 直送15分 NT$220–280/車）"
         },
         {
           "time": "下午",
-          "name": "取行李 → 小港機場",
-          "note": "捷運紅線直達小港機場站，預留 3 小時 buffer",
+          "name": "高雄國際機場（小港）→ 回程",
+          "icon": "✈️",
+          "note": "捷運紅線直達機場站，預留 2.5–3 小時 buffer",
           "duration": "30分",
           "cost": "捷運 NT$35/人",
-          "transport": "捷運紅線",
+          "transport": "捷運紅線 R4",
           "mapQuery": "Kaohsiung International Airport"
         }
       ],
@@ -576,76 +617,369 @@
       ]
     }
   ],
-  "alternatives": [
+  "dining": [
     {
-      "category": "🍽 高分必食名店（食唔慳・配行程）",
+      "category": "🍱 台灣菜 / 正餐",
       "items": [
         {
-          "name": "漢來福園台菜海鮮（前金・漢來9F）",
-          "area": "前金",
-          "cost": "NT$1000–1800/人",
-          "tag": "米其林推薦・要訂位",
-          "note": "五星台菜：火爆鱔魚炒意麵、清蒸海上鮮、佛跳牆；有冷氣包廂，一家人食正一餐首選 07-2135739",
-          "mapQuery": "福園台菜海鮮餐廳 漢來大飯店"
-        },
-        {
-          "name": "四兩千金活蝦之家",
-          "area": "高雄",
-          "cost": "NT$400–700/人",
-          "tag": "親子・有遊樂區",
-          "note": "胡椒蝦/鳳梨蝦球，百坪無味精，8 歲女有得玩",
-          "mapQuery": "四兩千金活蝦之家 高雄"
-        },
-        {
-          "name": "北港蔡三代筒仔米糕",
-          "area": "鹽埕",
-          "cost": "NT$80–120/人",
-          "tag": "必比登4年",
-          "note": "米糕軟糯帶肉燥，平民價要排隊",
-          "mapQuery": "北港蔡三代筒仔米糕 高雄"
-        },
-        {
-          "name": "鴨肉珍",
-          "area": "鹽埕",
-          "cost": "NT$100–180/人",
-          "tag": "65年老店",
-          "note": "鴨肉飯整塊唔切片、煙燻香，Google 逾萬評",
-          "mapQuery": "鴨肉珍 高雄 鹽埕"
+          "name": "福園台菜海鮮（漢來 9F）",
+          "area": "前金・近美麗島站",
+          "price": "人均 NT$800–1200",
+          "hours": "11:30–14:30 / 17:30–21:30（每日，+10%）",
+          "intro": "米其林指南推薦，南霸天級台菜，五星飯店主廚手路菜，有包廂，一家人/長輩首選。",
+          "signature": "火爆鱔魚炒意麵 $480、芋茸酥鴨方、八珍海鮮羹",
+          "mapQuery": "福園台菜海鮮餐廳 漢來大飯店",
+          "link": "https://www.grand-hilai.com/restaurant-detail/chinese-restaurants/taiwanese-restaurant/",
+          "menuLink": "https://hoolee.tw/hilai-fuyun/"
         },
         {
           "name": "弘記肉燥飯舖",
-          "area": "左營巨蛋",
-          "cost": "NT$100–200/人",
-          "tag": "必比登3年",
-          "note": "腿庫飯每日限量，早去",
-          "mapQuery": "弘記肉燥飯舖 左營"
+          "area": "左營・巨蛋商圈",
+          "price": "人均 NT$120–200",
+          "hours": "11:30–14:30 / 17:00–20:30",
+          "intro": "米其林必比登三連霸，傳承 50 年，平價適合一家大細。",
+          "signature": "肉燥飯（半熟蛋）、豬腿庫、骨仔肉湯",
+          "mapQuery": "弘記肉燥飯舖 左營",
+          "link": "https://guide.michelin.com/us/en/kaohsiung-region/kaohsiung/restaurant/hung-chi-rice-shop",
+          "menuLink": "https://hoolee.tw/hungchi-rice/"
         },
         {
-          "name": "莊記海產粥",
-          "area": "六合夜市",
-          "cost": "NT$120–200/人",
-          "tag": "1973年",
-          "note": "鮮蚵/花枝/蛤蜊料多，六合最出名",
-          "mapQuery": "莊記海產粥 六合夜市"
-        },
-        {
-          "name": "高雄婆婆冰（創始店）",
-          "area": "鹽埕",
-          "cost": "NT$80–180/人",
-          "tag": "80年・8月芒果",
-          "note": "芒果冰當造必食；★ 週二公休",
-          "mapQuery": "高雄婆婆冰 創始店 七賢三路"
-        },
-        {
-          "name": "新濱町海洋廚房",
-          "area": "鼓山渡船頭",
-          "cost": "NT$300–600/人",
-          "tag": "2025新開・海景",
-          "note": "舊魚市場活化，碼頭海景夕陽",
-          "mapQuery": "新濱町海洋廚房 高雄"
+          "name": "鴨肉珍",
+          "area": "鹽埕・鹽埕埔站",
+          "price": "人均 NT$100–180",
+          "hours": "本店 10:00–20:20，★週二休（大公店有冷氣，週三四休）",
+          "intro": "鹽埕鴨肉飯霸主，65 年老店，秘製鴨肉嫩滑淋肉燥滷汁。",
+          "signature": "鴨肉飯、鴨米血、下水湯",
+          "mapQuery": "鴨肉珍 鹽埕",
+          "link": "https://bobotravel.tw/blog/post/duck-zhen"
         }
       ]
     },
+    {
+      "category": "🦐 海鮮",
+      "items": [
+        {
+          "name": "四兩千金活蝦之家",
+          "area": "左營・文學路",
+          "price": "人均 NT$500–800",
+          "hours": "17:00–00:30（每日，+10%）",
+          "intro": "庭園式活蝦餐廳，有大型溜滑梯+白飯冰淇淋吃到飽，超適合帶 8 歲女。",
+          "signature": "胡椒蝦、檸檬蝦、養生黑蒜蝦",
+          "mapQuery": "四兩千金活蝦之家 左營",
+          "link": "https://hoolee.tw/siliangqianjin-shrimp/",
+          "menuLink": "https://angelala.tw/shrimp-baby-2023/"
+        },
+        {
+          "name": "旗后活海產",
+          "area": "旗津・輪渡站旁",
+          "price": "人均 NT$400–600",
+          "hours": "約 11:00–21:00，★週一休（建議致電）",
+          "intro": "旗津海產一條街 40 年老字號，現撈現秤，新鮮唔油膩。",
+          "signature": "清蒸螃蟹(時價)、鹽烤蝦、深海魚",
+          "mapQuery": "旗后活海產 旗津",
+          "link": "https://nellydyu.tw/blog/post/qihou",
+          "menuLink": "https://www.bigfang.tw/blog/post/qihou-seafood"
+        },
+        {
+          "name": "金聖春活海產",
+          "area": "旗津",
+          "price": "人均 NT$400–600",
+          "hours": "11:00–14:30 / 17:00–22:30",
+          "intro": "旗津人氣現撈，秤重計價、價格平實，龍蝦/螃蟹粥出名。",
+          "signature": "龍蝦粥、螃蟹粥、現撈海鮮(秤重)",
+          "mapQuery": "金聖春活海產 旗津",
+          "link": "https://rainieis.tw/jin-sheng-chun/"
+        },
+        {
+          "name": "莊記海產粥",
+          "area": "新興・六合夜市",
+          "price": "人均 NT$150–300",
+          "hours": "17:30–01:30（無固定公休）",
+          "intro": "六合夜市 50 年宵夜老攤，每碗滿滿海鮮料。",
+          "signature": "海產粥 $150、鹽蒸蝦、鹽蒸蚵",
+          "mapQuery": "莊記海產粥 六合夜市",
+          "link": "https://orange-dog.com/6seafood/",
+          "menuLink": "https://supertaste.tvbs.com.tw/infocard/12728"
+        }
+      ]
+    },
+    {
+      "category": "🏮 夜市",
+      "items": [
+        {
+          "name": "六合觀光夜市",
+          "area": "新興・美麗島站 11 號出口",
+          "price": "人均 NT$200–400",
+          "hours": "約 17:00–凌晨（每日）",
+          "intro": "高雄最知名觀光夜市，捷運直達，適合家庭。",
+          "signature": "海鮮粥、烤肉、木瓜牛奶",
+          "mapQuery": "六合觀光夜市",
+          "link": "https://www.taiwan.net.tw/m1.aspx?sNo=0001121&id=2245"
+        },
+        {
+          "name": "瑞豐夜市",
+          "area": "左營・近巨蛋站",
+          "price": "人均 NT$200–400",
+          "hours": "★ 只開二、四、五、六、日（週一、三休）約 17:00–凌晨",
+          "intro": "高雄規模最大、本地人氣最旺夜市，攤位多。",
+          "signature": "天使雞排、火魂德國豬腳",
+          "mapQuery": "瑞豐夜市",
+          "link": "https://gofunit.com/瑞豐夜市/"
+        },
+        {
+          "name": "天使雞排（瑞豐）",
+          "area": "瑞豐夜市第12排",
+          "price": "人均 NT$80–120",
+          "hours": "15:00–00:00（隨夜市，週一三休）",
+          "intro": "瑞豐人氣冠軍雞排，酥厚多汁，Google 6900+ 評。",
+          "signature": "酥厚雞排",
+          "mapQuery": "天使雞排 瑞豐夜市",
+          "link": "https://www.facebook.com/ANGEL594881/"
+        },
+        {
+          "name": "火魂德國豬腳（瑞豐）",
+          "area": "瑞豐夜市",
+          "price": "人均 NT$150–250",
+          "hours": "★ 週一、三公休",
+          "intro": "夜市少見德國豬腳，醃→炸→炭烤，皮脆肉嫩。",
+          "signature": "炭烤德國豬腳",
+          "mapQuery": "火魂德國豬腳 瑞豐夜市",
+          "link": "https://gofunit.com/瑞豐夜市/"
+        }
+      ]
+    },
+    {
+      "category": "🍧 甜品冰品（8 月芒果旺季）",
+      "items": [
+        {
+          "name": "高雄婆婆冰（創始店）",
+          "area": "鹽埕・鹽埕埔站",
+          "price": "人均 NT$80–150",
+          "hours": "10:00–00:00，★週二公休",
+          "intro": "1934 年創立，80+ 年古早味刨冰，8 月芒果當造必食。",
+          "signature": "芒果雪花冰、超級水果冰、番茄切盤",
+          "mapQuery": "高雄婆婆冰 創始店 鹽埕",
+          "link": "https://inmap.tw/archives/73303",
+          "menuLink": "https://www.bigfang.tw/blog/post/popoice-main-kaohsiung"
+        },
+        {
+          "name": "渡船頭海之冰",
+          "area": "鼓山・近西子灣站",
+          "price": "人均 NT$100–200（共享更抵）",
+          "hours": "11:00–23:30，★週一公休",
+          "intro": "大碗公冰創始店，冰可放大 1–20 倍，一碗幾個人食，超啱一家人打卡。",
+          "signature": "大碗公水果牛奶冰、芒果冰",
+          "mapQuery": "渡船頭海之冰 鼓山",
+          "link": "https://albertblog.tw/25384/ice-bowl"
+        },
+        {
+          "name": "玉井有間冰舖",
+          "area": "台南玉井（高雄出發約45分）",
+          "price": "人均 NT$120–200",
+          "hours": "約 09:00–18:00（建議致電）",
+          "intro": "芒果故鄉玉井最著名芒果冰，澎湃大碗，8 月鮮芒果當造。",
+          "signature": "芒果雪綿冰、新鮮芒果冰",
+          "mapQuery": "有間冰舖 玉井",
+          "link": "https://shopee.tw/blog/yujing-mango/"
+        }
+      ]
+    },
+    {
+      "category": "🍢 小食",
+      "items": [
+        {
+          "name": "北港蔡三代筒仔米糕",
+          "area": "鹽埕・鹽埕埔站",
+          "price": "人均 NT$60–120",
+          "hours": "13:30–21:30，★週三公休（只收現金）",
+          "intro": "1956 年 60 年老店，米其林必比登推薦。",
+          "signature": "筒仔米糕、蒸蛋湯、滷鐵蛋",
+          "mapQuery": "北港蔡三代筒仔米糕 鹽埕",
+          "link": "https://guide.michelin.com/us/en/kaohsiung-region/kaohsiung/restaurant/bei-gang-tsai-rice-tube-yancheng",
+          "menuLink": "https://momoblog.tw/beigangcai/"
+        },
+        {
+          "name": "冬粉王",
+          "area": "鹽埕・鹽埕埔站",
+          "price": "人均 NT$80–150",
+          "hours": "08:30–20:00（無固定公休）",
+          "intro": "50 年老字號冬粉專賣，內臟控天堂，用餐時段一位難求。",
+          "signature": "鴨肉冬粉湯、乾冬粉、腰子湯",
+          "mapQuery": "冬粉王 鹽埕",
+          "link": "https://www.bigfang.tw/blog/post/dongfenwang-kaohsiung",
+          "menuLink": "https://tiffany0118.tw/cellophanenoodles/"
+        },
+        {
+          "name": "永和小籠包",
+          "area": "鹽埕・巷弄",
+          "price": "人均 NT$80–150",
+          "hours": "約 11:00–19:30，★週二公休（建議致電）",
+          "intro": "開業 40 年，現點現蒸爆汁小籠湯包。",
+          "signature": "小籠湯包、酸辣湯、豬血湯",
+          "mapQuery": "永和小籠包 鹽埕",
+          "link": "https://hoolee.tw/yonghe-soup-dumpling/",
+          "menuLink": "https://nellydyu.tw/blog/post/41002654"
+        }
+      ]
+    },
+    {
+      "category": "🥤 飲品（手搖 / 果汁）",
+      "items": [
+        {
+          "name": "樺達奶茶（鹽埕總店）",
+          "area": "鹽埕・鹽埕埔站奶茶街",
+          "price": "一杯 NT$60–70",
+          "hours": "09:00–22:00（每日）",
+          "intro": "1982 年創，高雄奶茶始祖，全系列唔加冰塊（冰鎮）由頭濃到尾。",
+          "signature": "益壽奶茶、樺達奶茶、加珍珠 +$5",
+          "mapQuery": "樺達奶茶 鹽埕總店",
+          "link": "https://blog.pylin.org/hwadamilktea.html"
+        },
+        {
+          "name": "鄭老牌木瓜牛奶",
+          "area": "新興・六合夜市入口",
+          "price": "人均 NT$60–100",
+          "hours": "17:00–02:00",
+          "intro": "近 60 年，現點現打超純木瓜牛奶，六合必飲。",
+          "signature": "木瓜牛奶、現打果汁",
+          "mapQuery": "鄭老牌木瓜牛奶 六合夜市",
+          "link": "https://blog.pklife.tw/2024/05/kaohsiung-zheng.html",
+          "menuLink": "https://tiffany0118.tw/hihijlppapaya/"
+        },
+        {
+          "name": "双妃奶茶",
+          "area": "鹽埕・近永和小籠包",
+          "price": "人均 NT$50–70",
+          "hours": "依店家（Google Maps 查）",
+          "intro": "鹽埕巷弄人氣奶茶，常同永和小籠包一齊食。",
+          "signature": "奶茶系列",
+          "mapQuery": "双妃奶茶 鹽埕",
+          "link": "https://nellydyu.tw/blog/post/41002654"
+        }
+      ]
+    },
+    {
+      "category": "☕ 咖啡 Café",
+      "items": [
+        {
+          "name": "書店喫茶 一二三亭",
+          "area": "鼓山・哈瑪星站",
+          "price": "人均 NT$200–350",
+          "hours": "10:00–18:00（每日）",
+          "intro": "1914 年日治高級料亭改建，書香文青老宅，行完哈瑪星歇腳一流。",
+          "signature": "抹茶拿鐵、抹茶冰淇淋紅豆煎餅、紅酒燉牛肉烏龍麵",
+          "mapQuery": "書店喫茶一二三亭 哈瑪星",
+          "link": "https://jeremyfoodie.tw/cafehifumi/"
+        },
+        {
+          "name": "新濱·駅前（Hamasen）",
+          "area": "鼓山・哈瑪星",
+          "price": "人均 NT$200–350",
+          "hours": "依店家（Google Maps 查）",
+          "intro": "1921 年三和銀行改建，大正和洋風老建築，高人氣網美咖啡。",
+          "signature": "手沖咖啡、輕食甜點",
+          "mapQuery": "新濱駅前 哈瑪星",
+          "link": "https://mymarcy.tw/kaohsiung-cafes-guide/"
+        },
+        {
+          "name": "厚里 Horli Baking",
+          "area": "鹽埕・鐵道園區旁",
+          "price": "人均 NT$150–300",
+          "hours": "依店家（Google Maps 查）",
+          "intro": "火車車廂造型店面，望哈瑪星鐵道園區，小朋友會鍾意。",
+          "signature": "手撕包、咖啡",
+          "mapQuery": "厚里 Horli Baking 鹽埕",
+          "link": "https://mymarcy.tw/kaohsiung-cafes-guide/"
+        },
+        {
+          "name": "路人咖啡（駁二）",
+          "area": "鹽埕・駁二",
+          "price": "人均 NT$150–300",
+          "hours": "依店家（Google Maps 查）",
+          "intro": "駁二內，大面落地窗望大港橋，行駁二順遊。",
+          "signature": "精品咖啡、氣泡飲",
+          "mapQuery": "路人咖啡 駁二",
+          "link": "https://damei17.com/yancheng-coffee/"
+        }
+      ]
+    },
+    {
+      "category": "🛍 伴手禮",
+      "items": [
+        {
+          "name": "舊振南餅店",
+          "area": "前鎮 SOGO B2／大寮文化館",
+          "price": "禮盒 NT$300–800",
+          "hours": "SOGO 店 11:00–21:30（五六到 22:00）",
+          "intro": "1890 年百年漢餅，小金磚鳳梨酥最出名，送禮體面。",
+          "signature": "小金磚鳳梨酥、綠豆椪、杏香酥",
+          "mapQuery": "舊振南餅店 SOGO 高雄",
+          "link": "https://www.jzn.com.tw/",
+          "menuLink": "https://shop.jzn.com.tw/"
+        },
+        {
+          "name": "巴堂蜂蜜蛋糕",
+          "area": "鹽埕・鹽埕埔站",
+          "price": "人均 NT$200–500",
+          "hours": "09:00–21:30",
+          "intro": "傳承百年，招牌蜂蜜蛋糕（日本巴堂授權），鹽埕在地伴手禮。",
+          "signature": "蜂蜜蛋糕、芝麻Q餅、銅鑼燒",
+          "mapQuery": "巴堂蜂蜜蛋糕 鹽埕",
+          "link": "https://www.batung.com.tw/",
+          "menuLink": "https://appletrees.tw/blog/post/batung"
+        },
+        {
+          "name": "微熱山丘（駁二門市）",
+          "area": "鹽埕・駁二",
+          "price": "禮盒 NT$300–500",
+          "hours": "11:00–19:00（僅除夕初一休）",
+          "intro": "知名土鳳梨酥，入內每人免費奉茶+鳳梨酥一塊，白色船塢建築好打卡。",
+          "signature": "土鳳梨酥、山丘芭娜娜",
+          "mapQuery": "微熱山丘 駁二",
+          "link": "https://www.fonfood.com/store/3022199",
+          "menuLink": "https://smilevivi.com/sunnyhills/"
+        }
+      ]
+    },
+    {
+      "category": "🚶 邊行邊食",
+      "items": [
+        {
+          "name": "新濱町海洋廚房",
+          "area": "鼓山・哈瑪星站步行8分",
+          "price": "人均 NT$300–500",
+          "hours": "11:30–22:00（每日）",
+          "intro": "2025/3 新開，原鼓山魚市場改建，進駐 15 家品牌，海港景觀邊行邊食，超啱一家人。",
+          "signature": "一幻蝦拉麵、日乃屋咖哩、JAPAN 燒烤",
+          "mapQuery": "新濱町海洋廚房 鼓山",
+          "link": "https://www.facebook.com/ShinhamachoCuisineHub/",
+          "menuLink": "https://ajunfun.tw/shinhamacho-cuisine-hub/"
+        },
+        {
+          "name": "旗津老街小吃",
+          "area": "旗津・輪渡站落船即到",
+          "price": "人均 NT$150–300",
+          "hours": "約 10:00–20:00（週末最旺）",
+          "intro": "搭渡輪過旗津，老街一路邊行邊食銅板小食。",
+          "signature": "番茄切盤、炭烤小卷、白糖粿、旗魚黑輪",
+          "mapQuery": "旗津老街",
+          "link": "https://bobowin.blog/cijin-food/",
+          "menuLink": "https://www.bring-you.info/zh-tw/qijin-street-snake"
+        },
+        {
+          "name": "駁二／鹽埕邊行邊食",
+          "area": "鹽埕・鹽埕埔站／輕軌駁二",
+          "price": "人均 NT$150–300",
+          "hours": "園區全天，店家各異",
+          "intro": "倉庫群文創+美食，一路微熱山丘→路人咖啡→婆婆冰邊行邊食邊睇展。",
+          "signature": "鳳梨酥、芒果冰、沿街攤",
+          "mapQuery": "駁二藝術特區 大義倉庫",
+          "link": "https://damei17.com/yancheng-coffee/"
+        }
+      ]
+    }
+  ],
+  "alternatives": [
     {
       "category": "👧 親子・8 歲女童啱玩（後備加減）",
       "items": [
@@ -655,7 +989,7 @@
           "hours": "09:00–17:00（暑假假日到18:00）",
           "cost": "常設展約 NT$100",
           "tag": "室內・互動",
-          "note": "大量互動科學展，雨天最佳；特展另收",
+          "note": "大量互動科學展，雨天最佳",
           "mapQuery": "國立科學工藝博物館"
         },
         {
@@ -670,31 +1004,30 @@
         {
           "name": "義大遊樂世界",
           "area": "大樹區 約40分",
-          "hours": "09:00–17:30",
           "cost": "全日票約 NT$650",
           "tag": "樂園",
           "note": "摩天輪＋主題樂園；8月戶外曬",
           "mapQuery": "義大遊樂世界"
         },
         {
-          "name": "大魯閣草衙道（鈴鹿賽道樂園）",
+          "name": "大魯閣草衙道",
           "area": "前鎮・近機場",
           "cost": "入場免費・設施另計",
           "tag": "室內外樂園",
-          "note": "奧斯丁夢想樂園適合女童，回程前放電",
+          "note": "鈴鹿賽道樂園，回程前放電",
           "mapQuery": "大魯閣草衙道"
         }
       ]
     },
     {
-      "category": "🌧️ 室內・落雨 backup（8月必備）",
+      "category": "🌧️ 室內・落雨 backup",
       "items": [
         {
           "name": "夢時代購物中心",
           "area": "前鎮",
           "cost": "免費入場",
-          "tag": "避暑",
-          "note": "摩天輪＋電影院＋餐廳，全天候",
+          "tag": "避暑・摩天輪",
+          "note": "全天候室內",
           "mapQuery": "統一夢時代購物中心"
         },
         {
@@ -702,7 +1035,7 @@
           "area": "鼓山港邊",
           "cost": "免費入場",
           "tag": "文創倉庫",
-          "note": "港邊文創＋食肆，室內避雨",
+          "note": "港邊文創＋食肆",
           "mapQuery": "棧貳庫"
         },
         {
@@ -710,7 +1043,7 @@
           "area": "鼓山",
           "cost": "約 NT$149",
           "tag": "鐵道模型",
-          "note": "亞洲最大實體鐵道模型，8歲啱",
+          "note": "亞洲最大實體鐵道模型",
           "mapQuery": "哈瑪星台灣鐵道館"
         }
       ]
@@ -721,37 +1054,26 @@
         {
           "name": "小琉球（東港搭船）",
           "area": "東港船 25–30 分",
-          "duration": "1 日",
           "cost": "來回 NT$360–450・兒童 225",
           "tag": "看海龜・後備",
-          "note": "浮潛與海龜共游/半潛艇；8月旺季+颱風雙風險，帶8歲女拉車較攰，列後備",
+          "note": "浮潛/半潛艇；8月旺季+颱風雙風險",
           "mapQuery": "小琉球白沙尾漁港"
         },
         {
           "name": "奇美博物館（台南）",
           "area": "台鐵約40分",
           "hours": "09:30–17:30，★週三休",
-          "cost": "常設展約 NT$200・園區免費",
+          "cost": "常設展約 NT$200",
           "tag": "室內・冷氣",
-          "note": "歐式建築＋藝術典藏，8歲啱；台鐵當日來回",
+          "note": "歐式建築＋藝術典藏，台鐵當日來回",
           "mapQuery": "奇美博物館"
-        },
-        {
-          "name": "安平古堡・安平老街（台南）",
-          "area": "約50分",
-          "duration": "半日",
-          "cost": "全票 70・半票 35",
-          "tag": "古蹟・小吃",
-          "note": "古蹟＋老街小吃慢逛",
-          "mapQuery": "安平古堡"
         },
         {
           "name": "蓮池潭・龍虎塔",
           "area": "左營",
           "cost": 0,
           "tag": "廟宇打卡",
-          "note": "龍口入虎口出；去前查整修、無遮蔭帶水",
-          "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/83/Lotus_Pond%2C_Kaohsiung.jpg",
+          "note": "龍口入虎口出；去前查整修",
           "mapQuery": "蓮池潭龍虎塔"
         }
       ]
@@ -763,7 +1085,7 @@
       "area": "紅線R10×橘線O5 雙捷運",
       "pricePerNight": "6晚 ≈ HK$6,000–8,000",
       "rating": "區域首選",
-      "highlights": "高雄唯一雙捷運交會，去邊都唔轉線、去機場最快（→小港約12–15分）；樓下六合夜市/新崛江/便利店。整層公寓供應多、多2025翻新自助入住。揀盤 filter：整套 entire place・房數≥3・入住≥4人・近捷運≤8分・評分≥4.8・Superhost・每房有冷氣・電梯・洗衣機。",
+      "highlights": "高雄唯一雙捷運交會，去邊都唔轉線、去機場最快（→小港約12–15分）；樓下六合夜市/新崛江/便利店。揀盤 filter：整套 entire place・房數≥3・入住≥4人・近捷運≤8分・評分≥4.8・Superhost・每房冷氣・電梯・洗衣機。",
       "confirmation": "（自己 Airbnb 訂・填訂單號）",
       "mapQuery": "美麗島站 高雄"
     },
@@ -772,16 +1094,16 @@
       "area": "橘線 O2 鹽埕埔",
       "pricePerNight": "6晚 ≈ HK$5,250–8,250",
       "rating": "最有特色",
-      "highlights": "老屋改建設計民宿密度最高（塩晨/圈叉行旅OX/小驢舍一帶），行得到駁二、大港橋、棧貳庫、愛河、旗津渡輪，文青慢遊一流；缺點：去機場要美麗島轉紅線（約20–25分），夜市要搭車。",
+      "highlights": "老屋改建設計民宿密度最高，行得到駁二、大港橋、棧貳庫、愛河、旗津渡輪，文青慢遊一流；缺點：去機場要美麗島轉紅線（約20–25分）。",
       "confirmation": "",
       "mapQuery": "鹽埕埔站 高雄"
     },
     {
       "name": "🥉 Airbnb 整套・左營／巨蛋區",
       "area": "紅線 R16 高鐵／R14 巨蛋",
-      "pricePerNight": "6晚 ≈ HK$8,250–13,500（較貴）",
+      "pricePerNight": "6晚 ≈ HK$8,250–13,500",
       "rating": "最新淨",
-      "highlights": "高鐵左營站出站即捷運，跨城（台南）方便；漢神巨蛋+瑞豐夜市+美術館生活機能足、較新企理。缺點：離駁二老城核心遠、去機場最遠（約28分）、整套房較少較貴。",
+      "highlights": "高鐵左營站出站即捷運，跨城方便；漢神巨蛋+瑞豐夜市生活機能足、較新。缺點：離駁二老城遠、去機場最遠（約28分）、整套房較貴。",
       "confirmation": "",
       "mapQuery": "高鐵左營站"
     },
@@ -789,7 +1111,7 @@
       "name": "⚠️ 合法民宿 + 訂房自保（必讀）",
       "area": "全高雄",
       "rating": "避坑",
-      "highlights": "台灣無牌日租屬違法且未過消防/保險審查（曾有無牌套房一氧化碳中毒個案）。訂前去『交通部觀光署台灣旅宿網 taiwanstay.net.tw』用地址/民宿名核對合法黃色標章+證號；揀 Superhost+大量真實評論；全程 Airbnb 平台付款，切勿私下匯款/LINE 收訂金；入住即影屋況防爭議。暑假早訂，揀免費取消先 lock 心水。",
+      "highlights": "台灣無牌日租屬違法且未過消防/保險審查。訂前去『台灣旅宿網 taiwanstay.net.tw』核對合法黃色標章+證號；揀 Superhost+大量真實評論；全程 Airbnb 平台付款，切勿私下匯款；入住即影屋況。暑假早訂、揀免費取消先 lock。",
       "confirmation": "",
       "mapQuery": "台灣旅宿網"
     }
@@ -840,7 +1162,7 @@
   "essentials": {
     "currency": "新台幣 TWD；HK$1 ≈ NT$4.0（出發前查即時匯率）",
     "plug": "A 型兩腳扁插，110V",
-    "transit": "一卡通 iPASS（捷運/輕軌/台鐵/部分船班通用；2024/11 起嘟卡無折扣，係買方便）",
+    "transit": "一卡通 iPASS（捷運/輕軌/渡輪/56號公車/台鐵通用，85 折）",
     "emergency": "警察 110 / 救護消防 119 / 旅遊諮詢 0800-011-765",
     "sim": "機場買 eSIM 或租 Wi-Fi 蛋；中華電信訊號好",
     "timezone": "台北時間，同香港無時差",
@@ -849,13 +1171,13 @@
   },
   "tips": [
     "★ 出發前 3 件 must-do 核實：①崗山之眼是否已重開（khh.travel）未開行佛光山/小琉球；②野森動物學校公休日(官網週三/媒體週二三)+先線上預約(每日限1000)，電 07-6672017；③木育森林確切票價+線上購票。",
-    "★ 休館日已對齊：壽山動物園/兒美/瑞豐夜市(週一8/17)、佛館(週二8/18)、奇美(週三8/19)——排程前再對清。",
-    "颱風＝船班/夜景全泡湯：旗津渡輪、小琉球、崗山之眼、壽山夜景全靠天氣，把崗山/海島放最晴一日（8/19 機動日可同其他日對調）。",
+    "★ 休館/公休日已對齊：壽山動物園/兒美/瑞豐(週一)、佛館(週二)、奇美(週三)；餐廳婆婆冰(二)、北港蔡/鴨肉珍本店(二三)、永和小籠包(二)、旗后海產/海之冰(一)、火魂豬腳(一三)。",
+    "上山/郊區交通：壽山(動物園+情人觀景台)、崗山之眼、內門野森，公車疏/轉乘多，3大1小建議 Uber 或半日/全日包車慳體力。",
+    "颱風＝船班/夜景全泡湯：渡輪、小琉球、崗山之眼、壽山夜景全靠天氣，把崗山/海島放最晴一日（8/19 機動日可同其他日對調）。",
     "午後雷陣雨幾乎每日：戶外排上午，13:00–17:00 改室內；隨身帶輕便雨衣（山上/海島風大傘無用）。",
-    "輕軌龍貓隧道安全鐵律：切勿走入軌道，月台用長焦影，警示燈亮禮讓列車。",
-    "壽山獼猴：勿餵食、勿手持食物及膠袋，收好隨身物；帶8歲女天黑前上情人觀景台，唔好太夜。",
-    "暑假人潮：野森/木育/愛之船門票、福園/旗津海產訂位、Airbnb 提早 1–2 週至 6–8 週網訂；芒果冰係 8 月限定彩蛋。",
-    "全程唔租車最省心：市內靠捷運/輕軌+iPASS；去內門(野森)、崗山之眼呢類郊區用包車一日，4 人分攤抵。"
+    "輕軌龍貓隧道：切勿走入軌道，月台用長焦影；壽山獼猴勿餵食、勿手持食物膠袋。",
+    "每人買一張一卡通 iPASS：捷運/輕軌/渡輪/56號公車/台鐵通用 85 折，兒童票更平；落單前以官方為準。",
+    "退稅：單店滿 NT$2,000 可退稅，手信集中買，帶護照。"
   ],
   "generationDate": "2026-06-23"
 }
@@ -868,6 +1190,7 @@ const mapUrl=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComp
 function mapBtn(q,label){if(!has(q))return '';return `<a class="btn-map" target="_blank" rel="noopener" href="${mapUrl(q)}">📍 ${E(label||'開地圖導航')}</a>`;}
 function costTag(c){if(c===0)return '<span class="tag free">免費</span>';if(has(c))return `<span class="tag cost">${E(c)}</span>`;return '';}
 function wxIcon(k){const m={sunny:'☀️',cloudy:'☁️',rain:'🌧️',showers:'🌦️',snow:'❄️',storm:'⛈️',partly:'⛅',windy:'🌬️',fog:'🌫️'};return m[k]||'🌤️';}
+function mustList(m){return Array.isArray(m)?m.map(E).join('；'):E(m);}
 
 function render(){
   let h='';
@@ -883,10 +1206,10 @@ function render(){
       ${has(T.budget&&T.budget.perPerson)?`<span class="chip">💰 人均 ${E(T.budget.perPerson)}</span>`:''}
     </div></div></div>`;
 
-  // Nav
   if(has(T.days)&&T.days.length){
     h+='<div class="nav"><div class="scroller" id="dnav"><button data-go="top" class="active">總覽</button>';
     T.days.forEach((d,i)=>{h+=`<button data-go="day${i}">D${i+1}${has(d.date)?' · '+E(d.date):''}</button>`;});
+    if(has(T.dining))h+=`<button data-go="dining">美食</button>`;
     if(has(T.alternatives))h+=`<button data-go="alts">備選</button>`;
     if(has(T.hotels))h+=`<button data-go="hotels">住宿</button>`;
     if(has(T.budget))h+=`<button data-go="budget">預算</button>`;
@@ -912,7 +1235,6 @@ function render(){
     </div></section>`;
   }
 
-  // Days
   if(has(T.days))T.days.forEach((d,i)=>{
     h+=`<section id="day${i}"><div class="card">
       <div class="day-head"><span class="d">DAY ${i+1}${has(d.date)?' · '+E(d.date):''}${has(d.weekday)?' '+E(d.weekday):''}</span>
@@ -924,18 +1246,26 @@ function render(){
           <div class="meal"><div class="mt">🍴 ${E(m.name)}</div>
           <div class="det">${[m.cuisine,has(m.perPerson)?'人均 '+E(m.perPerson):'',m.location].filter(has).map(E).join(' · ')}</div>
           ${has(m.recommended)?`<div class="small muted" style="margin-top:3px">推薦：${E(m.recommended)}</div>`:''}
-          ${mapBtn(m.mapQuery||((m.name||'')+' '+(m.location||'')),'搵餐廳')}</div></div></div>`;
+          <div class="arow">${mapBtn(m.mapQuery||((m.name||'')+' '+(m.location||'')),'搵餐廳')}${has(m.menuLink)?`<a class="btn-menu" target="_blank" rel="noopener" href="${E(m.menuLink)}">📋 Menu</a>`:''}</div>
+          </div>
+          ${has(a.transfer)?`<div class="transfer">➡️ 去下一站：${E(a.transfer)}</div>`:''}</div></div>`;
       }else{
+        const img = has(a.imageUrl)
+          ? `<img class="thumb" loading="lazy" src="${E(a.imageUrl)}" alt="">`
+          : `<div class="act-ph"><span class="pe">${E(a.icon||'📍')}</span><span>${E(a.name)}</span></div>`;
         h+=`<div class="act"><div class="time">${E(a.time)||'•'}</div><div class="body">
           <div class="nm">${E(a.name)}</div>
           ${has(a.note)?`<div class="det">${E(a.note)}</div>`:''}
+          ${has(a.mustDo)?`<div class="mustdo"><b>✅ 必做：</b>${mustList(a.mustDo)}</div>`:''}
           <div class="tags">
             ${has(a.duration)?`<span class="tag">⏱ ${E(a.duration)}</span>`:''}
             ${costTag(a.cost)}
             ${has(a.transport)?`<span class="tag">🚇 ${E(a.transport)}</span>`:''}
           </div>
-          ${has(a.imageUrl)?`<img class="thumb" loading="lazy" src="${E(a.imageUrl)}" alt="">`:''}
-          ${mapBtn(a.mapQuery||a.address||a.name)}</div></div>`;
+          ${img}
+          ${mapBtn(a.mapQuery||a.address||a.name)}
+          ${has(a.transfer)?`<div class="transfer">➡️ 去下一站：${E(a.transfer)}</div>`:''}
+        </div></div>`;
       }
     });
     if(has(d.backup)&&d.backup.length){
@@ -948,10 +1278,32 @@ function render(){
     h+=`</div></section>`;
   });
 
-  // Alternatives library
+  // Dining guide
+  if(has(T.dining)&&T.dining.length){
+    h+=`<section id="dining"><div class="sec-title"><span class="i">🍴</span>餐廳指南（分類）</div>`;
+    h+=`<div class="card"><div class="small muted">每間有介紹、招牌、營業時間（留意公休）、📍地圖、🔗介紹、📋Menu。價以現場為準。</div></div>`;
+    T.dining.forEach(g=>{
+      h+=`<div class="alt-group"><h3>${E(g.category)}</h3>`;
+      (g.items||[]).forEach(it=>{
+        h+=`<div class="din-item"><div class="an">${E(it.name)}</div>
+          <div class="ad">${[it.area,it.price,it.hours].filter(has).map(E).join(' · ')}</div>
+          ${has(it.intro)?`<div class="anote">${E(it.intro)}</div>`:''}
+          ${has(it.signature)?`<div class="sig">🍽 ${E(it.signature)}</div>`:''}
+          <div class="arow">
+            ${mapBtn(it.mapQuery||it.name,'地圖')}
+            ${has(it.link)?`<a class="btn-link" target="_blank" rel="noopener" href="${E(it.link)}">🔗 介紹</a>`:''}
+            ${has(it.menuLink)?`<a class="btn-menu" target="_blank" rel="noopener" href="${E(it.menuLink)}">📋 Menu</a>`:''}
+          </div></div>`;
+      });
+      h+=`</div>`;
+    });
+    h+=`</section>`;
+  }
+
+  // Alternatives
   if(has(T.alternatives)&&T.alternatives.length){
     h+=`<section id="alts"><div class="sec-title"><span class="i">🔁</span>備選活動庫 — 自由替換</div>`;
-    h+=`<div class="card"><div class="small muted" style="margin-bottom:4px">想換／加邊個都得，話我知就改行程重出。所有 📍 都可一㩒導航。</div></div>`;
+    h+=`<div class="card"><div class="small muted">想換／加邊個都得，話我知就改行程重出。所有 📍 都可一㩒導航。</div></div>`;
     T.alternatives.forEach(g=>{
       h+=`<div class="alt-group"><h3>${E(g.category)}</h3>`;
       (g.items||[]).forEach(it=>{
@@ -966,13 +1318,12 @@ function render(){
     h+=`</section>`;
   }
 
-  // Hotels
   if(has(T.hotels)&&T.hotels.length){
     h+=`<section id="hotels"><div class="sec-title"><span class="i">🏨</span>住宿推薦</div>`;
     T.hotels.forEach(ht=>{
       h+=`<div class="card hotel"><div class="hn">${E(ht.name)}</div>
         <div class="row"><span class="muted">${E(ht.area)||''}${has(ht.rating)?' · ⭐'+E(ht.rating):''}</span>
-        ${has(ht.pricePerNight)?`<span class="price">${E(ht.pricePerNight)}/晚</span>`:''}</div>
+        ${has(ht.pricePerNight)?`<span class="price">${E(ht.pricePerNight)}</span>`:''}</div>
         ${has(ht.checkIn)?`<div class="small muted" style="margin-top:4px">入住 ${E(ht.checkIn)}${has(ht.checkOut)?' → 退房 '+E(ht.checkOut):''}</div>`:''}
         ${has(ht.highlights)?`<div class="small" style="margin-top:6px">${E(ht.highlights)}</div>`:''}
         ${has(ht.confirmation)?`<div class="small muted" style="margin-top:4px">訂單號：${E(ht.confirmation)}</div>`:''}
@@ -982,7 +1333,6 @@ function render(){
     h+=`</section>`;
   }
 
-  // Budget
   if(has(T.budget)){const b=T.budget,cats=[['transport','🚄 交通'],['accommodation','🏨 住宿'],['food','🍴 餐飲'],['tickets','🎫 門票'],['other','🛍 其他']];
     h+=`<section id="budget"><div class="sec-title"><span class="i">💰</span>預算</div>`;
     if(has(b.tiers)&&b.tiers.length){
@@ -995,7 +1345,6 @@ function render(){
     h+=`</table>${has(b.note)?`<div class="reliab">${E(b.note)}</div>`:''}</div></section>`;
   }
 
-  // Essentials
   if(has(T.essentials)){const es=T.essentials;
     const rows=[['currency','💱 貨幣 / 匯率'],['plug','🔌 插頭電壓'],['transit','🚇 交通卡'],['emergency','🚨 緊急電話'],['sim','📶 上網 / SIM'],['timezone','🕐 時區'],['language','🗣 語言'],['tipping','💵 小費']];
     h+=`<section id="ess"><div class="sec-title"><span class="i">🧭</span>實用資訊</div><div class="card"><div class="ess">`;
@@ -1003,7 +1352,6 @@ function render(){
     h+=`</div></div></section>`;
   }
 
-  // Tips
   if(has(T.tips)&&T.tips.length){
     h+=`<section><div class="sec-title"><span class="i">📝</span>貼士 & 避坑</div><div class="card"><ul class="tips">`;
     h+=T.tips.map(x=>`<li>${E(x)}</li>`).join('')+`</ul></div></section>`;
