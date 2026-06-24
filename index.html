@@ -13,13 +13,14 @@
     --radius:18px; --maxw:700px;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{overflow-x:hidden;-webkit-text-size-adjust:100%}
   html,body{margin:0;padding:0}
   body{
     color:var(--ink); min-height:100vh; position:relative;
     font-family:-apple-system,BlinkMacSystemFont,"PingFang HK","Noto Sans HK","Microsoft JhengHei",sans-serif;
     line-height:1.62; font-size:16px; padding-bottom:env(safe-area-inset-bottom);
     background:linear-gradient(160deg,#9be8ff 0%,#bba6ff 22%,#ff9fde 46%,#ffc07a 70%,#86ffd2 100%);
-    background-size:240% 240%; background-attachment:fixed;
+    background-size:240% 240%;
     animation:dreamy 24s ease-in-out infinite;
   }
   @keyframes dreamy{0%{background-position:0% 0%}50%{background-position:100% 100%}100%{background-position:0% 0%}}
@@ -220,7 +221,7 @@
 </div>
 <div id="view-trip"><div class="wrap"><div id="app"></div></div></div>
 <div id="view-tools" style="display:none"><div class="wrap"><div id="exp"></div></div></div>
-<button class="totop" id="totop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+<button class="totop" id="totop" onclick="goTop()">↑</button>
 
 <script id="trip-data" type="application/json">
 {
@@ -1499,11 +1500,14 @@ function wireNav(){
 
 /* ===== 🧮 計錢分攤工具（純前端 localStorage） ===== */
 const EKEY='exp_'+String(T.title||'trip').replace(/\s+/g,'_');
-let EX={members:[],expenses:[],rate:4,budget:16500};
+let EX={members:[],expenses:[],
+  rate:(T.expense&&T.expense.rate)||4,
+  budget:(T.expense&&T.expense.budget!==undefined?T.expense.budget:16500),
+  cur:(T.expense&&T.expense.cur)||'NT$'};
 function expLoad(){try{const s=localStorage.getItem(EKEY);if(s)EX=Object.assign(EX,JSON.parse(s));}catch(e){}}
 function expSave(){try{localStorage.setItem(EKEY,JSON.stringify(EX));}catch(e){}}
 const uid=()=>Math.random().toString(36).slice(2,9);
-const ntf=n=>'NT$'+Math.round(n).toLocaleString();
+const ntf=n=>EX.cur+Math.round(n).toLocaleString();
 const hkf=n=>'HK$'+Math.round(n).toLocaleString();
 const nmOf=id=>{const m=EX.members.find(x=>x.id===id);return m?m.name:'?';};
 function expAddMember(){const i=document.getElementById('mname');const v=(i.value||'').trim();if(!v)return;EX.members.push({id:uid(),name:v});expSave();expRender();const f=document.getElementById('mname');if(f)f.focus();}
@@ -1527,7 +1531,7 @@ function expRender(){const el=document.getElementById('exp');if(!el)return;
   if(EX.members.length){
     h+=`<div class="card"><div class="exlab">➕ 加一筆開支</div>
       <input id="edesc" placeholder="用途（例：晚餐 / 的士 / 門票）">
-      <div class="exrow"><input id="eamt" type="number" inputmode="decimal" placeholder="金額 NT$">
+      <div class="exrow"><input id="eamt" type="number" inputmode="decimal" placeholder="金額 ${EX.cur}">
       <select id="epayer">${EX.members.map(m=>`<option value="${m.id}">${E(m.name)} 付</option>`).join('')}</select></div>
       <div class="exlab2">邊個分攤（預設全部）</div>
       <div class="chips">${EX.members.map(m=>`<label class="wchip"><input type="checkbox" class="ewho" value="${m.id}" checked> ${E(m.name)}</label>`).join('')}</div>
@@ -1548,7 +1552,7 @@ function expRender(){const el=document.getElementById('exp');if(!el)return;
     h+=tx.map(t=>`<div class="extx">${E(nmOf(t.from))} → ${E(nmOf(t.to))} <b>${ntf(t.amt)}</b></div>`).join('');}
   h+=`<div class="exlab2">🎯 預算（HK$）</div>
     <div class="exrow"><input id="ebud" type="number" inputmode="decimal" value="${EX.budget||''}" placeholder="總預算 HK$" onchange="expSetBudget(this.value)">
-    <span class="exrate">HK$1=NT$<input id="erate" type="number" value="${EX.rate}" onchange="expSetRate(this.value)"></span></div>`;
+    <span class="exrate">HK$1=${EX.cur}<input id="erate" type="number" value="${EX.rate}" onchange="expSetRate(this.value)"></span></div>`;
   if(EX.budget){const usedHK=total/EX.rate,left=EX.budget-usedHK,pct=Math.min(100,EX.budget>0?usedHK/EX.budget*100:0);
     h+=`<div class="bar"><div class="barfill" style="width:${pct}%"></div></div>
     <div class="exsum"><span>已用</span><b>${hkf(usedHK)} / ${hkf(EX.budget)}</b></div>
@@ -1563,6 +1567,7 @@ function setMode(m){document.getElementById('view-trip').style.display=m==='trip
   document.getElementById('mb-money').classList.toggle('active',m==='money');
   if(m==='money')expRender();scrollTo({top:0});}
 
+function goTop(){var el=document.scrollingElement||document.documentElement||document.body;if('scrollBehavior' in document.documentElement.style){try{window.scrollTo({top:0,left:0,behavior:'smooth'});return;}catch(e){}}el.scrollTop=0;window.scrollTo(0,0);}
 render();
 expLoad();
 </script>
