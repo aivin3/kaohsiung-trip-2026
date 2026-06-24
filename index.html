@@ -210,6 +210,10 @@
   .anaval{flex:0 0 auto;font-weight:800;font-variant-numeric:tabular-nums}
   #exp input[type=date]{flex:1}
 
+  .synccard{background:#fff;border:2px solid var(--good);border-radius:13px;padding:12px;margin-bottom:13px}
+  .synccard.on{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800;color:var(--good)}
+  .syncleave{margin-left:auto;background:#fff;border:2px solid #e8334a;color:#e8334a;border-radius:9px;padding:4px 11px;font-weight:800;cursor:pointer}
+
   @media print{
     @page{margin:11mm}
     body{background:#fff!important;font-size:12.5px;animation:none}
@@ -225,6 +229,7 @@
     .act img.thumb,.hotel img.thumb,.din-item img.thumb{max-height:150px;object-fit:cover}
   }
 </style>
+
 </head>
 <body>
 <div class="topbar">
@@ -1513,31 +1518,58 @@ function wireNav(){
   addEventListener('scroll',()=>{tt.style.display=scrollY>500?'block':'none'});
 }
 
-/* ===== 🧮 計錢分攤工具 v2（公數錢包 + 日期時間 + 分類分析） ===== */
+/* ===== 🧮 計錢分攤工具 v3（公數錢包 + 日期時間 + 分類分析 + Firebase 實時共用） ===== */
 const EKEY='exp_'+String(T.title||'trip').replace(/\s+/g,'_');
 const CATS=[['🍴','食'],['🚇','交通'],['🎟','入場'],['🛍','購物'],['🏨','住宿'],['🎉','其他']];
+const FBC=(typeof window!=='undefined'&&window.FIREBASE_CONFIG)||null;
+let SYNC={on:false,app:null,db:null,ref:null,code:null};
 let EX={members:[],expenses:[],pool:[],rate:(T.expense&&T.expense.rate)||4,budget:(T.expense&&T.expense.budget!==undefined?T.expense.budget:16500),cur:(T.expense&&T.expense.cur)||'NT$',disp:'local'};
-function expLoad(){try{const s=localStorage.getItem(EKEY);if(s)EX=Object.assign(EX,JSON.parse(s));}catch(e){}}
-function expSave(){try{localStorage.setItem(EKEY,JSON.stringify(EX));}catch(e){}}
+function loadDisp(){try{return localStorage.getItem(EKEY+'_disp')||'local';}catch(e){return 'local';}}
+function saveDisp(){try{localStorage.setItem(EKEY+'_disp',EX.disp);}catch(e){}}
+function localSaveAll(){try{localStorage.setItem(EKEY,JSON.stringify(EX));}catch(e){}}
+function expLoad(){try{const s=localStorage.getItem(EKEY);if(s)EX=Object.assign(EX,JSON.parse(s));}catch(e){}EX.disp=loadDisp();
+  if(FBC){try{const r=localStorage.getItem(EKEY+'_room');if(r){const o=JSON.parse(r);reJoin(o.code,o.pw);}}catch(e){}}}
 const uid=()=>Math.random().toString(36).slice(2,9);
 const rnd=n=>Math.round(n);
 const locf=n=>EX.cur+rnd(n).toLocaleString();
 const hkf=n=>'HK$'+rnd(n).toLocaleString();
 const fmt=n=>EX.disp==='hkd'?hkf(n/EX.rate):locf(n);
 const nmOf=id=>{if(id==='POOL')return '💰公數';const m=EX.members.find(x=>x.id===id);return m?m.name:'?';};
+const normWho=x=>Array.isArray(x)?x:(x?Object.values(x):[]);
 function nowParts(){const d=new Date();const p=x=>String(x).padStart(2,'0');return {d:d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()),h:d.getHours()};}
 function hourLabel(h){const ap=h<12?'am':'pm';let hh=h%12;if(hh===0)hh=12;return hh+ap;}
 function dtLabel(dt){if(!dt)return '';const md=dt.d?dt.d.slice(5).replace('-','/'):'';return md+' '+hourLabel(dt.h||0);}
-function expAddMember(){const i=document.getElementById('mname');const v=(i.value||'').trim();if(!v)return;EX.members.push({id:uid(),name:v});expSave();expRender();const f=document.getElementById('mname');if(f)f.focus();}
-function expDelMember(id){EX.members=EX.members.filter(m=>m.id!==id);EX.expenses=EX.expenses.filter(e=>e.payer!==id);EX.expenses.forEach(e=>e.who=e.who.filter(w=>w!==id));EX.pool.forEach(p=>p.who=p.who.filter(w=>w!==id));expSave();expRender();}
-function expAddPool(){const amt=parseFloat(document.getElementById('pamt').value);const who=[...document.querySelectorAll('.pwho:checked')].map(c=>c.value);if(!(amt>0)){alert('請填夾入金額');return;}if(!who.length){alert('請揀邊個夾');return;}EX.pool.push({id:uid(),amount:amt,who});expSave();expRender();}
-function expDelPool(id){EX.pool=EX.pool.filter(p=>p.id!==id);expSave();expRender();}
-function expAddExpense(){const desc=(document.getElementById('edesc').value||'').trim()||'未命名';const amt=parseFloat(document.getElementById('eamt').value);const payer=document.getElementById('epayer').value;const cat=document.getElementById('ecat').value;const dd=document.getElementById('edate').value;const hh=parseInt(document.getElementById('ehour').value,10);const who=[...document.querySelectorAll('.ewho:checked')].map(c=>c.value);if(!payer||!(amt>0)){alert('請填付款人同金額');return;}if(!who.length){alert('請揀邊個分攤');return;}EX.expenses.push({id:uid(),desc,amount:amt,payer,who,cat,dt:{d:dd,h:isNaN(hh)?0:hh}});expSave();expRender();}
-function expDel(id){EX.expenses=EX.expenses.filter(e=>e.id!==id);expSave();expRender();}
-function expSetRate(v){const r=parseFloat(v);if(r>0){EX.rate=r;expSave();expRender();}}
-function expSetBudget(v){const b=parseFloat(v);EX.budget=(b>0?b:null);expSave();expRender();}
-function expSetDisp(d){EX.disp=d;expSave();expRender();}
-function expClear(){if(confirm('清空所有開支記錄？(成員/公數保留)')){EX.expenses=[];expSave();expRender();}}
+/* ---- Firebase 同步 ---- */
+function fbInit(){if(SYNC.app)return true;if(!FBC||!window.firebase)return false;try{SYNC.app=firebase.initializeApp(FBC);SYNC.db=firebase.database();}catch(e){if(!SYNC.db){try{SYNC.db=firebase.database();}catch(e2){return false;}}}return true;}
+function seedRoom(ref){const upd={};EX.members.forEach(m=>upd['members/'+m.id]={name:m.name});EX.expenses.forEach(e=>upd['expenses/'+e.id]={desc:e.desc,amount:e.amount,payer:e.payer,who:e.who,cat:e.cat,dt:e.dt});EX.pool.forEach(p=>upd['pool/'+p.id]={amount:p.amount,who:p.who});upd['meta']={rate:EX.rate,budget:(EX.budget==null?0:EX.budget),cur:EX.cur};ref.update(upd);}
+function attachListener(){if(!SYNC.ref)return;SYNC.ref.on('value',function(snap){const v=snap.val()||{};
+  EX.members=v.members?Object.keys(v.members).map(id=>({id,name:(v.members[id]||{}).name})):[];
+  EX.expenses=v.expenses?Object.keys(v.expenses).map(id=>{const o=v.expenses[id]||{};return {id,desc:o.desc,amount:o.amount,payer:o.payer,who:normWho(o.who),cat:o.cat,dt:o.dt};}):[];
+  EX.pool=v.pool?Object.keys(v.pool).map(id=>{const o=v.pool[id]||{};return {id,amount:o.amount,who:normWho(o.who)};}):[];
+  if(v.meta){if(v.meta.rate)EX.rate=v.meta.rate;if(v.meta.budget!==undefined)EX.budget=(v.meta.budget||null);}
+  EX.disp=loadDisp();expRender();});}
+function reJoin(code,pw){if(!fbInit())return;SYNC.ref=SYNC.db.ref('rooms/'+code);SYNC.on=true;SYNC.code=code;attachListener();}
+function syncJoin(){const raw=(document.getElementById('roomcode').value||'').trim().toLowerCase();const code=raw.replace(/[^a-z0-9_-]/g,'');const pw=(document.getElementById('roompw').value||'');
+  if(!code){alert('請輸入行程碼（英文/數字）');return;}if(!FBC){alert('此版本未設定 Firebase');return;}if(!window.firebase){alert('Firebase 未載入（要連網先用到共用）');return;}if(!fbInit()){alert('Firebase 初始化失敗');return;}
+  const ref=SYNC.db.ref('rooms/'+code);
+  ref.child('pw').once('value').then(function(snap){const ex=snap.val();
+    if(ex!==null&&ex!==undefined&&ex!==''){if(String(ex)!==String(pw)){alert('行程碼或密碼唔啱');return;}}
+    else{ref.child('pw').set(pw||'');seedRoom(ref);}
+    SYNC.ref=ref;SYNC.on=true;SYNC.code=code;try{localStorage.setItem(EKEY+'_room',JSON.stringify({code:code,pw:pw}));}catch(e){}
+    attachListener();
+  }).catch(function(e){alert('連線失敗：'+((e&&e.message)||e));});}
+function syncLeave(){if(SYNC.ref){try{SYNC.ref.off();}catch(e){}}SYNC.on=false;SYNC.ref=null;SYNC.code=null;try{localStorage.removeItem(EKEY+'_room');}catch(e){}try{const s=localStorage.getItem(EKEY);EX=Object.assign({members:[],expenses:[],pool:[],rate:EX.rate,budget:EX.budget,cur:EX.cur,disp:EX.disp},s?JSON.parse(s):{});}catch(e){}EX.disp=loadDisp();expRender();}
+/* ---- CRUD（離線寫 localStorage；共用模式寫 Firebase，靠 listener 重繪）---- */
+function expAddMember(){const i=document.getElementById('mname');const v=(i.value||'').trim();if(!v)return;const id=uid();if(SYNC.on){SYNC.ref.child('members/'+id).set({name:v});}else{EX.members.push({id,name:v});localSaveAll();expRender();}const f=document.getElementById('mname');if(f){f.value='';f.focus();}}
+function expDelMember(id){if(SYNC.on){SYNC.ref.child('members/'+id).remove();EX.expenses.forEach(e=>{if(e.payer===id)SYNC.ref.child('expenses/'+e.id).remove();else if(e.who.indexOf(id)>=0)SYNC.ref.child('expenses/'+e.id+'/who').set(e.who.filter(w=>w!==id));});EX.pool.forEach(p=>{if(p.who.indexOf(id)>=0)SYNC.ref.child('pool/'+p.id+'/who').set(p.who.filter(w=>w!==id));});}else{EX.members=EX.members.filter(m=>m.id!==id);EX.expenses=EX.expenses.filter(e=>e.payer!==id);EX.expenses.forEach(e=>e.who=e.who.filter(w=>w!==id));EX.pool.forEach(p=>p.who=p.who.filter(w=>w!==id));localSaveAll();expRender();}}
+function expAddPool(){const amt=parseFloat(document.getElementById('pamt').value);const who=[...document.querySelectorAll('.pwho:checked')].map(c=>c.value);if(!(amt>0)){alert('請填夾入金額');return;}if(!who.length){alert('請揀邊個夾');return;}const id=uid();if(SYNC.on){SYNC.ref.child('pool/'+id).set({amount:amt,who});}else{EX.pool.push({id,amount:amt,who});localSaveAll();expRender();}}
+function expDelPool(id){if(SYNC.on){SYNC.ref.child('pool/'+id).remove();}else{EX.pool=EX.pool.filter(p=>p.id!==id);localSaveAll();expRender();}}
+function expAddExpense(){const desc=(document.getElementById('edesc').value||'').trim()||'未命名';const amt=parseFloat(document.getElementById('eamt').value);const payer=document.getElementById('epayer').value;const cat=document.getElementById('ecat').value;const dd=document.getElementById('edate').value;const hh=parseInt(document.getElementById('ehour').value,10);const who=[...document.querySelectorAll('.ewho:checked')].map(c=>c.value);if(!payer||!(amt>0)){alert('請填付款人同金額');return;}if(!who.length){alert('請揀邊個分攤');return;}const id=uid();const obj={desc,amount:amt,payer,who,cat,dt:{d:dd,h:isNaN(hh)?0:hh}};if(SYNC.on){SYNC.ref.child('expenses/'+id).set(obj);}else{EX.expenses.push(Object.assign({id},obj));localSaveAll();expRender();}}
+function expDel(id){if(SYNC.on){SYNC.ref.child('expenses/'+id).remove();}else{EX.expenses=EX.expenses.filter(e=>e.id!==id);localSaveAll();expRender();}}
+function expSetRate(v){const r=parseFloat(v);if(r>0){EX.rate=r;if(SYNC.on){SYNC.ref.child('meta/rate').set(r);}else{localSaveAll();expRender();}}}
+function expSetBudget(v){const b=parseFloat(v);EX.budget=(b>0?b:null);if(SYNC.on){if(b>0)SYNC.ref.child('meta/budget').set(b);else SYNC.ref.child('meta/budget').remove();}else{localSaveAll();expRender();}}
+function expSetDisp(d){EX.disp=d;saveDisp();expRender();}
+function expClear(){if(confirm('清空所有開支記錄？(成員/公數保留)')){if(SYNC.on){SYNC.ref.child('expenses').remove();}else{EX.expenses=[];localSaveAll();expRender();}}}
 function poolBalance(){let inn=0;EX.pool.forEach(p=>inn+=p.amount*p.who.length);let out=0;EX.expenses.forEach(e=>{if(e.payer==='POOL')out+=e.amount;});return {inn,out,bal:inn-out};}
 function expSettle(){const net={};EX.members.forEach(m=>net[m.id]=0);
   EX.pool.forEach(p=>{p.who.forEach(w=>{net[w]=(net[w]||0)+p.amount;});});
@@ -1549,46 +1581,33 @@ function expSettle(){const net={};EX.members.forEach(m=>net[m.id]=0);
 function expRender(){const el=document.getElementById('exp');if(!el)return;
   const total=EX.expenses.reduce((s,e)=>s+e.amount,0);const pb=poolBalance();const now=nowParts();
   let h=`<div class="sec-title"><span class="i">🧮</span>計錢分攤 + 公數 + 預算</div>`;
+  if(FBC){if(SYNC.on){h+=`<div class="synccard on">🔗 共用中・行程碼 <b>${E(SYNC.code)}</b>（實時同步）<button class="syncleave" onclick="syncLeave()">離開共用</button></div>`;}
+    else{h+=`<div class="synccard"><div class="exlab2">🔗 多人共用（連網實時同步）</div><div class="exrow"><input id="roomcode" placeholder="行程碼（自訂，例：fukuoka2026）"><input id="roompw" type="password" placeholder="密碼(可空)" style="flex:0 0 110px"></div><button class="exbtn full" onclick="syncJoin()">加入 / 建立共用</button><div class="small muted" style="margin-top:6px">同一行程碼嘅人睇到改到同一份分帳；唔開就純本機離線。</div></div>`;}}
   h+=`<div class="pool"><div class="ptop"><span class="plab">💰 公數錢包餘額</span><span class="pbal">${fmt(pb.bal)}</span></div><div class="psub">已夾入 ${fmt(pb.inn)} · 已用 ${fmt(pb.out)}</div>`;
-  if(EX.members.length){
-    h+=`<div class="exlab2" style="margin-top:9px">夾錢入公數（選人，每人夾同一金額）</div><div class="exrow"><input id="pamt" type="number" inputmode="decimal" placeholder="每人夾 ${EX.cur}"><button class="exbtn" onclick="expAddPool()">＋ 夾入</button></div><div class="chips" style="margin-top:7px">${EX.members.map(m=>`<label class="wchip"><input type="checkbox" class="pwho" value="${m.id}" checked> ${E(m.name)}</label>`).join('')}</div>`;
-    if(EX.pool.length){h+=`<div style="margin-top:8px">`+EX.pool.slice().reverse().map(p=>`<div class="exitem"><div class="small">${p.who.map(w=>E(nmOf(w))).join('、')} 各夾 ${fmt(p.amount)}</div><div class="examt">${fmt(p.amount*p.who.length)}<button onclick="expDelPool('${p.id}')">✕</button></div></div>`).join('')+`</div>`;}
-  }
+  if(EX.members.length){h+=`<div class="exlab2" style="margin-top:9px">夾錢入公數（選人，每人夾同一金額）</div><div class="exrow"><input id="pamt" type="number" inputmode="decimal" placeholder="每人夾 ${EX.cur}"><button class="exbtn" onclick="expAddPool()">＋ 夾入</button></div><div class="chips" style="margin-top:7px">${EX.members.map(m=>`<label class="wchip"><input type="checkbox" class="pwho" value="${m.id}" checked> ${E(m.name)}</label>`).join('')}</div>`;
+    if(EX.pool.length){h+=`<div style="margin-top:8px">`+EX.pool.slice().reverse().map(p=>`<div class="exitem"><div class="small">${p.who.map(w=>E(nmOf(w))).join('、')} 各夾 ${fmt(p.amount)}</div><div class="examt">${fmt(p.amount*p.who.length)}<button onclick="expDelPool('${p.id}')">✕</button></div></div>`).join('')+`</div>`;}}
   h+=`</div>`;
   h+=`<div class="card"><div class="exlab">👥 成員</div><div class="chips">`;
   h+=EX.members.map(m=>`<span class="mchip">${E(m.name)}<button onclick="expDelMember('${m.id}')">✕</button></span>`).join('')||'<span class="muted small">未有成員，先加（例：爸/媽/我/女）</span>';
   h+=`</div><div class="exrow"><input id="mname" placeholder="加成員名" onkeydown="if(event.key==='Enter')expAddMember()"><button class="exbtn" onclick="expAddMember()">＋ 加</button></div></div>`;
-  if(EX.members.length){
-    h+=`<div class="card"><div class="exlab">➕ 加一筆開支</div><input id="edesc" placeholder="用途（例：晚餐 / 的士 / 門票）"><div class="exrow"><input id="edate" type="date" value="${now.d}"><select id="ehour">${Array.from({length:24},(_,k)=>`<option value="${k}" ${k===now.h?'selected':''}>${hourLabel(k)}</option>`).join('')}</select></div><div class="exrow"><input id="eamt" type="number" inputmode="decimal" placeholder="金額 ${EX.cur}"><select id="epayer"><option value="POOL">💰 公錢付</option>${EX.members.map(m=>`<option value="${m.id}">${E(m.name)} 付</option>`).join('')}</select></div><div class="exrow"><select id="ecat">${CATS.map(c=>`<option value="${c[1]}">${c[0]} ${c[1]}</option>`).join('')}</select></div><div class="exlab2">邊個分攤（預設全部）</div><div class="chips">${EX.members.map(m=>`<label class="wchip"><input type="checkbox" class="ewho" value="${m.id}" checked> ${E(m.name)}</label>`).join('')}</div><button class="exbtn full" onclick="expAddExpense()">加入記錄</button></div>`;
-  }
-  if(EX.expenses.length){
-    const cm={};CATS.forEach(c=>cm[c[1]]=c[0]);
+  if(EX.members.length){h+=`<div class="card"><div class="exlab">➕ 加一筆開支</div><input id="edesc" placeholder="用途（例：晚餐 / 的士 / 門票）"><div class="exrow"><input id="edate" type="date" value="${now.d}"><select id="ehour">${Array.from({length:24},(_,k)=>`<option value="${k}" ${k===now.h?'selected':''}>${hourLabel(k)}</option>`).join('')}</select></div><div class="exrow"><input id="eamt" type="number" inputmode="decimal" placeholder="金額 ${EX.cur}"><select id="epayer"><option value="POOL">💰 公錢付</option>${EX.members.map(m=>`<option value="${m.id}">${E(m.name)} 付</option>`).join('')}</select></div><div class="exrow"><select id="ecat">${CATS.map(c=>`<option value="${c[1]}">${c[0]} ${c[1]}</option>`).join('')}</select></div><div class="exlab2">邊個分攤（預設全部）</div><div class="chips">${EX.members.map(m=>`<label class="wchip"><input type="checkbox" class="ewho" value="${m.id}" checked> ${E(m.name)}</label>`).join('')}</div><button class="exbtn full" onclick="expAddExpense()">加入記錄</button></div>`;}
+  if(EX.expenses.length){const cm={};CATS.forEach(c=>cm[c[1]]=c[0]);
     const list=EX.expenses.slice().sort((a,b)=>{const ka=(a.dt&&a.dt.d||'')+String((a.dt&&a.dt.h)||0).padStart(2,'0');const kb=(b.dt&&b.dt.d||'')+String((b.dt&&b.dt.h)||0).padStart(2,'0');return kb<ka?-1:kb>ka?1:0;});
     h+=`<div class="card"><div class="exlab">🧾 記錄（${EX.expenses.length}）</div>`;
-    h+=list.map(e=>`<div class="exitem"><div><b>${cm[e.cat]||''} ${E(e.desc)}</b><div class="small muted">${dtLabel(e.dt)} · ${E(nmOf(e.payer))} 付 · 分 ${e.who.length} 人</div></div><div class="examt">${fmt(e.amount)}<button onclick="expDel('${e.id}')">✕</button></div></div>`).join('');
-    h+=`</div>`;
-  }
+    h+=list.map(e=>`<div class="exitem"><div><b>${cm[e.cat]||''} ${E(e.desc)}</b><div class="small muted">${dtLabel(e.dt)} · ${E(nmOf(e.payer))} 付 · 分 ${e.who.length} 人</div></div><div class="examt">${fmt(e.amount)}<button onclick="expDel('${e.id}')">✕</button></div></div>`).join('');h+=`</div>`;}
   h+=`<div class="card"><div class="exlab">📊 結算</div>`;
   h+=`<div class="exrow" style="align-items:center"><span class="exrate">匯率 HK$1=${EX.cur}<input id="erate" type="number" value="${EX.rate}" onchange="expSetRate(this.value)"></span><span style="margin-left:auto"></span><span class="curtog"><button class="${EX.disp==='local'?'on':''}" onclick="expSetDisp('local')">${EX.cur}</button><button class="${EX.disp==='hkd'?'on':''}" onclick="expSetDisp('hkd')">HK$</button></span></div>`;
   h+=`<div class="exsum"><span>總開支</span><b>${locf(total)} <span class="muted">≈ ${hkf(total/EX.rate)}</span></b></div>`;
   if(EX.members.length)h+=`<div class="exsum"><span>人均</span><b>${fmt(total/EX.members.length)}</b></div>`;
   const {net,tx}=expSettle();
-  if(EX.members.length){h+=`<div class="exlab2">每人淨額（含公數夾錢）</div>`;
-    h+=EX.members.map(m=>{const v=net[m.id]||0;return `<div class="exsum"><span>${E(m.name)}</span><b class="${v>=0?'pos':'neg'}">${v>=0?'應收 ':'應付 '}${fmt(Math.abs(v))}</b></div>`;}).join('');}
-  if(tx.length){h+=`<div class="exlab2">💸 最少轉帳結算</div>`;
-    h+=tx.map(t=>`<div class="extx">${E(nmOf(t.from))} → ${E(nmOf(t.to))} <b>${fmt(t.amt)}</b></div>`).join('');}
+  if(EX.members.length){h+=`<div class="exlab2">每人淨額（含公數夾錢）</div>`;h+=EX.members.map(m=>{const v=net[m.id]||0;return `<div class="exsum"><span>${E(m.name)}</span><b class="${v>=0?'pos':'neg'}">${v>=0?'應收 ':'應付 '}${fmt(Math.abs(v))}</b></div>`;}).join('');}
+  if(tx.length){h+=`<div class="exlab2">💸 最少轉帳結算</div>`;h+=tx.map(t=>`<div class="extx">${E(nmOf(t.from))} → ${E(nmOf(t.to))} <b>${fmt(t.amt)}</b></div>`).join('');}
   h+=`<div class="exlab2">🎯 預算（HK$）</div><div class="exrow"><input id="ebud" type="number" inputmode="decimal" value="${EX.budget||''}" placeholder="總預算 HK$" onchange="expSetBudget(this.value)"></div>`;
-  if(EX.budget){const usedHK=total/EX.rate,left=EX.budget-usedHK,pct=Math.min(100,EX.budget>0?usedHK/EX.budget*100:0);
-    h+=`<div class="bar"><div class="barfill" style="width:${pct}%"></div></div><div class="exsum"><span>已用</span><b>${hkf(usedHK)} / ${hkf(EX.budget)}</b></div><div class="exsum"><span>${left>=0?'仲有':'⚠️ 超支'}</span><b class="${left>=0?'pos':'neg'}">${hkf(Math.abs(left))}</b></div>`;}
+  if(EX.budget){const usedHK=total/EX.rate,left=EX.budget-usedHK,pct=Math.min(100,EX.budget>0?usedHK/EX.budget*100:0);h+=`<div class="bar"><div class="barfill" style="width:${pct}%"></div></div><div class="exsum"><span>已用</span><b>${hkf(usedHK)} / ${hkf(EX.budget)}</b></div><div class="exsum"><span>${left>=0?'仲有':'⚠️ 超支'}</span><b class="${left>=0?'pos':'neg'}">${hkf(Math.abs(left))}</b></div>`;}
   h+=`</div>`;
-  if(EX.expenses.length){
-    const by={};CATS.forEach(c=>by[c[1]]=0);EX.expenses.forEach(e=>{by[e.cat]=(by[e.cat]||0)+e.amount;});
-    const mx=Math.max(1,...Object.values(by));
-    h+=`<div class="card"><div class="exlab">📈 分類分析</div>`;
-    CATS.forEach(c=>{const v=by[c[1]]||0;if(v<=0)return;const pct=total>0?rnd(v/total*100):0;h+=`<div class="anarow"><span class="albl">${c[0]} ${c[1]}</span><span class="anabar"><i style="width:${rnd(v/mx*100)}%"></i></span><span class="anaval">${fmt(v)} <span class="muted small">${pct}%</span></span></div>`;});
-    h+=`</div>`;
-  }
-  h+=`<button class="exbtn ghost full" onclick="expClear()" style="margin-bottom:8px">🗑 清空開支記錄</button><div class="small muted">數據只存喺你手機（localStorage），離線可用、唔上傳。</div>`;
+  if(EX.expenses.length){const by={};CATS.forEach(c=>by[c[1]]=0);EX.expenses.forEach(e=>{by[e.cat]=(by[e.cat]||0)+e.amount;});const mx=Math.max(1,...Object.values(by));
+    h+=`<div class="card"><div class="exlab">📈 分類分析</div>`;CATS.forEach(c=>{const v=by[c[1]]||0;if(v<=0)return;const pct=total>0?rnd(v/total*100):0;h+=`<div class="anarow"><span class="albl">${c[0]} ${c[1]}</span><span class="anabar"><i style="width:${rnd(v/mx*100)}%"></i></span><span class="anaval">${fmt(v)} <span class="muted small">${pct}%</span></span></div>`;});h+=`</div>`;}
+  h+=`<button class="exbtn ghost full" onclick="expClear()" style="margin-bottom:8px">🗑 清空開支記錄</button><div class="small muted">${SYNC.on?'🔗 共用模式：數據存喺 Firebase，同行程碼嘅人實時共用。':'本機模式：數據只存喺你手機（localStorage），離線可用、唔上傳。'}</div>`;
   el.innerHTML=h;
 }
 
