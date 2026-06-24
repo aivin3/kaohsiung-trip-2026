@@ -1234,7 +1234,54 @@
     "每人買一張一卡通 iPASS：捷運/輕軌/渡輪/56號公車/台鐵通用 85 折，兒童票更平；落單前以官方為準。",
     "退稅：單店滿 NT$2,000 可退稅，手信集中買，帶護照。"
   ],
-  "generationDate": "2026-06-23"
+  "events": [
+    {
+      "name": "神行祭（民俗文化・市集・音樂）",
+      "date": "8/15–16",
+      "where": "駁二大義紅磚廊道",
+      "tag": "🎯 啱你 D1–D2",
+      "note": "臺灣民俗文化為核心：廟埕+市集+音樂+地方飲食+街藝演出（待官方確認）",
+      "link": "https://khh.travel/zh-tw/event/calendar/2026/",
+      "mapQuery": "駁二大義紅磚廊道"
+    },
+    {
+      "name": "駁二週末市集",
+      "date": "8/15(六)、8/16(日)",
+      "where": "駁二大義/大勇/蓬萊區廣場",
+      "tag": "順遊",
+      "note": "7–9 月週末市集，駁二多個廣場輪流（待確認）",
+      "link": "https://khh.tainanoutlook.com/kaohsiung-events-2026",
+      "mapQuery": "駁二藝術特區"
+    },
+    {
+      "name": "高雄展覽館・寵物用品展",
+      "date": "8/19–22",
+      "where": "高雄展覽館（亞洲新灣區）",
+      "tag": "女童或鍾意",
+      "note": "重疊你 8/19–21；近圖書館/夢時代（待確認）",
+      "link": "https://www.khmice.org.tw/xcexhibition/calendar?xsmsid=0N195602520127054073",
+      "mapQuery": "高雄展覽館"
+    },
+    {
+      "name": "高雄展覽館・酒展",
+      "date": "8/14–17",
+      "where": "高雄展覽館",
+      "tag": "成人向",
+      "note": "小朋友一般，順帶一提（待確認）",
+      "link": "https://www.khmice.org.tw/xcexhibition/calendar?xsmsid=0N195602520127054073",
+      "mapQuery": "高雄展覽館"
+    },
+    {
+      "name": "游鴻明《敵不過想念》演唱會",
+      "date": "8/22",
+      "where": "高雄巨蛋 K-ARENA",
+      "tag": "❌ 差一日",
+      "note": "你 8/21 走，差一日；如改機可考慮（待確認）",
+      "link": "https://www.kaoarena.com.tw/Home/CalendarList?year=2026",
+      "mapQuery": "高雄巨蛋"
+    }
+  ],
+  "generationDate": "2026-06-24"
 }
 </script>
 <script>
@@ -1265,6 +1312,7 @@ function render(){
   if(has(T.days)&&T.days.length){
     h+='<div class="nav"><div class="scroller" id="dnav"><button data-go="top" class="active">總覽</button>';
     T.days.forEach((d,i)=>{h+=`<button data-go="day${i}">D${i+1}${has(d.date)?' · '+E(d.date):''}</button>`;});
+    if(has(T.events))h+=`<button data-go="events">活動</button>`;
     if(has(T.dining))h+=`<button data-go="dining">美食</button>`;
     if(has(T.alternatives))h+=`<button data-go="alts">備選</button>`;
     if(has(T.hotels))h+=`<button data-go="hotels">住宿</button>`;
@@ -1289,6 +1337,18 @@ function render(){
       ${has(w.clothing)?`<div class="small muted" style="margin-top:9px">👕 ${E(w.clothing)}</div>`:''}
       ${has(w.tips)?`<div class="small muted" style="margin-top:4px">💡 ${E(w.tips)}</div>`:''}
     </div></section>`;
+  }
+
+  if(has(T.events)&&T.events.length){
+    h+=`<section id="events"><div class="sec-title"><span class="i">🎉</span>期間限定活動（旅程期間）</div>`;
+    h+=`<div class="card"><div class="small muted">出發前 2–3 週多數新活動先公布，呢度會喺臨近再更新；日期/地點以官方為準（標 待確認）。</div></div>`;
+    T.events.forEach(ev=>{
+      h+=`<div class="alt-item"><div class="an">${E(ev.name)}${has(ev.tag)?` <span class="tag">${E(ev.tag)}</span>`:''}</div>
+        <div class="ad">${[ev.date,ev.where].filter(has).map(E).join(' · ')}</div>
+        ${has(ev.note)?`<div class="anote">${E(ev.note)}</div>`:''}
+        <div class="arow">${has(ev.mapQuery)?mapBtn(ev.mapQuery,'地圖'):''}${has(ev.link)?`<a class="btn-link" target="_blank" rel="noopener" href="${E(ev.link)}">🔗 詳情</a>`:''}</div></div>`;
+    });
+    h+=`</section>`;
   }
 
   if(has(T.days))T.days.forEach((d,i)=>{
