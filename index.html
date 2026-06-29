@@ -214,6 +214,13 @@
   .synccard.on{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800;color:var(--good)}
   .syncleave{margin-left:auto;background:#fff;border:2px solid #e8334a;color:#e8334a;border-radius:9px;padding:4px 11px;font-weight:800;cursor:pointer}
 
+  .dirbtn{display:inline-block;margin-left:8px;font-size:12px;font-weight:800;color:#fff;background:var(--indigo);border-radius:8px;padding:2px 9px;text-decoration:none}
+  .daymap{display:inline-flex;align-items:center;gap:5px;margin:0 0 11px;font-size:13px;font-weight:800;color:#fff;background:var(--good);border-radius:10px;padding:6px 12px;text-decoration:none}
+  .qrov{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:20px}
+  .qrcard{background:#fff;border-radius:18px;padding:22px;text-align:center;max-width:300px}
+  .qrcard img{width:210px;height:210px;display:block;margin:0 auto}
+  .bk-today{border-color:var(--good)!important}
+
   @media print{
     @page{margin:11mm}
     body{background:#fff!important;font-size:12.5px;animation:none}
@@ -225,7 +232,7 @@
     .card{box-shadow:none;background:#fff;border:1px solid #d7dee6;backdrop-filter:none}
     .sec-title{break-after:avoid}
     .day-head .d,.act .time,.tag.cost,.tag.free,.day-theme,.mustdo{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .btn-map,.btn-link,.btn-menu,.btn-photo,.act-ph{display:none!important}
+    .btn-map,.btn-link,.btn-menu,.btn-photo,.dirbtn,.daymap,.act-ph{display:none!important}
     .act img.thumb,.hotel img.thumb,.din-item img.thumb{max-height:150px;object-fit:cover}
   }
 </style>
@@ -236,11 +243,14 @@
   <div class="modetabs">
     <button id="mb-trip" class="active" onclick="setMode('trip')">📋 行程</button>
     <button id="mb-money" onclick="setMode('money')">🧮 分帳</button>
+    <button id="mb-book" onclick="setMode('book')">🎫 訂單</button>
   </div>
+  <button class="printbtn" onclick="shareQR()" style="background:#7b3fb5;box-shadow:none">📱 分享</button>
   <button class="printbtn" onclick="window.print()">🖨 PDF</button>
 </div>
 <div id="view-trip"><div class="wrap"><div id="app"></div></div></div>
 <div id="view-tools" style="display:none"><div class="wrap"><div id="exp"></div></div></div>
+<div id="view-book" style="display:none"><div class="wrap"><div id="book"></div></div></div>
 <button class="totop" id="totop" onclick="goTop()">↑</button>
 
 <script id="trip-data" type="application/json">
@@ -1302,7 +1312,7 @@
       "mapQuery": "高雄巨蛋"
     }
   ],
-  "generationDate": "2026-06-24"
+  "generationDate": "2026-06-29"
 }
 </script>
 <script>
@@ -1313,6 +1323,10 @@ const mapUrl=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComp
 function mapBtn(q,label){if(!has(q))return '';return `<a class="btn-map" target="_blank" rel="noopener" href="${mapUrl(q)}">📍 ${E(label||'開地圖導航')}</a>`;}
 function costTag(c){if(c===0)return '<span class="tag free">免費</span>';if(has(c))return `<span class="tag cost">${E(c)}</span>`;return '';}
 function wxIcon(k){const m={sunny:'☀️',cloudy:'☁️',rain:'🌧️',showers:'🌦️',snow:'❄️',storm:'⛈️',partly:'⛅',windy:'🌬️',fog:'🌫️'};return m[k]||'🌤️';}
+function dirUrl(o,d,mode){return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(o)+'&destination='+encodeURIComponent(d)+'&travelmode='+(mode||'transit');}
+function travelMode(t){t=String(t||'');if(/步行|徒步|walk/i.test(t))return 'walking';if(/包車|Uber|計程|taxi|自駕|租車|开车|車/i.test(t))return 'driving';return 'transit';}
+function qOf(a){if(!a)return '';return a.meal?(a.meal.mapQuery||a.meal.name||''):(a.mapQuery||a.address||a.name||'');}
+function dayRouteUrl(d){var pts=(d.activities||[]).map(qOf).filter(Boolean);if(!pts.length)return '';if(pts.length<2)return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(pts[0]);var o=pts[0],z=pts[pts.length-1],wp=pts.slice(1,-1).slice(0,9);return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(o)+'&destination='+encodeURIComponent(z)+(wp.length?'&waypoints='+wp.map(encodeURIComponent).join('%7C'):'')+'&travelmode=transit';}
 function mustList(m){return Array.isArray(m)?m.map(E).join('；'):E(m);}
 
 function render(){
@@ -1376,8 +1390,8 @@ function render(){
     h+=`<section id="day${i}"><div class="card">
       <div class="day-head"><span class="d">DAY ${i+1}${has(d.date)?' · '+E(d.date):''}${has(d.weekday)?' '+E(d.weekday):''}</span>
       ${has(d.weather)?`<span class="wx">${wxIcon(d.weather.icon)} ${has(d.weather.high)?E(d.weather.high)+'°':''}${has(d.weather.low)?'/'+E(d.weather.low)+'°':''}</span>`:''}</div>
-      ${has(d.theme)?`<div class="day-theme">${E(d.theme)}</div>`:''}`;
-    (d.activities||[]).forEach(a=>{
+      ${has(d.theme)?`<div class="day-theme">${E(d.theme)}</div>${(d.activities&&d.activities.length>1)?`<a class="daymap" target="_blank" rel="noopener" href="${dayRouteUrl(d)}">🗺️ 今日路線地圖</a>`:``}`:''}`;
+    (d.activities||[]).forEach((a,ai,arr)=>{const nx=arr[ai+1];
       if(a.meal){const m=a.meal;
         h+=`<div class="act"><div class="time">${E(a.time)||'🍽'}</div><div class="body">
           <div class="meal"><div class="mt">🍴 ${E(m.name)}</div>
@@ -1385,7 +1399,7 @@ function render(){
           ${has(m.recommended)?`<div class="small muted" style="margin-top:3px">推薦：${E(m.recommended)}</div>`:''}
           <div class="arow">${mapBtn(m.mapQuery||((m.name||'')+' '+(m.location||'')),'搵餐廳')}${has(m.menuLink)?`<a class="btn-menu" target="_blank" rel="noopener" href="${E(m.menuLink)}">📋 Menu</a>`:''}</div>
           </div>
-          ${has(a.transfer)?`<div class="transfer">➡️ 去下一站：${E(a.transfer)}</div>`:''}</div></div>`;
+          ${has(a.transfer)?`<div class="transfer">➡️ 去下一站：${E(a.transfer)}${nx?` <a class="dirbtn" target="_blank" rel="noopener" href="${dirUrl(qOf(a),qOf(nx),travelMode(a.transport))}">🧭 路線</a>`:``}</div>`:''}</div></div>`;
       }else{
         const img = has(a.imageUrl)
           ? `<img class="thumb" loading="lazy" src="${E(a.imageUrl)}" alt="">`
@@ -1401,7 +1415,7 @@ function render(){
           </div>
           ${img}
           ${mapBtn(a.mapQuery||a.address||a.name)}
-          ${has(a.transfer)?`<div class="transfer">➡️ 去下一站：${E(a.transfer)}</div>`:''}
+          ${has(a.transfer)?`<div class="transfer">➡️ 去下一站：${E(a.transfer)}${nx?` <a class="dirbtn" target="_blank" rel="noopener" href="${dirUrl(qOf(a),qOf(nx),travelMode(a.transport))}">🧭 路線</a>`:``}</div>`:''}
         </div></div>`;
       }
     });
@@ -1611,7 +1625,27 @@ function expRender(){const el=document.getElementById('exp');if(!el)return;
   el.innerHTML=h;
 }
 
-function setMode(m){document.getElementById('view-trip').style.display=m==='trip'?'':'none';
+/* ===== 🎫 訂單收納 + 📱 分享 QR ===== */
+var BKEY='book_'+String(T.title||'trip').replace(/\s+/g,'_');
+var BTYPES=[['✈️','機票'],['🏨','酒店'],['🎫','門票'],['🚗','租車'],['📄','其他']];
+var BK=[];
+function bkLoad(){try{var s=localStorage.getItem(BKEY);if(s)BK=JSON.parse(s);}catch(e){}}
+function bkSave(){try{localStorage.setItem(BKEY,JSON.stringify(BK));}catch(e){}}
+function bkAdd(){var ty=document.getElementById('bty').value,ti=(document.getElementById('bti').value||'').trim(),co=(document.getElementById('bco').value||'').trim(),dd=document.getElementById('bdd').value,tm=(document.getElementById('btm').value||'').trim(),nt=(document.getElementById('bnt').value||'').trim(),lk=(document.getElementById('blk').value||'').trim();if(!ti){alert('請填項目名（例：國泰 CX588）');return;}BK.push({id:Math.random().toString(36).slice(2,8),ty:ty,ti:ti,co:co,dd:dd,tm:tm,nt:nt,lk:lk});bkSave();bkRender();}
+function bkDel(id){BK=BK.filter(function(b){return b.id!==id;});bkSave();bkRender();}
+function bkToday(){var d=new Date(),p=function(x){return String(x).padStart(2,'0');};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+function bkEmoji(t){var m={};BTYPES.forEach(function(x){m[x[1]]=x[0];});return m[t]||'📄';}
+function bkCard(b){return '<div class="exitem"><div><b>'+bkEmoji(b.ty)+' '+E(b.ti)+'</b><div class="small muted">'+[b.dd?b.dd.slice(5).replace('-','/'):'',b.tm,b.co?('確認號 '+b.co):''].filter(Boolean).map(E).join(' · ')+'</div>'+(b.nt?'<div class="small muted">'+E(b.nt)+'</div>':'')+'</div><div class="examt">'+(b.lk?'<a class="dirbtn" target="_blank" rel="noopener" href="'+E(b.lk)+'">開</a>':'')+'<button onclick="bkDel(\''+b.id+'\')">✕</button></div></div>';}
+function bkRender(){var el=document.getElementById('book');if(!el)return;var today=bkToday();var sorted=BK.slice().sort(function(a,b){return (a.dd||'')<(b.dd||'')?-1:1;});var tdy=sorted.filter(function(b){return b.dd===today;});
+  var h='<div class="sec-title"><span class="i">🎫</span>訂單收納</div>';
+  if(tdy.length){h+='<div class="card bk-today"><div class="exlab">⭐ 今日要用（'+today.slice(5).replace('-','/')+'）</div>'+tdy.map(bkCard).join('')+'</div>';}
+  h+='<div class="card"><div class="exlab">➕ 加訂單</div><div class="exrow"><select id="bty">'+BTYPES.map(function(t){return '<option value="'+t[1]+'">'+t[0]+' '+t[1]+'</option>';}).join('')+'</select><input id="bti" placeholder="項目（例：國泰 CX588）"></div><div class="exrow"><input id="bdd" type="date"><input id="btm" placeholder="時間 11:00"></div><input id="bco" placeholder="確認號 / 訂單號 / PIN" style="width:100%;margin-top:9px"><input id="bnt" placeholder="備註（座位/房型/地址…）" style="width:100%;margin-top:9px"><input id="blk" placeholder="連結（可空）" style="width:100%;margin-top:9px"><button class="exbtn full" onclick="bkAdd()">加入</button></div>';
+  if(sorted.length){h+='<div class="card"><div class="exlab">🗂 全部（'+sorted.length+'）</div>'+sorted.map(bkCard).join('')+'</div>';}
+  h+='<div class="small muted" style="margin-top:6px">數據只存喺你手機（localStorage），離線可用、過關即拎。</div>';
+  el.innerHTML=h;}
+function shareQR(){var ex=document.getElementById('qrov');if(ex){ex.remove();return;}var url=location.href;var ov=document.createElement('div');ov.id='qrov';ov.className='qrov';ov.onclick=function(){ov.remove();};ov.innerHTML='<div class="qrcard"><div style="font-weight:900;font-size:16px;margin-bottom:10px">📱 掃描分享俾朋友</div><img alt="QR" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data='+encodeURIComponent(url)+'"><div class="small muted" style="margin-top:10px;word-break:break-all">'+url+'</div><div class="small muted" style="margin-top:6px">㩒任何位置關閉</div></div>';document.body.appendChild(ov);}
+
+function setMode(m){document.getElementById('view-trip').style.display=m==='trip'?'':'none';var vb=document.getElementById('view-book');if(vb)vb.style.display=m==='book'?'':'none';var mb=document.getElementById('mb-book');if(mb)mb.classList.toggle('active',m==='book');if(m==='book')bookRender();
   document.getElementById('view-tools').style.display=m==='money'?'':'none';
   document.getElementById('mb-trip').classList.toggle('active',m==='trip');
   document.getElementById('mb-money').classList.toggle('active',m==='money');
@@ -1620,6 +1654,7 @@ function setMode(m){document.getElementById('view-trip').style.display=m==='trip
 function goTop(){var el=document.scrollingElement||document.documentElement||document.body;if('scrollBehavior' in document.documentElement.style){try{window.scrollTo({top:0,left:0,behavior:'smooth'});return;}catch(e){}}el.scrollTop=0;window.scrollTo(0,0);}
 render();
 expLoad();
+bkLoad();
 </script>
 </body>
 </html>
